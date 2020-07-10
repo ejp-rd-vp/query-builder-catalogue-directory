@@ -7,8 +7,7 @@ The EJP - central query portal - catalogue directory component.
 
 ## Deployment
 
- - Type `npm i` inside the catalogueDirectory folder
- - To start development, type `npm start`
+ - Type `npm i` inside the catalogueDirectory folder to start the catalogue directory server
 
 ## Used Libraries
  - Express
