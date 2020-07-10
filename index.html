@@ -11,21 +11,33 @@
     <h1>EJP Central Query Portal</h1>
 
     <script>
-        const catalogueDirectoryURL = 'https://localhost:7000/catalogues/';
-        const issURL = 'https://api.wheretheiss.at/v1/satellites/25544';
+        const catalogueDirectoryURL = 'http://localhost:3000/catalogues';
 
-        async function getCatalogues() {
-            const response = await fetch(issURL);
-            if (response.status >=200 && response.status < 400) {
+        const data = {
+          name: 'David',
+          age: 31
+        };
+
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        };
+
+        async function sendData() {
+        const response = await fetch(catalogueDirectoryURL, options);
+        if (response.status >=200 && response.status < 400) {
                 const data = await response.json();
                 console.log(data);
             }
-            else {
+        else {
               throw console.error('Response out of range.');
-            }
         }
+      }
 
-        getCatalogues();
+      sendData();
     </script>
 
   </body>
