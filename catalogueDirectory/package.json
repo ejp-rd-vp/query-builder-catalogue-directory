@@ -1,0 +1,15 @@
+{
+  "name": "catalogue_directory",
+  "version": "1.0.0",
+  "description": "The EJP central query portal catalogue directory component.",
+  "main": "catalogueDirectory.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "David Reinert",
+  "license": "MIT"
+}
