@@ -12,3 +12,4 @@ The EJP - central query portal - catalogue directory component.
 
 ## Used Libraries
  - Express (https://expressjs.com/)
+ - NeDB (https://dbdb.io/db/nedb)
