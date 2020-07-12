@@ -1,44 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EJP Central Query Portal</title>
-  </head>
 
-  <body>
-    <div id="root"></div>
-    <h1>EJP Central Query Portal</h1>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EJP Central Query Portal</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
 
-    <script>
-        const catalogueDirectoryURL = 'http://localhost:3000/catalogues';
+<body>
+  <div id="root"></div>
+  <h1>EJP Central Query Portal</h1>
+  <h5>Catalogue Name</h5>
+  <input type="text" id="catalogueName" value="">
+  <h5>Catalogue Address</h5>
+  <input type="text" id="catalogueAddress" value="">
+  <p><input type="button" value="Add Catalogue" onclick="addCatalogue();" /></p>
+  <p>
+    <h5 id="successIndicator" style="color: forestgreen;"></h5>
+  </p>
 
-        const data = {
-          name: 'David',
-          age: 31
-        };
+  <script src="scripts.js"></script>
+</body>
 
-        const options = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(data)
-        };
-
-        async function sendData() {
-        const response = await fetch(catalogueDirectoryURL, options);
-        if (response.status >=200 && response.status < 400) {
-                const data = await response.json();
-                console.log(data);
-            }
-        else {
-              throw console.error('Response out of range.');
-        }
-      }
-
-      sendData();
-    </script>
-
-  </body>
 </html>
