@@ -7,7 +7,7 @@ The EJP - central query portal - catalogue directory component.
 
 ## Deployment
 
- - cd catalogueDirectory
+ - `cd catalogueDirectory`
  - `npm i` to install missing dependencies.
  - `node catalogueDirectory.js` to start the catalogue directory server.
 
