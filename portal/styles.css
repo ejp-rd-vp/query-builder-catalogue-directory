@@ -2,43 +2,37 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
-h5 {
-    margin-bottom: 5px;
-    margin-top: 10px;
-}
-
-.successIndicator {
-    color: forestgreen;
-}
-
 .center {
     text-align: center;
     margin: 0 auto;
     width: 50%;
 }
 
+.left {
+    padding-left: 9%;
+    width: 40%;
+    float: left;
+}
+
+.right {
+    padding-right: 9%;
+    width: 40%;
+    float: right;
+}
+
 .searchBar {
-    width: 300px;
+    width: 80%;
     padding: 4px;
     padding-left: 8px;
     border-radius: 8px;
     border-style: groove;
     font-size: medium;
-}
-
-.addCatalogue {
-    float: left;
-}
-
-.queryCatalogues {
-    float: right;
-}
-
-.catalogueList {
-    text-align: left;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .button {
+    width: 100%;
     transition-duration: 0.3s;
     background-color: royalblue;
     border: none;
@@ -49,13 +43,35 @@ h5 {
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
+    margin-bottom: 20px;
 }
 
 .button:hover {
     box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
-.button:active {
-    background-color: royalblue;
-    transform: translateY(2px);
+.addCatalogueFields {
+    width: 100%;
+    text-align: left;
+}
+
+.addCatalogueFields input {
+    width: 98%;
+}
+
+.catalogueList {
+    width: 100%;
+    text-align: left;
+}
+
+.statusText {
+    font-size: 14px;
+}
+
+.red {
+    color: firebrick;
+}
+
+.green {
+    color: forestgreen;
 }

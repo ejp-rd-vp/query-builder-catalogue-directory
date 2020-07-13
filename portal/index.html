@@ -11,24 +11,24 @@
 <body>
   <div class="center font">
     <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo">
-    <p><input type="text" placeholder="Search..." class="searchBar font" onchange="handleSearch();" id="searchBar"></p>
-    <div class="center">
-      <div class="addCatalogue center">
-        <p><input class="button font" type="button" value="Add Catalogue" onclick="addCatalogue();" /></p>
-        <h5>Catalogue Name</h5>
+  </div>
+  <div class="center font">
+    <input type="text" placeholder="Search..." class="searchBar font" onchange="handleSearch();" id="searchBar">
+  </div>
+  <div class="center font">
+    <div class="left">
+      <input class="button font" type="button" value="Add Catalogue" onclick="addCatalogue();" />
+      <div class="addCatalogueFields">
+        Catalogue Name
         <input type="text" id="catalogueName" value="">
-        <h5>Catalogue Address</h5>
-        <input type="text" id="catalogueAddress" value="">
-        <p>
-          <h5 id="successIndicator" class="successIndicator"></h5>
-        </p>
+        <p>Catalogue Address
+          <input type="text" id="catalogueAddress" value=""></p>
+        <p id="statusText" class="statusText"></p>
       </div>
-      <div class="queryCatalogues center">
-        <p><input class="button font" type="button" value="Query Catalogues" onclick="queryCatalogues();" /></p>
-        <p>
-          <div id="catalogueList" class="catalogueList"></div>
-        </p>
-      </div>
+    </div>
+    <div class="right">
+      <input class="button font" type="button" value="Show Catalogues" onclick="getCatalogues();" />
+      <div id="catalogueList" class="catalogueList"></div>
     </div>
   </div>
 
