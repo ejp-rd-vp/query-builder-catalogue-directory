@@ -28,7 +28,7 @@ app.use(express.json({
 app.use(express.static('../portal'));
 
 // add POST route for the add catalogues functionality
-app.post('/addCatalogues', (request, response, next) => {
+app.post('/addCatalogue', (request, response, next) => {
   const data = request.body;
   const timestamp = Date.now();
   data.timestamp = timestamp;
@@ -41,7 +41,7 @@ app.post('/addCatalogues', (request, response, next) => {
 });
 
 // add GET route for the query catalogues functionality
-app.get('/queryCatalogues', (request, response, next) => {
+app.get('/getCatalogues', (request, response, next) => {
   catalogueDatabase.find({}, (err, data) => {
     if (err) {
       response.end();

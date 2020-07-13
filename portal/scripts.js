@@ -1,8 +1,8 @@
 'use strict';
 
 // define endpoint addresses
-const addCatalogueEndpoint = 'http://localhost:3000/addCatalogues';
-const queryCatalogueEndpoint = 'http://localhost:3000/queryCatalogues';
+const addCatalogueEndpoint = 'http://localhost:3000/addCatalogue';
+const getCatalogueEndpoint = 'http://localhost:3000/getCatalogues';
 
 // local variables
 const newCatalogueData = {
@@ -62,9 +62,9 @@ async function addCatalogue() {
 }
 
 // function that queries all catalogues from the catalogue directory
-async function queryCatalogues() {
+async function getCatalogues() {
   document.getElementById("catalogueList").innerHTML = "";
-  const response = await fetch(queryCatalogueEndpoint);
+  const response = await fetch(getCatalogueEndpoint);
   if (response.status >= 200 && response.status < 400) {
     const data = await response.json();
     console.log(data);
