@@ -11,23 +11,20 @@
 <body>
   <div class="center font">
     <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo">
-    <p><input type="text" placeholder="Search..." class="searchBar font" onchange="handleSearch();" id="searchBar"></p>
+    <input type="text" placeholder="Search..." class="searchBar font" onchange="handleSearch();" id="searchBar">
     <div class="center">
       <div class="addCatalogue center">
-        <p><input class="button font" type="button" value="Add Catalogue" onclick="addCatalogue();" /></p>
-        <h5>Catalogue Name</h5>
+        <input class="button font" type="button" value="Add Catalogue" onclick="addCatalogue();" />
+        Catalogue Name
         <input type="text" id="catalogueName" value="">
-        <h5>Catalogue Address</h5>
+        <p></p>
+        Catalogue Address
         <input type="text" id="catalogueAddress" value="">
-        <p>
-          <h5 id="successIndicator" class="successIndicator"></h5>
-        </p>
+        <p id="successIndicator" class="successIndicator"></p>
       </div>
       <div class="queryCatalogues center">
-        <p><input class="button font" type="button" value="Query Catalogues" onclick="queryCatalogues();" /></p>
-        <p>
-          <div id="catalogueList" class="catalogueList"></div>
-        </p>
+        <input class="button font" type="button" value="Query Catalogues" onclick="queryCatalogues();" />
+        <div id="catalogueList" class="catalogueList"></div>
       </div>
     </div>
   </div>

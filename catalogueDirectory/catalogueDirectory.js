@@ -12,9 +12,10 @@ const HOST = 'localhost';
 const catalogueDatabase = new Datastore('catalogues.json');
 catalogueDatabase.loadDatabase();
 
-// define and run the server application
+// define the server application
 const app = express();
 
+// configure express server options
 app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -25,6 +26,7 @@ app.use(express.json({
 }));
 app.use(express.static('../portal'));
 
+// add POST route for the add catalogues functionality
 app.post('/addCatalogues', (request, response, next) => {
   const data = request.body;
   const timestamp = Date.now();
@@ -37,6 +39,7 @@ app.post('/addCatalogues', (request, response, next) => {
   });
 });
 
+// add GET route for the query catalogues functionality
 app.get('/queryCatalogues', (request, response, next) => {
   catalogueDatabase.find({}, (err, data) => {
     if (err) {
@@ -47,4 +50,6 @@ app.get('/queryCatalogues', (request, response, next) => {
   });
 });
 
-const server = app.listen(PORT, HOST, () => console.log(`Catalogue Directory listening on http://${HOST}:${PORT} ...`));
+// run the server application
+const server = app.listen(PORT, HOST, () => console.log(
+  `Catalogue Directory listening on http://${HOST}:${PORT} ...`));
