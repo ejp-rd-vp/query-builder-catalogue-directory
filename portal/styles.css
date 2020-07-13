@@ -1,0 +1,61 @@
+.font {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h5 {
+    margin-bottom: 5px;
+    margin-top: 10px;
+}
+
+.successIndicator {
+    color: forestgreen;
+}
+
+.center {
+    text-align: center;
+    margin: 0 auto;
+    width: 50%;
+}
+
+.searchBar {
+    width: 300px;
+    padding: 4px;
+    padding-left: 8px;
+    border-radius: 8px;
+    border-style: groove;
+    font-size: medium;
+}
+
+.addCatalogue {
+    float: left;
+}
+
+.queryCatalogues {
+    float: right;
+}
+
+.catalogueList {
+    text-align: left;
+}
+
+.button {
+    transition-duration: 0.3s;
+    background-color: royalblue;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    padding: 10px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.button:hover {
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.button:active {
+    background-color: royalblue;
+    transform: translateY(2px);
+}

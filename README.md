@@ -1,15 +1,19 @@
 # EJP - Central query portal - Catalogue directory
+
 The EJP - central query portal - catalogue directory component.
 
 ## Requirements
 
- - Node.js (https://nodejs.org/)
+- Node.js (https://nodejs.org/)
 
 ## Deployment
 
- - Type `npm i` inside the catalogueDirectory folder to install missing dependencies.
- - Type `node catalogueDirectory.js` inside the catalogueDirectory folder to start the catalogue directory server.
+- `cd catalogueDirectory`
+- `npm i` to install missing dependencies.
+- `node catalogueDirectory.js` to start the catalogue directory server.
+- The portal will be available at http://localhost:3000.
 
 ## Used Libraries
- - Express (https://expressjs.com/)
- - NeDB (https://dbdb.io/db/nedb)
+
+- Express (https://expressjs.com/)
+- NeDB (https://dbdb.io/db/nedb)
