@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EJP Central Query Portal</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+  <div class="center font">
+    <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo">
+    <p><input type="text" placeholder="Search..." class="searchBar font" onchange="handleSearch();" id="searchBar"></p>
+    <div class="center">
+      <div class="addCatalogue center">
+        <p><input class="button font" type="button" value="Add Catalogue" onclick="addCatalogue();" /></p>
+        <h5>Catalogue Name</h5>
+        <input type="text" id="catalogueName" value="">
+        <h5>Catalogue Address</h5>
+        <input type="text" id="catalogueAddress" value="">
+        <p>
+          <h5 id="successIndicator" class="successIndicator"></h5>
+        </p>
+      </div>
+      <div class="queryCatalogues center">
+        <p><input class="button font" type="button" value="Query Catalogues" onclick="queryCatalogues();" /></p>
+        <p>
+          <div id="catalogueList" class="catalogueList"></div>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts.js"></script>
+</body>
+
+</html>
