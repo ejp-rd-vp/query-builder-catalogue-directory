@@ -24,6 +24,7 @@ app.use(function (req, res, next) {
 app.use(express.json({
   limit: '1mb'
 }));
+// make static content available
 app.use(express.static('../portal'));
 
 // add POST route for the add catalogues functionality
