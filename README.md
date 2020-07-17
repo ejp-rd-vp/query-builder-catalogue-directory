@@ -22,3 +22,5 @@ A draft of the EJP-RD - central query portal - catalogue directory component.
 - CORS (https://expressjs.com/en/resources/middleware/cors.html) to allow access from different origins.
 - Auth0 Express-JWT (https://github.com/auth0/express-jwt) to validate JWTs (JSON Web Tokens).
 - Auth0 JWKS-RSA (https://github.com/auth0/node-jwks-rsa) to retrieve RSA public keys from a JWKS (JSON Web Key Set).
+- Node-Fetch (https://www.npmjs.com/package/node-fetch) to enable the fetch function within Node.js
+- Dotenv (https://www.npmjs.com/package/dotenv) to enable the use of environenment variables.
