@@ -1,6 +1,6 @@
-# EJP - Central query portal - Catalogue directory
+# EJP - Central query portal and central catalogue directory
 
-A draft of the EJP-RD - central query portal - catalogue directory component.
+A draft of the EJP-RD - 'central query portal' and 'catalogue directory' components.
 
 ## Requirements
 
@@ -10,8 +10,8 @@ A draft of the EJP-RD - central query portal - catalogue directory component.
 
 - `cd catalogueDirectory`
 - `npm i` to install missing dependencies.
-- `node catalogueDirectory.js` to start the catalogue directory server.
-- The portal will be available at http://localhost:3000.
+- `node catalogueDirectory.js` to start the Web-Service.
+- The portal will be available at http://localhost:3001.
 
 ## Used Libraries
 
