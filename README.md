@@ -1,6 +1,6 @@
-# EJP - Central query portal and central catalogue directory
+# EJP-RD - Central query portal and Central catalogue directory
 
-A draft of the EJP-RD - 'central query portal' and 'catalogue directory' components.
+A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory' components.
 
 ## Requirements
 
