@@ -1,38 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="./media/favicon.ico" />
+    <title>EJP Central Query Portal</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
 
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>EJP Central Query Portal</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
-</head>
+  <body>
+    <div class="center font">
+      <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo" />
+    </div>
+    <div class="center font">
+      <input
+        type="text"
+        placeholder="Search..."
+        onchange="handleSearch();"
+        class="searchBarStyle font"
+        id="searchBar"
+      />
+      <ul id="results" class="results"></ul>
+    </div>
 
-<body>
-  <div class="center font">
-    <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo">
-  </div>
-  <div class="center font">
-    <input type="text" placeholder="Search..." class="searchBar font" onchange="handleSearch();" id="searchBar">
-  </div>
-  <div class="center font">
-    <div class="left">
-      <input class="button font" type="button" value="Add Catalogue" onclick="addCatalogue();" />
-      <div class="addCatalogueFields">
-        Catalogue Name
-        <input type="text" id="catalogueName" value="">
-        <p>Catalogue Address
-          <input type="text" id="catalogueAddress" value=""></p>
+    <div class="center font">
+      <div class="showCatalogues">
+        <input
+          id="showCataloguesButton"
+          class="button font"
+          type="button"
+          value="Show Catalogues"
+          onclick="getCatalogues();"
+        />
+        <div id="catalogueList" class="catalogueList"></div>
+      </div>
+      <div class="left">
+        <input
+          class="button font"
+          type="button"
+          value="Add Catalogue"
+          onclick="addCatalogue();"
+        />
+        <div class="addCatalogueFields">
+          Catalogue Name
+          <input type="text" id="catalogueName" value="" />
+          <p>
+            Catalogue Address
+            <input type="text" id="catalogueAddress" value="" />
+          </p>
+        </div>
+      </div>
+      <div class="right">
+        <input
+          class="button font"
+          type="button"
+          value="Remove Catalogue"
+          onclick="removeCatalogue();"
+        />
+        <div class="addCatalogueFields">
+          Catalogue ID
+          <input type="text" id="catalogueID" value="" />
+        </div>
+      </div>
+      <div class="status">
         <p id="statusText" class="statusText"></p>
       </div>
     </div>
-    <div class="right">
-      <input class="button font" type="button" value="Show Catalogues" onclick="getCatalogues();" />
-      <div id="catalogueList" class="catalogueList"></div>
-    </div>
-  </div>
-
-  <script src="scripts.js"></script>
-</body>
-
+    <script src="scripts.js"></script>
+  </body>
 </html>
