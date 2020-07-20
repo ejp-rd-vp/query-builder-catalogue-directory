@@ -1,6 +1,8 @@
 # EJP-RD - Central query portal and Central catalogue directory
 
-A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory' components.
+A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory' components. 
+The portal can be used to validate developed catalogue APIs. 
+The directory can be used to fetch, add and remove catalogue addresses via HTTP requests.
 
 ## Requirements
 
@@ -24,4 +26,3 @@ A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory'
 - Auth0 JWKS-RSA (https://github.com/auth0/node-jwks-rsa) to retrieve RSA public keys from a JWKS (JSON Web Key Set).
 - Node-Fetch (https://www.npmjs.com/package/node-fetch) to enable the fetch function within Node.js
 - Dotenv (https://www.npmjs.com/package/dotenv) to enable the use of environenment variables.
-
