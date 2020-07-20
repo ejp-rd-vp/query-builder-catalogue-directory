@@ -11,7 +11,7 @@ A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory'
 - `cd catalogueDirectory`
 - `npm i` to install missing dependencies.
 - `node catalogueDirectory.js` to start the Web-Service.
-- The portal will be available at http://localhost:3001.
+- Both the portal and the directory will be available at http://localhost:3001.
 
 ## Used Libraries
 
