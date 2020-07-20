@@ -266,7 +266,7 @@ function getUserInput(useCase) {
           "catalogueAddress"
         ).value;
 
-        document.getElementById("statusText").innerHTML = "";
+        document.getElementById("statusText").textContent = " ";
 
         return data;
       } else {
@@ -276,11 +276,11 @@ function getUserInput(useCase) {
         if (!document.getElementById("statusText").classList.contains("red")) {
           document.getElementById("statusText").className += " red";
         }
-        document.getElementById("statusText").innerHTML =
+        document.getElementById("statusText").textContent =
           "Catalogue name and address might not be empty.";
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
+          document.getElementById("statusText").textContent = " ";
+        }, 6000);
 
         clearInput("add");
 
@@ -295,7 +295,7 @@ function getUserInput(useCase) {
         // get user input
         data.catalogueID = document.getElementById("catalogueID").value;
 
-        document.getElementById("statusText").innerHTML = "";
+        document.getElementById("statusText").textContent = " ";
 
         return data;
       } else {
@@ -305,11 +305,11 @@ function getUserInput(useCase) {
         if (!document.getElementById("statusText").classList.contains("red")) {
           document.getElementById("statusText").className += " red";
         }
-        document.getElementById("statusText").innerHTML =
+        document.getElementById("statusText").textContent =
           "Catalogue ID might not be empty.";
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
+          document.getElementById("statusText").textContent = " ";
+        }, 6000);
 
         clearInput("remove");
       }
@@ -335,10 +335,10 @@ async function updateStatusText(useCase, response) {
         }
         document.getElementById(
           "statusText"
-        ).innerHTML = `Successfully added catalogue with ID ${responseData.id}.`;
+        ).textContent = `Successfully added catalogue with ID ${responseData.id}.`;
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
+          document.getElementById("statusText").textContent = " ";
+        }, 6000);
       } else if (response.status == 401) {
         if (document.getElementById("statusText").classList.contains("green")) {
           document.getElementById("statusText").classList.remove("green");
@@ -346,11 +346,11 @@ async function updateStatusText(useCase, response) {
         if (!document.getElementById("statusText").classList.contains("red")) {
           document.getElementById("statusText").className += " red";
         }
-        document.getElementById("statusText").innerHTML =
+        document.getElementById("statusText").textContent =
           "You are not authorized to add a catalogue.";
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
+          document.getElementById("statusText").textContent = " ";
+        }, 6000);
       } else {
         if (document.getElementById("statusText").classList.contains("green")) {
           document.getElementById("statusText").classList.remove("green");
@@ -358,11 +358,11 @@ async function updateStatusText(useCase, response) {
         if (!document.getElementById("statusText").classList.contains("red")) {
           document.getElementById("statusText").className += " red";
         }
-        document.getElementById("statusText").innerHTML =
+        document.getElementById("statusText").textContent =
           "Catalogue could not be added.";
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
+          document.getElementById("statusText").textContent = " ";
+        }, 6000);
         console.error(
           "Error in portal:scripts.js:addCatalogue(): POST response out of range."
         );
@@ -380,9 +380,9 @@ async function updateStatusText(useCase, response) {
         }
         document.getElementById(
           "statusText"
-        ).innerHTML = `Successfully removed catalogue with id ${responseData.id}.`;
+        ).textContent = `Successfully removed catalogue with id ${responseData.id}.`;
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
+          document.getElementById("statusText").textContent = " ";
         }, 4000);
       } else if (response.status == 401) {
         if (document.getElementById("statusText").classList.contains("green")) {
@@ -391,10 +391,10 @@ async function updateStatusText(useCase, response) {
         if (!document.getElementById("statusText").classList.contains("red")) {
           document.getElementById("statusText").className += " red";
         }
-        document.getElementById("statusText").innerHTML =
+        document.getElementById("statusText").textContent =
           "You are not authorized to remove this catalogue.";
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
+          document.getElementById("statusText").textContent = " ";
         }, 4000);
       } else {
         if (document.getElementById("statusText").classList.contains("green")) {
@@ -403,11 +403,11 @@ async function updateStatusText(useCase, response) {
         if (!document.getElementById("statusText").classList.contains("red")) {
           document.getElementById("statusText").className += " red";
         }
-        document.getElementById("statusText").innerHTML =
+        document.getElementById("statusText").textContent =
           "Catalogue could not be removed.";
         setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
+          document.getElementById("statusText").textContent = " ";
+        }, 6000);
         console.error(
           "Error in portal:scripts.js:removeCatalogue(): POST response out of range."
         );
@@ -419,11 +419,11 @@ async function updateStatusText(useCase, response) {
       if (!document.getElementById("statusText").classList.contains("red")) {
         document.getElementById("statusText").className += " red";
       }
-      document.getElementById("statusText").innerHTML =
+      document.getElementById("statusText").textContent =
         "The search did not match any database entries.";
       setTimeout(function () {
-        document.getElementById("statusText").innerHTML = "";
-      }, 4000);
+        document.getElementById("statusText").textContent = " ";
+      }, 6000);
     }
   } catch (error) {
     console.error("Error in portal:scripts.js:updateStatusText(): ", error);
@@ -506,7 +506,7 @@ async function getCatalogues(toggle) {
   try {
     if (toggle) {
       if (catalogueListVisibility == false) {
-        document.getElementById("catalogueList").innerHTML = "";
+        document.getElementById("catalogueList").textContent = "";
         const response = await fetch(getCataloguesEndpoint);
         if (response.status >= 200 && response.status < 400) {
           const data = await response.json();
@@ -546,8 +546,8 @@ async function getCatalogues(toggle) {
         catalogueListVisibility = false;
         document.getElementById("catalogueList").textContent = "";
       }
-    } else {
-      document.getElementById("catalogueList").innerHTML = "";
+    } else if (!toggle) {
+      document.getElementById("catalogueList").textContent = "";
       const response = await fetch(getCataloguesEndpoint);
       if (response.status >= 200 && response.status < 400) {
         const data = await response.json();
@@ -588,10 +588,10 @@ async function getCatalogues(toggle) {
 async function handleSearch() {
   try {
     const results = document.getElementById("results");
-    results.innerHTML = "";
+    results.textContent = "";
     const input = document.getElementById("searchBar");
     if (input.value.length < 1) {
-      results.innerHTML = "";
+      results.textContent = "";
       return;
     } else {
       const query = `${searchEndpoint}?input=${input.value}`;
@@ -623,14 +623,14 @@ async function handleSearch() {
           });
           if (numResults == 0) {
             document.getElementById("searchBar").style.backgroundImage = "none";
-            results.innerHTML = "";
+            results.textContent = "";
             input.value = "";
             updateStatusText("search");
             return;
           }
         } else {
           document.getElementById("searchBar").style.backgroundImage = "none";
-          results.innerHTML = "";
+          results.textContent = "";
           input.value = "";
           updateStatusText("search");
           return;
