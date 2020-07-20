@@ -77,9 +77,9 @@ app.get("/getCatalogues", (request, response, next) => {
   }
 });
 
-app.get("/pingCatalogue", (request, response, next) => {
+app.get("/pingCatalogue", async (request, response, next) => {
   try {
-   const db_response = await fetch(request.query.address);
+    const db_response = await fetch(request.query.address);
   } catch (error) {
     console.error(
       "Error in catalogueDirectory:catalogueDirectory.js:app.get(/pingCatalogue): ",
@@ -98,13 +98,11 @@ app.get("/search", async (request, response, next) => {
       if (element.catalogueAddress.length > 0) {
         const queryToDb = `${element.catalogueAddress}?disease=${requestedSearch}`;
         const db_response = await fetch(queryToDb);
-        if (db_response.size > 0) {
-          var data = {
-            name: element.catalogueName,
-            content: await db_response.json(),
-          };
-          dataArray.push(data);
-        }
+        var data = {
+          name: element.catalogueName,
+          content: await db_response.json(),
+        };
+        dataArray.push(data);
       } else {
         console.error(
           `Error in catalogueDirectory:catalogueDirectory.js:app.get(/search): ${element.catalogueName} does not have a valid address.`

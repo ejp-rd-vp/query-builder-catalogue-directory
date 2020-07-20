@@ -21,6 +21,8 @@
 }
 
 .searchBarStyle {
+  background-repeat: no-repeat;
+  background-position: right;
   width: 80%;
   padding: 4px;
   padding-left: 8px;
@@ -90,7 +92,7 @@
 }
 
 .statusText {
-  padding-top: 15px;
+  padding-top: 5%;
   font-size: 14px;
 }
 

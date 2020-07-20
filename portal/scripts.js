@@ -233,7 +233,7 @@ var countries = [
 ];
 
 const JSONWebToken =
-  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NDk4NzQ1MywiZXhwIjoxNTk1MDczODUzLCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.VJf54Ttac0XmMxLs2cLGSfprRmD5stXX32MrViGx6Is_1EuQ8vPd7hVn4B6JlI94llCIHpLjTOLstuoWGUeqD2EiWSB2RT6qkCJMsktz0mZD1ItJ1_MhzMOOjfNy8klyNoZmvlPZqGPCcApeaCl9qGBxCoyoa6lNj0aJ8uMIVtL9-PKMCRU2CR2QnIuIE_qkwwGyeOItnkCiucfabcVBMHmtrvCdNM8Fek-Dz8Hurz5iGqJW-O-a6rhaUd_ddmfPQwbdSTRawzHU99krSaziQPjMPVXNqZVwCOqhvIG7snjq-AU1bw7ybEW6gL57BogbFWYFjZZ9YeWvfFtD6dlNjA";
+  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NTIzMTk4MCwiZXhwIjoxNTk1MzE4MzgwLCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.IxcdxVbh-IjTmiH2Ev6zt0jNEXDj5jZMf7IYZdWs2OrkPpaslVmt_FrAkP6kfW40EP_Yp_JrNma4gCzgYNLPsfk_AaEOe-63xn_zpj3hyWxDEargE0EDYImwtYYzbYvUgJE1ofCGNVXzVgF4C3haw2RnvV2MvIePCxex7UdZnF46S2RsMl1vLPl18Cin58LcsVWFAT1WnsrHLn0sdvQWOFfkFe95u3Y-GWJAaMS0MwtxdA6gKDLPkVC4VG-DMWaDs7N1cLvkG6EJzla7GkmYYxWVWH-tRT_JrwDzcWI5gjuvkKmu1y1NeazkuzNnCid7hRK_rEQF-Oepo6jKJGLQCQ";
 
 let catalogueListVisibility = Boolean(false);
 
@@ -270,7 +270,12 @@ function getUserInput(useCase) {
 
         return data;
       } else {
-        document.getElementById("statusText").className += " red";
+        if (document.getElementById("statusText").classList.contains("green")) {
+          document.getElementById("statusText").classList.remove("green");
+        }
+        if (!document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").className += " red";
+        }
         document.getElementById("statusText").innerHTML =
           "Catalogue name and address might not be empty.";
         setTimeout(function () {
@@ -294,7 +299,12 @@ function getUserInput(useCase) {
 
         return data;
       } else {
-        document.getElementById("statusText").className += " red";
+        if (document.getElementById("statusText").classList.contains("green")) {
+          document.getElementById("statusText").classList.remove("green");
+        }
+        if (!document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").className += " red";
+        }
         document.getElementById("statusText").innerHTML =
           "Catalogue ID might not be empty.";
         setTimeout(function () {
@@ -315,7 +325,14 @@ async function updateStatusText(useCase, response) {
     if (useCase === "add") {
       const responseData = await response.json();
       if (response.status >= 200 && response.status < 400) {
-        document.getElementById("statusText").className += " green";
+        if (document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").remove("red");
+        }
+        if (
+          !document.getElementById("statusText").classList.contains("green")
+        ) {
+          document.getElementById("statusText").className += " green";
+        }
         document.getElementById(
           "statusText"
         ).innerHTML = `Successfully added catalogue with ID ${responseData.id}.`;
@@ -323,14 +340,24 @@ async function updateStatusText(useCase, response) {
           document.getElementById("statusText").innerHTML = "";
         }, 4000);
       } else if (response.status == 401) {
-        document.getElementById("statusText").className += " red";
+        if (document.getElementById("statusText").classList.contains("green")) {
+          document.getElementById("statusText").classList.remove("green");
+        }
+        if (!document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").className += " red";
+        }
         document.getElementById("statusText").innerHTML =
           "You are not authorized to add a catalogue.";
         setTimeout(function () {
           document.getElementById("statusText").innerHTML = "";
         }, 4000);
       } else {
-        document.getElementById("statusText").className += " red";
+        if (document.getElementById("statusText").classList.contains("green")) {
+          document.getElementById("statusText").classList.remove("green");
+        }
+        if (!document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").className += " red";
+        }
         document.getElementById("statusText").innerHTML =
           "Catalogue could not be added.";
         setTimeout(function () {
@@ -343,7 +370,14 @@ async function updateStatusText(useCase, response) {
     } else if (useCase === "remove") {
       const responseData = await response.json();
       if (response.status >= 200 && response.status < 400) {
-        document.getElementById("statusText").className += " green";
+        if (document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").remove("red");
+        }
+        if (
+          !document.getElementById("statusText").classList.contains("green")
+        ) {
+          document.getElementById("statusText").className += " green";
+        }
         document.getElementById(
           "statusText"
         ).innerHTML = `Successfully removed catalogue with id ${responseData.id}.`;
@@ -351,14 +385,24 @@ async function updateStatusText(useCase, response) {
           document.getElementById("statusText").innerHTML = "";
         }, 4000);
       } else if (response.status == 401) {
-        document.getElementById("statusText").className += " red";
+        if (document.getElementById("statusText").classList.contains("green")) {
+          document.getElementById("statusText").classList.remove("green");
+        }
+        if (!document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").className += " red";
+        }
         document.getElementById("statusText").innerHTML =
           "You are not authorized to remove this catalogue.";
         setTimeout(function () {
           document.getElementById("statusText").innerHTML = "";
         }, 4000);
       } else {
-        document.getElementById("statusText").className += " red";
+        if (document.getElementById("statusText").classList.contains("green")) {
+          document.getElementById("statusText").classList.remove("green");
+        }
+        if (!document.getElementById("statusText").classList.contains("red")) {
+          document.getElementById("statusText").className += " red";
+        }
         document.getElementById("statusText").innerHTML =
           "Catalogue could not be removed.";
         setTimeout(function () {
@@ -369,7 +413,12 @@ async function updateStatusText(useCase, response) {
         );
       }
     } else if (useCase === "search") {
-      document.getElementById("statusText").className += " red";
+      if (document.getElementById("statusText").classList.contains("green")) {
+        document.getElementById("statusText").classList.remove("green");
+      }
+      if (!document.getElementById("statusText").classList.contains("red")) {
+        document.getElementById("statusText").className += " red";
+      }
       document.getElementById("statusText").innerHTML =
         "The search did not match any database entries.";
       setTimeout(function () {
@@ -407,6 +456,7 @@ async function addCatalogue() {
 
       // updated DOM depending on response
       updateStatusText("add", response);
+      getCatalogues(false);
     } else {
       console.error(
         "Error in portal:scripts.js:addCatalogue(): User input is invalid."
@@ -440,6 +490,7 @@ async function removeCatalogue() {
 
       // updated DOM depending on response
       updateStatusText("remove", response);
+      getCatalogues(false);
     } else {
       console.error(
         "Error in portal:scripts.js:removeCatalogue(): User input is invalid."
@@ -451,9 +502,51 @@ async function removeCatalogue() {
 }
 
 // function that queries all catalogues from the catalogue directory
-async function getCatalogues() {
+async function getCatalogues(toggle) {
   try {
-    if (catalogueListVisibility == false) {
+    if (toggle) {
+      if (catalogueListVisibility == false) {
+        document.getElementById("catalogueList").innerHTML = "";
+        const response = await fetch(getCataloguesEndpoint);
+        if (response.status >= 200 && response.status < 400) {
+          const data = await response.json();
+          //console.log(data);
+          data.forEach((element) => {
+            document
+              .getElementById("catalogueList")
+              .appendChild(document.createTextNode(element.catalogueName));
+            document
+              .getElementById("catalogueList")
+              .appendChild(document.createElement("br"));
+            document
+              .getElementById("catalogueList")
+              .appendChild(document.createTextNode(element.catalogueAddress));
+            document
+              .getElementById("catalogueList")
+              .appendChild(document.createElement("br"));
+            document
+              .getElementById("catalogueList")
+              .appendChild(document.createTextNode(element._id));
+            document
+              .getElementById("catalogueList")
+              .appendChild(document.createElement("br"));
+            document
+              .getElementById("catalogueList")
+              .appendChild(document.createElement("br"));
+          });
+          document.getElementById("showCataloguesButton").value =
+            "Hide Catalogues";
+          catalogueListVisibility = true;
+        } else {
+          throw console.error("Response out of range.");
+        }
+      } else if (catalogueListVisibility == true) {
+        document.getElementById("showCataloguesButton").value =
+          "Show Catalogues";
+        catalogueListVisibility = false;
+        document.getElementById("catalogueList").textContent = "";
+      }
+    } else {
       document.getElementById("catalogueList").innerHTML = "";
       const response = await fetch(getCataloguesEndpoint);
       if (response.status >= 200 && response.status < 400) {
@@ -482,16 +575,9 @@ async function getCatalogues() {
             .getElementById("catalogueList")
             .appendChild(document.createElement("br"));
         });
-        document.getElementById("showCataloguesButton").value =
-          "Hide Catalogues";
-        catalogueListVisibility = true;
       } else {
         throw console.error("Response out of range.");
       }
-    } else if (catalogueListVisibility == true) {
-      document.getElementById("showCataloguesButton").value = "Show Catalogues";
-      catalogueListVisibility = false;
-      document.getElementById("catalogueList").textContent = "";
     }
   } catch (error) {
     console.error("Error in portal:scripts.js:getCatalogues(): ", error);
@@ -509,31 +595,47 @@ async function handleSearch() {
       return;
     } else {
       const query = `${searchEndpoint}?input=${input.value}`;
+      document.getElementById("searchBar").style.backgroundImage =
+        "url('./media/loading-animation.gif')";
       const response = await fetch(query);
-      //console.log(query);
+      var numResults = 0;
       if (response.status >= 200 && response.status < 400) {
         const responseData = await response.json();
         console.log(responseData);
         if (responseData.length > 0) {
           responseData.forEach((catalogueElement) => {
-            var catalogueLiNode = document.createElement("LI");
-            var catalogueName = document.createTextNode(catalogueElement.name);
-            catalogueLiNode.appendChild(catalogueName);
-            results.appendChild(catalogueLiNode);
-            var contentLiNode = document.createElement("LI");
-            catalogueElement.content.forEach((contentElement) => {
-              contentLiNode
-                .appendChild(document.createElement("LI"))
-                .appendChild(document.createTextNode(contentElement[0].name));
-            });
-            results.appendChild(contentLiNode);
+            if (catalogueElement.content.length > 0) {
+              numResults++;
+              var catalogueLiNode = document.createElement("LI");
+              var catalogueName = document.createTextNode(
+                catalogueElement.name
+              );
+              catalogueLiNode.appendChild(catalogueName);
+              results.appendChild(catalogueLiNode);
+              var contentLiNode = document.createElement("LI");
+              catalogueElement.content.forEach((contentElement) => {
+                contentLiNode
+                  .appendChild(document.createElement("LI"))
+                  .appendChild(document.createTextNode(contentElement[0].name));
+              });
+              results.appendChild(contentLiNode);
+            }
           });
+          if (numResults == 0) {
+            document.getElementById("searchBar").style.backgroundImage = "none";
+            results.innerHTML = "";
+            input.value = "";
+            updateStatusText("search");
+            return;
+          }
         } else {
+          document.getElementById("searchBar").style.backgroundImage = "none";
           results.innerHTML = "";
           input.value = "";
           updateStatusText("search");
           return;
         }
+        document.getElementById("searchBar").style.backgroundImage = "none";
       }
     }
   } catch (error) {
@@ -549,109 +651,3 @@ async function pingCatalogue(catalogueAddress) {
     console.error("Error in portal:scripts.js:pingCatalogue(): ", error);
   }
 }
-
-// function that handles the auto-complete
-function autocomplete(inp, arr) {
-  /*the autocomplete function takes two arguments,
-    the text field element and an array of possible autocompleted values:*/
-  var currentFocus;
-  /*execute a function when someone writes in the text field:*/
-  inp.addEventListener("input", function (e) {
-    var a,
-      b,
-      i,
-      val = this.value;
-    /*close any already open lists of autocompleted values*/
-    closeAllLists();
-    if (!val) {
-      return false;
-    }
-    currentFocus = -1;
-    /*create a DIV element that will contain the items (values):*/
-    a = document.createElement("DIV");
-    a.setAttribute("id", this.id + "autocomplete-list");
-    a.setAttribute("class", "autocomplete-items");
-    /*append the DIV element as a child of the autocomplete container:*/
-    this.parentNode.appendChild(a);
-    /*for each item in the array...*/
-    for (i = 0; i < arr.length; i++) {
-      /*check if the item starts with the same letters as the text field value:*/
-      if (arr[i].substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-        /*create a DIV element for each matching element:*/
-        b = document.createElement("DIV");
-        /*make the matching letters bold:*/
-        b.innerHTML = "<strong>" + arr[i].substr(0, val.length) + "</strong>";
-        b.innerHTML += arr[i].substr(val.length);
-        /*insert a input field that will hold the current array item's value:*/
-        b.innerHTML += "<input type='hidden' value='" + arr[i] + "'>";
-        /*execute a function when someone clicks on the item value (DIV element):*/
-        b.addEventListener("click", function (e) {
-          /*insert the value for the autocomplete text field:*/
-          inp.value = this.getElementsByTagName("input")[0].value;
-          /*close the list of autocompleted values,
-                (or any other open lists of autocompleted values:*/
-          closeAllLists();
-        });
-        a.appendChild(b);
-      }
-    }
-  });
-  /*execute a function presses a key on the keyboard:*/
-  inp.addEventListener("keydown", function (e) {
-    var x = document.getElementById(this.id + "autocomplete-list");
-    if (x) x = x.getElementsByTagName("div");
-    if (e.keyCode == 40) {
-      /*If the arrow DOWN key is pressed,
-          increase the currentFocus variable:*/
-      currentFocus++;
-      /*and and make the current item more visible:*/
-      addActive(x);
-    } else if (e.keyCode == 38) {
-      //up
-      /*If the arrow UP key is pressed,
-          decrease the currentFocus variable:*/
-      currentFocus--;
-      /*and and make the current item more visible:*/
-      addActive(x);
-    } else if (e.keyCode == 13) {
-      /*If the ENTER key is pressed, prevent the form from being submitted,*/
-      e.preventDefault();
-      if (currentFocus > -1) {
-        /*and simulate a click on the "active" item:*/
-        if (x) x[currentFocus].click();
-      }
-    }
-  });
-  function addActive(x) {
-    /*a function to classify an item as "active":*/
-    if (!x) return false;
-    /*start by removing the "active" class on all items:*/
-    removeActive(x);
-    if (currentFocus >= x.length) currentFocus = 0;
-    if (currentFocus < 0) currentFocus = x.length - 1;
-    /*add class "autocomplete-active":*/
-    x[currentFocus].classList.add("autocomplete-active");
-  }
-  function removeActive(x) {
-    /*a function to remove the "active" class from all autocomplete items:*/
-    for (var i = 0; i < x.length; i++) {
-      x[i].classList.remove("autocomplete-active");
-    }
-  }
-  function closeAllLists(elmnt) {
-    /*close all autocomplete lists in the document,
-      except the one passed as an argument:*/
-    var x = document.getElementsByClassName("autocomplete-items");
-    for (var i = 0; i < x.length; i++) {
-      if (elmnt != x[i] && elmnt != inp) {
-        x[i].parentNode.removeChild(x[i]);
-      }
-    }
-  }
-  /*execute a function when someone clicks in the document:*/
-  document.addEventListener("click", function (e) {
-    closeAllLists(e.target);
-  });
-}
-
-//autocomplete(document.getElementById("searchBar"), countries);

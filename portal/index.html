@@ -16,7 +16,7 @@
       <input
         type="text"
         placeholder="Search..."
-        onchange="handleSearch();"
+        onkeyup="handleSearch();"
         class="searchBarStyle font"
         id="searchBar"
       />
@@ -24,13 +24,16 @@
     </div>
 
     <div class="center font">
+      <div class="status">
+        <p id="statusText" class="statusText"></p>
+      </div>
       <div class="showCatalogues">
         <input
           id="showCataloguesButton"
           class="button font"
           type="button"
           value="Show Catalogues"
-          onclick="getCatalogues();"
+          onclick="getCatalogues(true);"
         />
         <div id="catalogueList" class="catalogueList"></div>
       </div>
@@ -61,9 +64,6 @@
           Catalogue ID
           <input type="text" id="catalogueID" value="" />
         </div>
-      </div>
-      <div class="status">
-        <p id="statusText" class="statusText"></p>
       </div>
     </div>
     <script src="scripts.js"></script>
