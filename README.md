@@ -1,6 +1,8 @@
 # EJP-RD - Central query portal and Central catalogue directory
 
-A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory' components.
+A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory' components. 
+The portal can be used to validate developed catalogue APIs. 
+The directory can be used to fetch, add and remove catalogue addresses via HTTP requests.
 
 ## Requirements
 
