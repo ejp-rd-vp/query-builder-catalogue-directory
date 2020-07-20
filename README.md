@@ -11,7 +11,7 @@ A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory'
 - `cd catalogueDirectory`
 - `npm i` to install missing dependencies.
 - `node catalogueDirectory.js` to start the Web-Service.
-- The portal will be available at http://localhost:3001.
+- Both the portal and the directory will be available at http://localhost:3001.
 
 ## Used Libraries
 
@@ -24,3 +24,4 @@ A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory'
 - Auth0 JWKS-RSA (https://github.com/auth0/node-jwks-rsa) to retrieve RSA public keys from a JWKS (JSON Web Key Set).
 - Node-Fetch (https://www.npmjs.com/package/node-fetch) to enable the fetch function within Node.js
 - Dotenv (https://www.npmjs.com/package/dotenv) to enable the use of environenment variables.
+
