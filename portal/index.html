@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
 
-  <body>
+  <body onload="getCatalogues(false); clearInput(`add`); clearInput(`remove`);">
     <div class="center font">
       <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo" />
     </div>
@@ -20,11 +20,11 @@
         class="searchBarStyle font"
         id="searchBar"
       />
-      <ul id="results" class="results"></ul>
+      <ul id="resultList" class="resultList"></ul>
     </div>
 
     <div class="center font">
-      <div class="status">
+      <div class="statusText">
         <span id="statusText" class="statusText"></span>
       </div>
       <div class="showCatalogues">
@@ -32,7 +32,7 @@
           id="showCataloguesButton"
           class="button font"
           type="button"
-          value="Show Catalogues"
+          value="Hide Catalogues"
           onclick="getCatalogues(true);"
         />
         <div id="catalogueList" class="catalogueList"></div>

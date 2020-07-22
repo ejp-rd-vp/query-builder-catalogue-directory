@@ -29,7 +29,7 @@
   margin-top: 20px;
 }
 
-.results {
+.resultList {
   width: 100%;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
@@ -40,7 +40,7 @@
   background-color: lightsteelblue;
 }
 
-.results li {
+.resultList li {
   padding: 5px;
 }
 
@@ -73,10 +73,12 @@
 }
 
 .addCatalogueFields input {
+  border: 1px solid black;
+  padding: 2px;
   width: 98%;
 }
 
-.status {
+.statusText {
   height: 2em;
   text-align: left;
   font-size: 14px;
