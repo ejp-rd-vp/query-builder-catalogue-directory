@@ -7,426 +7,181 @@ const getCataloguesEndpoint = "http://localhost:3001/getCatalogues";
 const searchEndpoint = "http://localhost:3001/search";
 const pingEndpoint = "http://localhost:3001/pingCatalogue";
 
-var countries = [
-  "Afghanistan",
-  "Albania",
-  "Algeria",
-  "Andorra",
-  "Angola",
-  "Anguilla",
-  "Antigua &amp; Barbuda",
-  "Argentina",
-  "Armenia",
-  "Aruba",
-  "Australia",
-  "Austria",
-  "Azerbaijan",
-  "Bahamas",
-  "Bahrain",
-  "Bangladesh",
-  "Barbados",
-  "Belarus",
-  "Belgium",
-  "Belize",
-  "Benin",
-  "Bermuda",
-  "Bhutan",
-  "Bolivia",
-  "Bosnia &amp; Herzegovina",
-  "Botswana",
-  "Brazil",
-  "British Virgin Islands",
-  "Brunei",
-  "Bulgaria",
-  "Burkina Faso",
-  "Burundi",
-  "Cambodia",
-  "Cameroon",
-  "Canada",
-  "Cape Verde",
-  "Cayman Islands",
-  "Central Arfrican Republic",
-  "Chad",
-  "Chile",
-  "China",
-  "Colombia",
-  "Congo",
-  "Cook Islands",
-  "Costa Rica",
-  "Cote D Ivoire",
-  "Croatia",
-  "Cuba",
-  "Curacao",
-  "Cyprus",
-  "Czech Republic",
-  "Denmark",
-  "Djibouti",
-  "Dominica",
-  "Dominican Republic",
-  "Ecuador",
-  "Egypt",
-  "El Salvador",
-  "Equatorial Guinea",
-  "Eritrea",
-  "Estonia",
-  "Ethiopia",
-  "Falkland Islands",
-  "Faroe Islands",
-  "Fiji",
-  "Finland",
-  "France",
-  "French Polynesia",
-  "French West Indies",
-  "Gabon",
-  "Gambia",
-  "Georgia",
-  "Germany",
-  "Ghana",
-  "Gibraltar",
-  "Greece",
-  "Greenland",
-  "Grenada",
-  "Guam",
-  "Guatemala",
-  "Guernsey",
-  "Guinea",
-  "Guinea Bissau",
-  "Guyana",
-  "Haiti",
-  "Honduras",
-  "Hong Kong",
-  "Hungary",
-  "Iceland",
-  "India",
-  "Indonesia",
-  "Iran",
-  "Iraq",
-  "Ireland",
-  "Isle of Man",
-  "Israel",
-  "Italy",
-  "Jamaica",
-  "Japan",
-  "Jersey",
-  "Jordan",
-  "Kazakhstan",
-  "Kenya",
-  "Kiribati",
-  "Kosovo",
-  "Kuwait",
-  "Kyrgyzstan",
-  "Laos",
-  "Latvia",
-  "Lebanon",
-  "Lesotho",
-  "Liberia",
-  "Libya",
-  "Liechtenstein",
-  "Lithuania",
-  "Luxembourg",
-  "Macau",
-  "Macedonia",
-  "Madagascar",
-  "Malawi",
-  "Malaysia",
-  "Maldives",
-  "Mali",
-  "Malta",
-  "Marshall Islands",
-  "Mauritania",
-  "Mauritius",
-  "Mexico",
-  "Micronesia",
-  "Moldova",
-  "Monaco",
-  "Mongolia",
-  "Montenegro",
-  "Montserrat",
-  "Morocco",
-  "Mozambique",
-  "Myanmar",
-  "Namibia",
-  "Nauro",
-  "Nepal",
-  "Netherlands",
-  "Netherlands Antilles",
-  "New Caledonia",
-  "New Zealand",
-  "Nicaragua",
-  "Niger",
-  "Nigeria",
-  "North Korea",
-  "Norway",
-  "Oman",
-  "Pakistan",
-  "Palau",
-  "Palestine",
-  "Panama",
-  "Papua New Guinea",
-  "Paraguay",
-  "Peru",
-  "Philippines",
-  "Poland",
-  "Portugal",
-  "Puerto Rico",
-  "Qatar",
-  "Reunion",
-  "Romania",
-  "Russia",
-  "Rwanda",
-  "Saint Pierre &amp; Miquelon",
-  "Samoa",
-  "San Marino",
-  "Sao Tome and Principe",
-  "Saudi Arabia",
-  "Senegal",
-  "Serbia",
-  "Seychelles",
-  "Sierra Leone",
-  "Singapore",
-  "Slovakia",
-  "Slovenia",
-  "Solomon Islands",
-  "Somalia",
-  "South Africa",
-  "South Korea",
-  "South Sudan",
-  "Spain",
-  "Sri Lanka",
-  "St Kitts &amp; Nevis",
-  "St Lucia",
-  "St Vincent",
-  "Sudan",
-  "Suriname",
-  "Swaziland",
-  "Sweden",
-  "Switzerland",
-  "Syria",
-  "Taiwan",
-  "Tajikistan",
-  "Tanzania",
-  "Thailand",
-  "Timor L'Este",
-  "Togo",
-  "Tonga",
-  "Trinidad &amp; Tobago",
-  "Tunisia",
-  "Turkey",
-  "Turkmenistan",
-  "Turks &amp; Caicos",
-  "Tuvalu",
-  "Uganda",
-  "Ukraine",
-  "United Arab Emirates",
-  "United Kingdom",
-  "United States of America",
-  "Uruguay",
-  "Uzbekistan",
-  "Vanuatu",
-  "Vatican City",
-  "Venezuela",
-  "Vietnam",
-  "Virgin Islands (US)",
-  "Yemen",
-  "Zambia",
-  "Zimbabwe",
-];
-
 const JSONWebToken =
-  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NTIzMTk4MCwiZXhwIjoxNTk1MzE4MzgwLCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.IxcdxVbh-IjTmiH2Ev6zt0jNEXDj5jZMf7IYZdWs2OrkPpaslVmt_FrAkP6kfW40EP_Yp_JrNma4gCzgYNLPsfk_AaEOe-63xn_zpj3hyWxDEargE0EDYImwtYYzbYvUgJE1ofCGNVXzVgF4C3haw2RnvV2MvIePCxex7UdZnF46S2RsMl1vLPl18Cin58LcsVWFAT1WnsrHLn0sdvQWOFfkFe95u3Y-GWJAaMS0MwtxdA6gKDLPkVC4VG-DMWaDs7N1cLvkG6EJzla7GkmYYxWVWH-tRT_JrwDzcWI5gjuvkKmu1y1NeazkuzNnCid7hRK_rEQF-Oepo6jKJGLQCQ";
+  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NTQwNzYxMCwiZXhwIjoxNTk1NDk0MDEwLCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.sGCivXaeSlWf8E8bxAXqGSnSzvfIBYxEBAqJk7kPZyPAHPhndXVIqsoByNSP1YVFRINNESeU1AnCONJVS_FKN7k8kmSeCdwcS3CE9xXlOMF6830k1hBHxlMqeMbcPWdRbwK0TiqcK0DMR-i-f9h9_xWk_dpE4F85KBKA4NeUJX2qecI18LIhHaGAJR_UILR9eBZUAyLXDXr5unPQqvp02mF_bLCD6OFDnZkZ2bLSuAF3XQSlhnIllvNc9jFrqm5ZvPaMqFCa3TfX6kYD3tuO8ASMc7TLoveYaULbyHo24ZGZaBqjzCFl91rwefAnyKaZu-iyDJYx5u4WOp5A2O04gw";
 
-let catalogueListVisibility = Boolean(false);
+let catalogueListVisibility = Boolean(true);
+const catalogues = [{}];
+const statusText = document.getElementById("statusText");
+const catalogueNameInput = document.getElementById("catalogueName");
+const catalogueAddressInput = document.getElementById("catalogueAddress");
+const catalogueIDInput = document.getElementById("catalogueID");
+const searchInput = document.getElementById("searchBar");
+const resultList = document.getElementById("resultList");
+const catalogueList = document.getElementById("catalogueList");
+
+// function that handles fetch errors
+function handleFetchErrors(fetchResponse) {
+  try {
+    if (!fetchResponse.ok) {
+      console.error(
+        "Fetch Error: " + fetchResponse.status + " " + fetchResponse.statusText
+      );
+    }
+
+    return fetchResponse;
+  } catch (exception) {
+    console.error("Error in scripts.js:handleFetchErrors(): ", exception);
+  }
+}
+
+// function that checks for a valid url string
+function isValidUrl(url) {
+  try {
+    new URL(url);
+  } catch (exception) {
+    console.log("Error in scripts.js:isValidUrl(): ", exception);
+    return false;
+  }
+
+  return true;
+}
+
+// function that indicates input elements that are responsible for errors
+function colorInputFields(inputField, color) {
+  try {
+    const input = document.getElementById(inputField);
+
+    switch (color) {
+      case "red":
+        input.style.borderColor = "firebrick";
+        return;
+      case "black":
+        input.style.borderColor = "black";
+        return;
+    }
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:colorInputFields(): ", exception);
+  }
+}
 
 // function that clears the users' input
 function clearInput(useCase) {
-  if (useCase === "add") {
-    document.getElementById("catalogueName").value = "";
-    document.getElementById("catalogueAddress").value = "";
-  } else if (useCase === "remove") {
-    document.getElementById("catalogueID").value = "";
+  try {
+    switch (useCase) {
+      case "add":
+        catalogueNameInput.value = "";
+        catalogueAddressInput.value = "";
+      case "remove":
+        catalogueIDInput.value = "";
+    }
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:clearInput(): ", exception);
   }
 }
 
 // function that gets the users' input
 function getUserInput(useCase) {
   try {
-    if (useCase === "add") {
-      var data = {
-        catalogueName: "",
-        catalogueAddress: "",
-      };
+    switch (useCase) {
+      case "add":
+        var data = {
+          catalogueName: "",
+          catalogueAddress: "",
+        };
 
-      if (
-        document.getElementById("catalogueName").value.length > 0 &&
-        document.getElementById("catalogueAddress").value.length > 0
-      ) {
-        // get user input
-        data.catalogueName = document.getElementById("catalogueName").value;
-        data.catalogueAddress = document.getElementById(
-          "catalogueAddress"
-        ).value;
+        if (
+          catalogueNameInput.value.length > 0 &&
+          catalogueAddressInput.value.length > 0
+        ) {
+          if (isValidUrl(catalogueAddressInput.value)) {
+            // get user input
+            data.catalogueName = catalogueNameInput.value;
+            data.catalogueAddress = catalogueAddressInput.value;
 
-        document.getElementById("statusText").innerHTML = "";
+            colorInputFields("catalogueAddress", "black");
+            colorInputFields("catalogueName", "black");
+            colorInputFields("catalogueID", "black");
 
-        return data;
-      } else {
-        if (document.getElementById("statusText").classList.contains("green")) {
-          document.getElementById("statusText").classList.remove("green");
+            return data;
+          } else {
+            updateStatusText("error", "Catalogue address must be a valid URL.");
+
+            colorInputFields("catalogueAddress", "red");
+            colorInputFields("catalogueID", "black");
+            clearInput("add");
+
+            return undefined;
+          }
+        } else {
+          updateStatusText(
+            "error",
+            "Catalogue name and address might not be empty."
+          );
+          colorInputFields("catalogueName", "red");
+          colorInputFields("catalogueAddress", "red");
+          colorInputFields("catalogueID", "black");
+          clearInput("add");
+
+          return undefined;
         }
-        if (!document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").className += " red";
+
+      case "remove":
+        var data = {
+          catalogueID: "",
+        };
+
+        if (catalogueIDInput.value.length > 0) {
+          data.catalogueID = catalogueIDInput.value;
+
+          colorInputFields("catalogueID", "black");
+          colorInputFields("catalogueName", "black");
+          colorInputFields("catalogueAddress", "black");
+
+          return data;
+        } else {
+          updateStatusText("error", "Catalogue ID might not be empty.");
+
+          colorInputFields("catalogueID", "red");
+          colorInputFields("catalogueName", "black");
+          colorInputFields("catalogueAddress", "black");
+          clearInput("remove");
+
+          return undefined;
         }
-        document.getElementById("statusText").innerHTML =
-          "Catalogue name and address might not be empty.";
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-
-        clearInput("add");
-
-        return undefined;
-      }
-    } else if (useCase === "remove") {
-      var data = {
-        catalogueID: "",
-      };
-
-      if (document.getElementById("catalogueID").value.length > 0) {
-        // get user input
-        data.catalogueID = document.getElementById("catalogueID").value;
-
-        document.getElementById("statusText").innerHTML = "";
-
-        return data;
-      } else {
-        if (document.getElementById("statusText").classList.contains("green")) {
-          document.getElementById("statusText").classList.remove("green");
-        }
-        if (!document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").className += " red";
-        }
-        document.getElementById("statusText").innerHTML =
-          "Catalogue ID might not be empty.";
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-
-        clearInput("remove");
-      }
     }
-  } catch (error) {
-    console.error("Error in portal:scripts.js:getUserInput(): ", error);
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:getUserInput(): ", exception);
   }
 }
 
 // function that updates the DOM
-async function updateStatusText(useCase, response) {
+function updateStatusText(type, message) {
   try {
-    if (useCase === "add") {
-      const responseData = await response.json();
-      if (response.status >= 200 && response.status < 400) {
-        if (document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").remove("red");
+    switch (type) {
+      case "success":
+        if (statusText.classList.contains("red")) {
+          statusText.remove("red");
         }
-        if (
-          !document.getElementById("statusText").classList.contains("green")
-        ) {
-          document.getElementById("statusText").className += " green";
+        if (!statusText.classList.contains("green")) {
+          statusText.className += " green";
         }
-        document.getElementById(
-          "statusText"
-        ).innerHTML = `Successfully added catalogue with ID ${responseData.id}.`;
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-      } else if (response.status == 401) {
-        if (document.getElementById("statusText").classList.contains("green")) {
-          document.getElementById("statusText").classList.remove("green");
+        statusText.textContent = message;
+        return;
+      case "error":
+        if (statusText.classList.contains("green")) {
+          statusText.classList.remove("green");
         }
-        if (!document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").className += " red";
+        if (!statusText.classList.contains("red")) {
+          statusText.className += " red";
         }
-        document.getElementById("statusText").innerHTML =
-          "You are not authorized to add a catalogue.";
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-      } else {
-        if (document.getElementById("statusText").classList.contains("green")) {
-          document.getElementById("statusText").classList.remove("green");
-        }
-        if (!document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").className += " red";
-        }
-        document.getElementById("statusText").innerHTML =
-          "Catalogue could not be added.";
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-        console.error(
-          "Error in portal:scripts.js:addCatalogue(): POST response out of range."
-        );
-      }
-    } else if (useCase === "remove") {
-      const responseData = await response.json();
-      if (response.status >= 200 && response.status < 400) {
-        if (document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").remove("red");
-        }
-        if (
-          !document.getElementById("statusText").classList.contains("green")
-        ) {
-          document.getElementById("statusText").className += " green";
-        }
-        document.getElementById(
-          "statusText"
-        ).innerHTML = `Successfully removed catalogue with id ${responseData.id}.`;
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-      } else if (response.status == 401) {
-        if (document.getElementById("statusText").classList.contains("green")) {
-          document.getElementById("statusText").classList.remove("green");
-        }
-        if (!document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").className += " red";
-        }
-        document.getElementById("statusText").innerHTML =
-          "You are not authorized to remove this catalogue.";
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-      } else {
-        if (document.getElementById("statusText").classList.contains("green")) {
-          document.getElementById("statusText").classList.remove("green");
-        }
-        if (!document.getElementById("statusText").classList.contains("red")) {
-          document.getElementById("statusText").className += " red";
-        }
-        document.getElementById("statusText").innerHTML =
-          "Catalogue could not be removed.";
-        setTimeout(function () {
-          document.getElementById("statusText").innerHTML = "";
-        }, 4000);
-        console.error(
-          "Error in portal:scripts.js:removeCatalogue(): POST response out of range."
-        );
-      }
-    } else if (useCase === "search") {
-      if (document.getElementById("statusText").classList.contains("green")) {
-        document.getElementById("statusText").classList.remove("green");
-      }
-      if (!document.getElementById("statusText").classList.contains("red")) {
-        document.getElementById("statusText").className += " red";
-      }
-      document.getElementById("statusText").innerHTML =
-        "The search did not match any database entries.";
-      setTimeout(function () {
-        document.getElementById("statusText").innerHTML = "";
-      }, 4000);
+        statusText.textContent = message;
+        return;
+      default:
+        console.log("Entering default switch of updatedStatusText().");
     }
-  } catch (error) {
-    console.error("Error in portal:scripts.js:updateStatusText(): ", error);
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:updateStatusText(): ", exception);
   }
 }
 
@@ -445,25 +200,40 @@ async function addCatalogue() {
     if (getUserInput("add") != undefined) {
       // get inserted data
       const newCatalogueData = await getUserInput("add");
-      newCatalogueData.auth = JSONWebToken;
-      // clear input fields
       clearInput("add");
+
       // parse inserted data into POST body
       postMessage.body = JSON.stringify(newCatalogueData);
 
-      // send post request
-      const response = await fetch(addCatalogueEndpoint, postMessage);
-
-      // updated DOM depending on response
-      updateStatusText("add", response);
-      getCatalogues(false);
+      // test if the address to be added is responding
+      fetch(`${pingEndpoint}?address=${newCatalogueData.catalogueAddress}`)
+        .then(handleFetchErrors)
+        .then(async (fetchResponse) => {
+          // send post request
+          if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+            fetch(addCatalogueEndpoint, postMessage)
+              .then(handleFetchErrors)
+              .then(async (fetchResponse) => {
+                const fetchResponseData = await fetchResponse.json();
+                updateStatusText(
+                  "success",
+                  `Catalogue ${newCatalogueData.catalogueName} successfully added using ID ${fetchResponseData.id}.`
+                );
+                getCatalogues(false);
+              })
+              .catch((exception) => console.error(exception));
+          } else {
+            updateStatusText("error", "The entered URL is not accessible.");
+          }
+        })
+        .catch((exception) => console.error(exception));
     } else {
       console.error(
         "Error in portal:scripts.js:addCatalogue(): User input is invalid."
       );
     }
-  } catch (error) {
-    console.error("Error in portal:scripts.js:addCatalogue(): ", error);
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:addCatalogue(): ", exception);
   }
 }
 
@@ -482,22 +252,35 @@ async function removeCatalogue() {
       // get inserted data
       const catalogueID = await getUserInput("remove");
       clearInput("remove");
+
       // parse inserted data into POST body
       postMessage.body = JSON.stringify(catalogueID);
 
       // send post request
-      const response = await fetch(removeCatalogueEndpoint, postMessage);
-
-      // updated DOM depending on response
-      updateStatusText("remove", response);
-      getCatalogues(false);
+      fetch(removeCatalogueEndpoint, postMessage)
+        .then(handleFetchErrors)
+        .then((fetchResponse) => {
+          if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+            updateStatusText(
+              "success",
+              `Successfully removed catalogue using ID ${catalogueID.catalogueID}.`
+            );
+            getCatalogues(false);
+          } else {
+            updateStatusText(
+              "error",
+              `Could not find a catalogue using ID ${catalogueID.catalogueID}.`
+            );
+          }
+        })
+        .catch((exception) => console.error(exception));
     } else {
       console.error(
         "Error in portal:scripts.js:removeCatalogue(): User input is invalid."
       );
     }
-  } catch (error) {
-    console.error("Error in portal:scripts.js:removeCatalogue(): ", error);
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:removeCatalogue(): ", exception);
   }
 }
 
@@ -506,37 +289,46 @@ async function getCatalogues(toggle) {
   try {
     if (toggle) {
       if (catalogueListVisibility == false) {
-        document.getElementById("catalogueList").innerHTML = "";
+        catalogueList.textContent = "";
+        document.getElementById("showCataloguesButton").value =
+          "Hide Catalogues";
+        catalogueListVisibility = true;
         const response = await fetch(getCataloguesEndpoint);
         if (response.status >= 200 && response.status < 400) {
           const data = await response.json();
-          //console.log(data);
-          data.forEach((element) => {
-            document
-              .getElementById("catalogueList")
-              .appendChild(document.createTextNode(element.catalogueName));
-            document
-              .getElementById("catalogueList")
-              .appendChild(document.createElement("br"));
-            document
-              .getElementById("catalogueList")
-              .appendChild(document.createTextNode(element.catalogueAddress));
-            document
-              .getElementById("catalogueList")
-              .appendChild(document.createElement("br"));
-            document
-              .getElementById("catalogueList")
-              .appendChild(document.createTextNode(element._id));
-            document
-              .getElementById("catalogueList")
-              .appendChild(document.createElement("br"));
-            document
-              .getElementById("catalogueList")
-              .appendChild(document.createElement("br"));
-          });
-          document.getElementById("showCataloguesButton").value =
-            "Hide Catalogues";
-          catalogueListVisibility = true;
+          //console.log(catalogues);
+          for (let index = 0; index < data.length; index++) {
+            const element = data[index];
+            catalogueList.appendChild(
+              document.createTextNode(element.catalogueName)
+            );
+            const pingResponse = await fetch(
+              `${pingEndpoint}?address=${element.catalogueAddress}`
+            );
+            const responseData = await pingResponse.json();
+            if (responseData >= 200 && responseData < 400) {
+              var checkIcon = document.createElement("IMG");
+              checkIcon.setAttribute("src", "media/check-icon.png");
+              checkIcon.setAttribute("alt", "check-icon");
+              checkIcon.style.float = "right";
+              catalogueList.appendChild(checkIcon);
+            } else {
+              var xIcon = document.createElement("IMG");
+              xIcon.setAttribute("src", "media/x-icon.png");
+              xIcon.setAttribute("alt", "x-icon");
+              xIcon.style.float = "right";
+              xIcon.style.marginRight = "8px";
+              catalogueList.appendChild(xIcon);
+            }
+            catalogueList.appendChild(document.createElement("br"));
+            catalogueList.appendChild(
+              document.createTextNode(element.catalogueAddress)
+            );
+            catalogueList.appendChild(document.createElement("br"));
+            catalogueList.appendChild(document.createTextNode(element._id));
+            catalogueList.appendChild(document.createElement("br"));
+            catalogueList.appendChild(document.createElement("br"));
+          }
         } else {
           throw console.error("Response out of range.");
         }
@@ -544,64 +336,70 @@ async function getCatalogues(toggle) {
         document.getElementById("showCataloguesButton").value =
           "Show Catalogues";
         catalogueListVisibility = false;
-        document.getElementById("catalogueList").textContent = "";
+        catalogueList.textContent = "";
       }
-    } else {
-      document.getElementById("catalogueList").innerHTML = "";
+    } else if (!toggle) {
+      catalogueList.textContent = "";
       const response = await fetch(getCataloguesEndpoint);
       if (response.status >= 200 && response.status < 400) {
         const data = await response.json();
-        //console.log(data);
-        data.forEach((element) => {
-          document
-            .getElementById("catalogueList")
-            .appendChild(document.createTextNode(element.catalogueName));
-          document
-            .getElementById("catalogueList")
-            .appendChild(document.createElement("br"));
-          document
-            .getElementById("catalogueList")
-            .appendChild(document.createTextNode(element.catalogueAddress));
-          document
-            .getElementById("catalogueList")
-            .appendChild(document.createElement("br"));
-          document
-            .getElementById("catalogueList")
-            .appendChild(document.createTextNode(element._id));
-          document
-            .getElementById("catalogueList")
-            .appendChild(document.createElement("br"));
-          document
-            .getElementById("catalogueList")
-            .appendChild(document.createElement("br"));
-        });
+        for (let index = 0; index < data.length; index++) {
+          const element = data[index];
+          catalogueList.appendChild(
+            document.createTextNode(element.catalogueName)
+          );
+          const pingResponse = await fetch(
+            `${pingEndpoint}?address=${element.catalogueAddress}`
+          );
+          const responseData = await pingResponse.json();
+          if (responseData >= 200 && responseData < 400) {
+            var checkIcon = document.createElement("IMG");
+            checkIcon.setAttribute("src", "media/check-icon.png");
+            checkIcon.setAttribute("alt", "check-icon");
+            checkIcon.style.float = "right";
+            catalogueList.appendChild(checkIcon);
+          } else {
+            var xIcon = document.createElement("IMG");
+            xIcon.setAttribute("src", "media/x-icon.png");
+            xIcon.setAttribute("alt", "x-icon");
+            xIcon.style.float = "right";
+            xIcon.style.marginRight = "8px";
+            catalogueList.appendChild(xIcon);
+          }
+          catalogueList.appendChild(document.createElement("br"));
+          catalogueList.appendChild(
+            document.createTextNode(element.catalogueAddress)
+          );
+          catalogueList.appendChild(document.createElement("br"));
+          catalogueList.appendChild(document.createTextNode(element._id));
+          catalogueList.appendChild(document.createElement("br"));
+          catalogueList.appendChild(document.createElement("br"));
+        }
       } else {
         throw console.error("Response out of range.");
       }
     }
-  } catch (error) {
-    console.error("Error in portal:scripts.js:getCatalogues(): ", error);
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:getCatalogues(): ", exception);
   }
 }
 
 // function that handles the search input
 async function handleSearch() {
   try {
-    const results = document.getElementById("results");
-    results.innerHTML = "";
-    const input = document.getElementById("searchBar");
-    if (input.value.length < 1) {
-      results.innerHTML = "";
+    resultList.textContent = "";
+
+    if (searchInput.value.length < 1) {
+      resultList.textContent = "";
       return;
     } else {
-      const query = `${searchEndpoint}?input=${input.value}`;
-      document.getElementById("searchBar").style.backgroundImage =
+      const query = `${searchEndpoint}?input=${searchInput.value}`;
+      searchInput.style.backgroundImage =
         "url('./media/loading-animation.gif')";
       const response = await fetch(query);
       var numResults = 0;
       if (response.status >= 200 && response.status < 400) {
         const responseData = await response.json();
-        console.log(responseData);
         if (responseData.length > 0) {
           responseData.forEach((catalogueElement) => {
             if (catalogueElement.content.length > 0) {
@@ -611,43 +409,40 @@ async function handleSearch() {
                 catalogueElement.name
               );
               catalogueLiNode.appendChild(catalogueName);
-              results.appendChild(catalogueLiNode);
+              resultList.appendChild(catalogueLiNode);
               var contentLiNode = document.createElement("LI");
               catalogueElement.content.forEach((contentElement) => {
                 contentLiNode
                   .appendChild(document.createElement("LI"))
                   .appendChild(document.createTextNode(contentElement[0].name));
               });
-              results.appendChild(contentLiNode);
+              resultList.appendChild(contentLiNode);
             }
           });
           if (numResults == 0) {
-            document.getElementById("searchBar").style.backgroundImage = "none";
-            results.innerHTML = "";
-            input.value = "";
-            updateStatusText("search");
+            searchInput.style.backgroundImage = "none";
+            resultList.textContent = "";
+            searchInput.value = "";
+            updateStatusText(
+              "error",
+              "The entered search did not match any results."
+            );
             return;
           }
         } else {
-          document.getElementById("searchBar").style.backgroundImage = "none";
-          results.innerHTML = "";
-          input.value = "";
-          updateStatusText("search");
+          searchInput.style.backgroundImage = "none";
+          resultList.textContent = "";
+          searchInput.value = "";
+          updateStatusText(
+            "error",
+            "The entered search did not match any results."
+          );
           return;
         }
-        document.getElementById("searchBar").style.backgroundImage = "none";
+        searchInput.style.backgroundImage = "none";
       }
     }
-  } catch (error) {
-    console.error("Error in portal:scripts.js:handleSearch(): ", error);
-  }
-}
-
-async function pingCatalogue(catalogueAddress) {
-  try {
-    const query = `${pingEndpoint}?address=${catalogueAddress}`;
-    const response = await fetch(query);
-  } catch (error) {
-    console.error("Error in portal:scripts.js:pingCatalogue(): ", error);
+  } catch (exception) {
+    console.error("Error in portal:scripts.js:handleSearch(): ", exception);
   }
 }

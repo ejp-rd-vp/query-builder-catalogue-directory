@@ -5,36 +5,34 @@
 .center {
   text-align: center;
   margin: 0 auto;
-  width: 50%;
+  width: 500px;
 }
 
 .left {
-  padding-left: 9%;
-  width: 40%;
+  width: 49%;
   float: left;
 }
 
 .right {
-  padding-right: 9%;
-  width: 40%;
+  width: 49%;
   float: right;
 }
 
 .searchBarStyle {
   background-repeat: no-repeat;
   background-position: right;
-  width: 80%;
-  padding: 4px;
-  padding-left: 8px;
+  width: 97%;
+  padding: 4px 8px 4px 4px;
   border-radius: 8px;
   border-style: groove;
   font-size: medium;
   margin-top: 20px;
 }
 
-.results {
-  margin: 0 9.5% 20px 9.5%;
-  padding-left: 10px;
+.resultList {
+  width: 100%;
+  margin: 0 0 0 0;
+  padding: 0 0 0 0;
   text-align: left;
   list-style: none;
   border-radius: 5px;
@@ -42,18 +40,12 @@
   background-color: lightsteelblue;
 }
 
-.showCatalogues {
-  padding-left: 9%;
-  padding-right: 9%;
+.resultList li {
+  padding: 5px;
 }
 
 .catalogueList {
-  width: 100%;
   text-align: left;
-}
-
-.results li {
-  padding: 5px;
 }
 
 .button {
@@ -77,23 +69,20 @@
 }
 
 .addCatalogueFields {
-  width: 100%;
   text-align: left;
 }
 
 .addCatalogueFields input {
+  border: 1px solid black;
+  padding: 2px;
   width: 98%;
 }
 
-.status {
-  padding-left: 9%;
-  clear: both;
-  text-align: left;
-}
-
 .statusText {
-  padding-top: 5%;
+  height: 2em;
+  text-align: left;
   font-size: 14px;
+  margin-top: 30px;
 }
 
 .red {

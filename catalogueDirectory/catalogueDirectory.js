@@ -25,7 +25,7 @@ app.use(helmet());
 app.use(cors());
 
 // add morgan to log HTTP requests
-app.use(morgan("combined"));
+app.use(morgan("dev"));
 
 // configure express server options
 app.use(
@@ -43,6 +43,14 @@ const server = app.listen(process.env.PORT, process.env.HOST, () =>
     `Catalogue Directory listening on http://${process.env.HOST}:${process.env.PORT} ...`
   )
 );
+
+// function that handles fetch errors
+function handleFetchErrors(response) {
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return response;
+}
 
 // create json web token validation
 const checkJwt = jwt({
@@ -78,14 +86,15 @@ app.get("/getCatalogues", (request, response, next) => {
 });
 
 app.get("/pingCatalogue", async (request, response, next) => {
-  try {
-    const db_response = await fetch(request.query.address);
-  } catch (error) {
-    console.error(
-      "Error in catalogueDirectory:catalogueDirectory.js:app.get(/pingCatalogue): ",
-      error
-    );
-  }
+  fetch(request.query.address)
+    .then(handleFetchErrors)
+    .then((fetchResponse) => {
+      response.json(fetchResponse.status);
+    })
+    .catch((exception) => {
+      console.error(exception);
+      response.sendStatus(404);
+    });
 });
 
 app.get("/search", async (request, response, next) => {
@@ -96,7 +105,7 @@ app.get("/search", async (request, response, next) => {
     for (let index = 0; index < catalogues.length; index++) {
       const element = catalogues[index];
       if (element.catalogueAddress.length > 0) {
-        const queryToDb = `${element.catalogueAddress}?disease=${requestedSearch}`;
+        const queryToDb = `${element.catalogueAddress}?name=${requestedSearch}`;
         const db_response = await fetch(queryToDb);
         var data = {
           name: element.catalogueName,
@@ -145,22 +154,31 @@ app.post("/addCatalogue", (request, response, next) => {
 app.post("/removeCatalogue", (request, response, next) => {
   try {
     const data = request.body;
-    catalogueDatabase.remove({ _id: data.catalogueID }, {}, function (err) {
-      if (err) {
-        response.end();
-        return;
+    catalogueDatabase.find({ _id: { $in: [data.catalogueID] } }, function (
+      error,
+      docs
+    ) {
+      if (error) {
+        console.error(error);
+      } else if (!docs.length) {
+        response.sendStatus(404);
       } else {
-        catalogueDatabase.persistence.compactDatafile();
-        response.json({
-          status: "success",
-          id: data.catalogueID,
+        catalogueDatabase.remove({ _id: data.catalogueID }, {}, (error) => {
+          if (error) {
+            console.error(error);
+          } else {
+            catalogueDatabase.persistence.compactDatafile();
+            response.json({
+              status: "success",
+            });
+          }
         });
       }
     });
-  } catch (error) {
+  } catch (exception) {
     console.error(
       "Error in catalogueDirectory:catalogueDirectory.js:app.post(/addCatalogue): ",
-      error
+      exception
     );
   }
 });
