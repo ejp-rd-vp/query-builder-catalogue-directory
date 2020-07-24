@@ -8,11 +8,10 @@ const morgan = require("morgan");
 const cors = require("cors");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
-const fetch = require("node-fetch");
 const dotenv = require("dotenv").config();
 
 // create and load the catalogue database
-const catalogueDatabase = new Datastore(process.env.DATABASE_PATH);
+const catalogueDatabase = new Datastore(process.env.DIRECTORY_DATABASE_PATH);
 catalogueDatabase.loadDatabase();
 
 // define the server application
@@ -21,36 +20,11 @@ const app = express();
 // add helmet to enhance security
 app.use(helmet());
 
-// add cross origin resource sharing
-app.use(cors());
-
 // add morgan to log HTTP requests
 app.use(morgan("dev"));
 
-// configure express server options
-app.use(
-  express.json({
-    limit: "1mb",
-  })
-);
-
-// make static content available
-app.use(express.static("../portal"));
-
-// run the server application
-const server = app.listen(process.env.PORT, process.env.HOST, () =>
-  console.log(
-    `Catalogue Directory listening on http://${process.env.HOST}:${process.env.PORT} ...`
-  )
-);
-
-// function that handles fetch errors
-function handleFetchErrors(response) {
-  if (!response.ok) {
-    throw Error(response.statusText);
-  }
-  return response;
-}
+// add cross origin resource sharing
+app.use(cors());
 
 // create json web token validation
 const checkJwt = jwt({
@@ -67,6 +41,23 @@ const checkJwt = jwt({
   algorithms: ["RS256"],
 });
 
+// configure express server options
+app.use(
+  express.json({
+    limit: "1mb",
+  })
+);
+
+// run the server application
+const server = app.listen(
+  process.env.DIRECTORY_PORT,
+  process.env.DIRECTORY_HOST,
+  () =>
+    console.log(
+      `Catalogue Directory listening on http://${process.env.DIRECTORY_HOST}:${process.env.DIRECTORY_PORT} ...`
+    )
+);
+
 // add GET route for the query catalogues functionality
 app.get("/getCatalogues", (request, response, next) => {
   try {
@@ -80,48 +71,6 @@ app.get("/getCatalogues", (request, response, next) => {
   } catch (error) {
     console.error(
       "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
-      error
-    );
-  }
-});
-
-app.get("/pingCatalogue", async (request, response, next) => {
-  fetch(request.query.address)
-    .then(handleFetchErrors)
-    .then((fetchResponse) => {
-      response.json(fetchResponse.status);
-    })
-    .catch((exception) => {
-      console.error(exception);
-      response.sendStatus(404);
-    });
-});
-
-app.get("/search", async (request, response, next) => {
-  try {
-    const catalogues = catalogueDatabase.getAllData();
-    const requestedSearch = request.query.input;
-    var dataArray = [];
-    for (let index = 0; index < catalogues.length; index++) {
-      const element = catalogues[index];
-      if (element.catalogueAddress.length > 0) {
-        const queryToDb = `${element.catalogueAddress}?name=${requestedSearch}`;
-        const db_response = await fetch(queryToDb);
-        var data = {
-          name: element.catalogueName,
-          content: await db_response.json(),
-        };
-        dataArray.push(data);
-      } else {
-        console.error(
-          `Error in catalogueDirectory:catalogueDirectory.js:app.get(/search): ${element.catalogueName} does not have a valid address.`
-        );
-      }
-    }
-    response.json(dataArray);
-  } catch (error) {
-    console.error(
-      "Error in catalogueDirectory:catalogueDirectory.js:app.get(/search): ",
       error
     );
   }

@@ -1,17 +1,21 @@
 "use strict";
 
-// define endpoint addresses
+// define API endpoint addresses
+const getCataloguesEndpoint = "http://localhost:3001/getCatalogues";
 const addCatalogueEndpoint = "http://localhost:3001/addCatalogue";
 const removeCatalogueEndpoint = "http://localhost:3001/removeCatalogue";
-const getCataloguesEndpoint = "http://localhost:3001/getCatalogues";
-const searchEndpoint = "http://localhost:3001/search";
-const pingEndpoint = "http://localhost:3001/pingCatalogue";
+const pingEndpoint = "http://localhost:3002/pingCatalogue";
+const searchEndpoint = "http://localhost:3002/search";
 
+// define authentication token
 const JSONWebToken =
-  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NTQwNzYxMCwiZXhwIjoxNTk1NDk0MDEwLCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.sGCivXaeSlWf8E8bxAXqGSnSzvfIBYxEBAqJk7kPZyPAHPhndXVIqsoByNSP1YVFRINNESeU1AnCONJVS_FKN7k8kmSeCdwcS3CE9xXlOMF6830k1hBHxlMqeMbcPWdRbwK0TiqcK0DMR-i-f9h9_xWk_dpE4F85KBKA4NeUJX2qecI18LIhHaGAJR_UILR9eBZUAyLXDXr5unPQqvp02mF_bLCD6OFDnZkZ2bLSuAF3XQSlhnIllvNc9jFrqm5ZvPaMqFCa3TfX6kYD3tuO8ASMc7TLoveYaULbyHo24ZGZaBqjzCFl91rwefAnyKaZu-iyDJYx5u4WOp5A2O04gw";
+  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NTU5NTQ3MSwiZXhwIjoxNTk1NjgxODcxLCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.pFXvjJTCkl8eOpepWfcVdhbJZROoENFuDMy4MgZYRdAtPMC2HtaH4jnx2-qg3U6lzTN6ICOa-WjhvAjjFWKfHh_zFR2AN2TMJ4bTSgmomsYk278jN6Q1YbDSOHdI8lujNlyrnvdW4dISE3o0wo8IVV-7nRGLkx0B7h2EIlIJEArNZl80OpVFP1t8-O6bT8MQHb6QSZXcjrIeWERvGgJ_VNztAjHPNsoe0OJmAd3IdvkovuRMRovAWFLJyWfJLCz8opYVPimDCriZ3EADVL-jJdWPUHsrem1IBgBpTT9Abd2eq58NYLZvnlc-C_OhBVUeadBBkY4nXJTSenfpO0v3jw";
 
+// define global variables
 let catalogueListVisibility = Boolean(true);
 const catalogues = [{}];
+
+// define html components
 const statusText = document.getElementById("statusText");
 const catalogueNameInput = document.getElementById("catalogueName");
 const catalogueAddressInput = document.getElementById("catalogueAddress");
@@ -53,12 +57,19 @@ function colorInputFields(inputField, color) {
     const input = document.getElementById(inputField);
 
     switch (color) {
-      case "red":
+      case "red": {
         input.style.borderColor = "firebrick";
         return;
-      case "black":
+      }
+      case "black": {
         input.style.borderColor = "black";
         return;
+      }
+      default: {
+        console.log(
+          "Entering default switch of scripts.js:colorInputFields()."
+        );
+      }
     }
   } catch (exception) {
     console.error("Error in portal:scripts.js:colorInputFields(): ", exception);
@@ -69,11 +80,18 @@ function colorInputFields(inputField, color) {
 function clearInput(useCase) {
   try {
     switch (useCase) {
-      case "add":
+      case "add": {
         catalogueNameInput.value = "";
         catalogueAddressInput.value = "";
-      case "remove":
+        return;
+      }
+      case "remove": {
         catalogueIDInput.value = "";
+        return;
+      }
+      default: {
+        console.log("Entering default switch of scripts.js:clearInput().");
+      }
     }
   } catch (exception) {
     console.error("Error in portal:scripts.js:clearInput(): ", exception);
@@ -84,8 +102,8 @@ function clearInput(useCase) {
 function getUserInput(useCase) {
   try {
     switch (useCase) {
-      case "add":
-        var data = {
+      case "add": {
+        let data = {
           catalogueName: "",
           catalogueAddress: "",
         };
@@ -125,9 +143,9 @@ function getUserInput(useCase) {
 
           return undefined;
         }
-
-      case "remove":
-        var data = {
+      }
+      case "remove": {
+        let data = {
           catalogueID: "",
         };
 
@@ -149,6 +167,10 @@ function getUserInput(useCase) {
 
           return undefined;
         }
+      }
+      default: {
+        console.log("Entering default switch of scripts.js:getUserInput().");
+      }
     }
   } catch (exception) {
     console.error("Error in portal:scripts.js:getUserInput(): ", exception);
@@ -159,7 +181,7 @@ function getUserInput(useCase) {
 function updateStatusText(type, message) {
   try {
     switch (type) {
-      case "success":
+      case "success": {
         if (statusText.classList.contains("red")) {
           statusText.remove("red");
         }
@@ -168,7 +190,8 @@ function updateStatusText(type, message) {
         }
         statusText.textContent = message;
         return;
-      case "error":
+      }
+      case "error": {
         if (statusText.classList.contains("green")) {
           statusText.classList.remove("green");
         }
@@ -177,8 +200,10 @@ function updateStatusText(type, message) {
         }
         statusText.textContent = message;
         return;
-      default:
+      }
+      default: {
         console.log("Entering default switch of updatedStatusText().");
+      }
     }
   } catch (exception) {
     console.error("Error in portal:scripts.js:updateStatusText(): ", exception);
@@ -307,13 +332,13 @@ async function getCatalogues(toggle) {
             );
             const responseData = await pingResponse.json();
             if (responseData >= 200 && responseData < 400) {
-              var checkIcon = document.createElement("IMG");
+              let checkIcon = document.createElement("IMG");
               checkIcon.setAttribute("src", "media/check-icon.png");
               checkIcon.setAttribute("alt", "check-icon");
               checkIcon.style.float = "right";
               catalogueList.appendChild(checkIcon);
             } else {
-              var xIcon = document.createElement("IMG");
+              let xIcon = document.createElement("IMG");
               xIcon.setAttribute("src", "media/x-icon.png");
               xIcon.setAttribute("alt", "x-icon");
               xIcon.style.float = "right";
@@ -353,13 +378,13 @@ async function getCatalogues(toggle) {
           );
           const responseData = await pingResponse.json();
           if (responseData >= 200 && responseData < 400) {
-            var checkIcon = document.createElement("IMG");
+            let checkIcon = document.createElement("IMG");
             checkIcon.setAttribute("src", "media/check-icon.png");
             checkIcon.setAttribute("alt", "check-icon");
             checkIcon.style.float = "right";
             catalogueList.appendChild(checkIcon);
           } else {
-            var xIcon = document.createElement("IMG");
+            let xIcon = document.createElement("IMG");
             xIcon.setAttribute("src", "media/x-icon.png");
             xIcon.setAttribute("alt", "x-icon");
             xIcon.style.float = "right";
@@ -397,20 +422,20 @@ async function handleSearch() {
       searchInput.style.backgroundImage =
         "url('./media/loading-animation.gif')";
       const response = await fetch(query);
-      var numResults = 0;
+      let numResults = 0;
       if (response.status >= 200 && response.status < 400) {
         const responseData = await response.json();
         if (responseData.length > 0) {
           responseData.forEach((catalogueElement) => {
             if (catalogueElement.content.length > 0) {
               numResults++;
-              var catalogueLiNode = document.createElement("LI");
-              var catalogueName = document.createTextNode(
+              let catalogueLiNode = document.createElement("LI");
+              let catalogueName = document.createTextNode(
                 catalogueElement.name
               );
               catalogueLiNode.appendChild(catalogueName);
               resultList.appendChild(catalogueLiNode);
-              var contentLiNode = document.createElement("LI");
+              let contentLiNode = document.createElement("LI");
               catalogueElement.content.forEach((contentElement) => {
                 contentLiNode
                   .appendChild(document.createElement("LI"))
