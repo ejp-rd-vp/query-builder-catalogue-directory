@@ -6,7 +6,7 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 
 ## Requirements
 
-- Node.js (https://nodejs.org/)
+- [Node.js](https://nodejs.org/ "https://nodejs.org/")
 
 ## Deployment
 
