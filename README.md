@@ -18,6 +18,7 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 - The directory will be available at http://localhost:3001.
 - The HOST and PORT the service is running on can be adjusted in the .env file.
 
+
 ### Query Portal
 
 - `cd portal`
@@ -25,6 +26,7 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 - `node portal.js` to start the Web-Service.
 - The portal will be available at http://localhost:3002.
 - The HOST and PORT the service is running on can be adjusted in the .env file.
+
 
 ## Used Libraries
 
