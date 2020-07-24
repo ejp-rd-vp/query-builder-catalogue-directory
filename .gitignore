@@ -105,6 +105,3 @@ dist
 
 # VS Code directory
 .vscode/
-
-# Node .env files
-.env
