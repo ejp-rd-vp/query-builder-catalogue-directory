@@ -14,7 +14,8 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 
 - `cd catalogueDirectory`
 - `npm i` to install missing dependencies.
-- `node catalogueDirectory.js localhost 3001` to make the directory available at http://localhost:3001.
+- `node catalogueDirectory.js $HOST $PORT` to start the web service.
+- The directory will be listening on http://$HOST:$PORT.
 
 ### Query Portal
 
