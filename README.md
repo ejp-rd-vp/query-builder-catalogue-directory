@@ -20,7 +20,7 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 
 - `cd portal`
 - `npm i` to install missing dependencies.
-- `node portal.js localhost 3002` to make the directory available at http://localhost:3002.
+- `node portal.js localhost 3002` to make the portal available at http://localhost:3002.
 
 ## Used Libraries
 
