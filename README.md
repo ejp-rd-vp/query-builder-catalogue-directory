@@ -1,7 +1,6 @@
-# EJP-RD - Central query portal and Central catalogue directory
+# EJP-RD - Central catalogue directory
 
-A draft of the EJP-RD - 'Central query portal' and 'Central catalogue directory' components. 
-The portal can be used to validate developed catalogue APIs. 
+A draft of the EJP-RD - 'Central catalogue directory' component. 
 The directory can be used to fetch, add and remove catalogue addresses via HTTP requests.
 
 ## Requirements
@@ -10,19 +9,9 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 
 ## Deployment
 
-### Catalogue Directory
-
-- `cd catalogueDirectory`
 - `npm i` to install missing dependencies.
 - `node catalogueDirectory.js $PORT` to start the web service.
 - The directory will be listening on `http://localhost:$PORT`.
-
-### Query Portal
-
-- `cd portal`
-- `npm i` to install missing dependencies.
-- `node portal.js $PORT $DIRECTORY_HOST $DIRECTORY_PORT` to start the web service.
-- The portal will be available at `http://localhost:$PORT` and retrieve catalogue address information from `http://$DIRECTORY_HOST:$DIRECTORY_PORT`.
 
 ## Used Libraries
 
