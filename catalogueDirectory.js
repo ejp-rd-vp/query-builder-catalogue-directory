@@ -47,18 +47,46 @@ app.use(
   })
 );
 
-// parse command line arguments
-var commandLineArguments = process.argv.slice(2);
+// configure and run the server
+setup();
 
-// run the server application
-const server = app.listen(
-  commandLineArguments[1],
-  commandLineArguments[0],
-  () =>
-    console.log(
-      `Catalogue Directory listening on http://${commandLineArguments[0]}:${commandLineArguments[1]} ...`
-    )
-);
+function setup() {
+  try {
+    // parse command line arguments
+    var commandLineArguments = process.argv.slice(2);
+
+    // check for proper usage
+    if (commandLineArguments.length != 1) {
+      console.error("Usage: node catalogueDirectory.js $PORT");
+      return;
+    } else {
+      // run the server application
+      const server = app.listen(commandLineArguments[0], () =>
+        console.log(
+          `Catalogue Directory listening on http://localhost:${commandLineArguments[0]} ...`
+        )
+      );
+    }
+  } catch (exception) {
+    console.error(
+      "Error in catalogueDirectory:catalogueDirectory.js:setup() ",
+      exception
+    );
+  }
+}
+
+// add root GET route
+app.get("/", (request, response, next) => {
+  try {
+    response.sendStatus(200);
+    console.log(response);
+  } catch (exception) {
+    console.error(
+      "Error in catalogueDirectory:catalogueDirectory.js:app.get(/): ",
+      exception
+    );
+  }
+});
 
 // add GET route for the query catalogues functionality
 app.get("/getCatalogues", (request, response, next) => {
@@ -70,10 +98,10 @@ app.get("/getCatalogues", (request, response, next) => {
       }
       response.json(data);
     });
-  } catch (error) {
+  } catch (exception) {
     console.error(
       "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
-      error
+      exception
     );
   }
 });
@@ -84,19 +112,45 @@ app.use(checkJwt);
 // add POST route for the add catalogues functionality
 app.post("/addCatalogue", (request, response, next) => {
   try {
+    let nameExists = Boolean(false);
     const data = request.body;
-    const timestamp = Date.now();
-    data.timestamp = timestamp;
-    data._id = Math.random().toString(36).substr(2, 9).toUpperCase();
-    catalogueDatabase.insert(data);
-    response.json({
-      status: "success",
-      id: data._id,
-    });
-  } catch (error) {
+    catalogueDatabase.find(
+      { catalogueName: { $in: [data.catalogueName] } },
+      (error, records) => {
+        if (error) {
+          console.error(error);
+        } else if (records.length > 0) {
+          nameExists = true;
+          catalogueDatabase.find(
+            { catalogueAddress: { $in: [data.catalogueAddress] } },
+            (error, records) => {
+              if (error) {
+                console.error(error);
+              } else if (records.length > 0 && nameExists) {
+                response.sendStatus(400);
+              } else {
+                const timestamp = Date.now();
+                data.timestamp = timestamp;
+                data._id = Math.random()
+                  .toString(36)
+                  .substr(2, 9)
+                  .toUpperCase();
+                catalogueDatabase.insert(data);
+                catalogueDatabase.persistence.compactDatafile();
+                response.json({
+                  status: "success",
+                  id: data._id,
+                });
+              }
+            }
+          );
+        }
+      }
+    );
+  } catch (exception) {
     console.error(
       "Error in catalogueDirectory:catalogueDirectory.js:app.post(/addCatalogue): ",
-      error
+      exception
     );
   }
 });
@@ -128,7 +182,7 @@ app.post("/removeCatalogue", (request, response, next) => {
     });
   } catch (exception) {
     console.error(
-      "Error in catalogueDirectory:catalogueDirectory.js:app.post(/addCatalogue): ",
+      "Error in catalogueDirectory:catalogueDirectory.js:app.post(/removeCatalogue): ",
       exception
     );
   }
