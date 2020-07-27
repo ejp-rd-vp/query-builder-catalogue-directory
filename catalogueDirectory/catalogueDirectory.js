@@ -8,10 +8,9 @@ const morgan = require("morgan");
 const cors = require("cors");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
-const dotenv = require("dotenv").config();
 
 // create and load the catalogue database
-const catalogueDatabase = new Datastore(process.env.DIRECTORY_DATABASE_PATH);
+const catalogueDatabase = new Datastore("./catalogues.json");
 catalogueDatabase.loadDatabase();
 
 // define the server application
@@ -48,13 +47,16 @@ app.use(
   })
 );
 
+// parse command line arguments
+var commandLineArguments = process.argv.slice(2);
+
 // run the server application
 const server = app.listen(
-  process.env.DIRECTORY_PORT,
-  process.env.DIRECTORY_HOST,
+  commandLineArguments[1],
+  commandLineArguments[0],
   () =>
     console.log(
-      `Catalogue Directory listening on http://${process.env.DIRECTORY_HOST}:${process.env.DIRECTORY_PORT} ...`
+      `Catalogue Directory listening on http://${commandLineArguments[0]}:${commandLineArguments[1]} ...`
     )
 );
 

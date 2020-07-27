@@ -5,7 +5,6 @@ const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
 const fetch = require("node-fetch");
-const dotenv = require("dotenv").config();
 
 // define catalogue directory endpoint
 const getCataloguesEndpoint = "http://localhost:3001/getCatalogues";
@@ -32,13 +31,16 @@ app.use(
   })
 );
 
+// parse command line arguments
+var commandLineArguments = process.argv.slice(2);
+
 // run the server application
 const server = app.listen(
-  process.env.PORTAL_PORT,
-  process.env.PORTAL_HOST,
+  commandLineArguments[1],
+  commandLineArguments[0],
   () =>
     console.log(
-      `Portal available at http://${process.env.PORTAL_HOST}:${process.env.PORTAL_PORT} ...`
+      `Portal available at http://${commandLineArguments[0]}:${commandLineArguments[1]} ...`
     )
 );
 
