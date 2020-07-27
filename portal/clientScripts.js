@@ -59,11 +59,11 @@ function colorInputFields(inputField, color) {
     switch (color) {
       case "red": {
         input.style.borderColor = "firebrick";
-        return;
+        break;
       }
       case "black": {
         input.style.borderColor = "black";
-        return;
+        break;
       }
       default: {
         console.log(
@@ -83,11 +83,11 @@ function clearInput(useCase) {
       case "add": {
         catalogueNameInput.value = "";
         catalogueAddressInput.value = "";
-        return;
+        break;
       }
       case "remove": {
         catalogueIDInput.value = "";
-        return;
+        break;
       }
       default: {
         console.log("Entering default switch of scripts.js:clearInput().");
@@ -189,7 +189,7 @@ function updateStatusText(type, message) {
           statusText.className += " green";
         }
         statusText.textContent = message;
-        return;
+        break;
       }
       case "error": {
         if (statusText.classList.contains("green")) {
@@ -199,7 +199,7 @@ function updateStatusText(type, message) {
           statusText.className += " red";
         }
         statusText.textContent = message;
-        return;
+        break;
       }
       default: {
         console.log("Entering default switch of updatedStatusText().");
