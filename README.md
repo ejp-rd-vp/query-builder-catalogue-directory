@@ -14,19 +14,15 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 
 - `cd catalogueDirectory`
 - `npm i` to install missing dependencies.
-- `node catalogueDirectory.js` to start the Web-Service.
-- The directory will be available at http://localhost:3001.
-- The HOST and PORT the service is running on can be adjusted in the .env file.
-
+- `node catalogueDirectory.js $PORT` to start the web service.
+- The directory will be listening on `http://localhost:$PORT`.
 
 ### Query Portal
 
 - `cd portal`
 - `npm i` to install missing dependencies.
-- `node portal.js` to start the Web-Service.
-- The portal will be available at http://localhost:3002.
-- The HOST and PORT the service is running on can be adjusted in the .env file.
-
+- `node portal.js $PORT $DIRECTORY_HOST $DIRECTORY_PORT` to start the web service.
+- The portal will be available at `http://localhost:$PORT` and retrieve catalogue address information from `http://$DIRECTORY_HOST:$DIRECTORY_PORT`.
 
 ## Used Libraries
 
@@ -38,5 +34,4 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 - [Express-JWT](https://github.com/auth0/express-jwt "https://github.com/auth0/express-jwt") to validate JWTs (JSON Web Tokens).
 - [JWKS-RSA](https://github.com/auth0/node-jwks-rsa "https://github.com/auth0/node-jwks-rsa") to retrieve RSA public keys from a JWKS (JSON Web Key Set).
 - [Node-Fetch](https://www.npmjs.com/package/node-fetch "https://www.npmjs.com/package/node-fetch") to enable the fetch function within Node.js.
-- [Dotenv](https://www.npmjs.com/package/dotenv "https://www.npmjs.com/package/dotenv") to enable the use of environenment variables.
 - [Jest](https://www.npmjs.com/package/jest "https://www.npmjs.com/package/jest") for testing.
