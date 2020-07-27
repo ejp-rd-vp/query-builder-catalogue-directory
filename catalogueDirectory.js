@@ -69,7 +69,7 @@ function setup() {
     }
   } catch (exception) {
     console.error(
-      "Error in catalogueDirectory:catalogueDirectory.js:setup() ",
+      "Error in catalogueDirectory:catalogueDirectory.js:setup(): ",
       exception
     );
   }
@@ -79,7 +79,6 @@ function setup() {
 app.get("/", (request, response, next) => {
   try {
     response.sendStatus(200);
-    console.log(response);
   } catch (exception) {
     console.error(
       "Error in catalogueDirectory:catalogueDirectory.js:app.get(/): ",
