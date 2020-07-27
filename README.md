@@ -15,14 +15,14 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 - `cd catalogueDirectory`
 - `npm i` to install missing dependencies.
 - `node catalogueDirectory.js $PORT` to start the web service.
-- The directory will be listening on http://localhost:$PORT.
+- The directory will be listening on `http://localhost:$PORT`.
 
 ### Query Portal
 
 - `cd portal`
 - `npm i` to install missing dependencies.
 - `node portal.js $PORT $DIRECTORY_HOST $DIRECTORY_PORT` to start the web service.
-- The portal will be available at http://localhost:$PORT and retrieve catalogue address information from http://$DIRECTORY_HOST:$DIRECTORY_PORT.
+- The portal will be available at `http://localhost:$PORT` and retrieve catalogue address information from `http://$DIRECTORY_HOST:$DIRECTORY_PORT`.
 
 ## Used Libraries
 
