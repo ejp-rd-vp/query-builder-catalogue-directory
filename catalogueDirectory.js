@@ -143,6 +143,16 @@ app.post("/addCatalogue", (request, response, next) => {
               }
             }
           );
+        } else {
+          const timestamp = Date.now();
+          data.timestamp = timestamp;
+          data._id = Math.random().toString(36).substr(2, 9).toUpperCase();
+          catalogueDatabase.insert(data);
+          catalogueDatabase.persistence.compactDatafile();
+          response.json({
+            status: "success",
+            id: data._id,
+          });
         }
       }
     );
