@@ -244,7 +244,9 @@ exports.Server = class Server {
 
       // check for proper usage
       if (commandLineArguments.length != 2) {
-        console.error("Usage: node catalogueDirectory.js $PORT");
+        console.error(
+          "Usage: node catalogueDirectory.js $HTTP_PORT $HTTPS_PORT"
+        );
         return;
       } else {
         this.httpServer = http.createServer(app);
