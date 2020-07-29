@@ -2,6 +2,9 @@
 
 // loading the express and nedb dependencies
 const express = require("express");
+const fs = require("fs");
+const http = require("http");
+const https = require("https");
 const Datastore = require("nedb");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -15,6 +18,14 @@ catalogueDatabase.loadDatabase();
 
 // define the server application
 const app = express();
+
+// define https config
+const key = fs.readFileSync("private.key");
+const cert = fs.readFileSync("certificate.crt");
+const credentials = {
+  key: key,
+  cert: cert,
+};
 
 // add helmet to enhance security
 app.use(helmet());
@@ -50,20 +61,28 @@ app.use(
 // configure and run the server
 setup();
 
+// function that configures and runs the application
 function setup() {
   try {
     // parse command line arguments
     var commandLineArguments = process.argv.slice(2);
 
     // check for proper usage
-    if (commandLineArguments.length != 1) {
+    if (commandLineArguments.length != 2) {
       console.error("Usage: node catalogueDirectory.js $PORT");
       return;
     } else {
+      const httpServer = http.createServer(app);
+      const httpsServer = https.createServer(credentials, app);
       // run the server application
-      const server = app.listen(commandLineArguments[0], () =>
+      httpServer.listen(commandLineArguments[0], () =>
         console.log(
           `Catalogue Directory listening on http://localhost:${commandLineArguments[0]} ...`
+        )
+      );
+      httpsServer.listen(commandLineArguments[1], () =>
+        console.log(
+          `Catalogue Directory listening on https://localhost:${commandLineArguments[1]} ...`
         )
       );
     }
