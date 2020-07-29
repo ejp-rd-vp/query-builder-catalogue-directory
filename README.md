@@ -1,6 +1,6 @@
 # EJP-RD - Central catalogue directory
 
-A draft of the EJP-RD - 'Central catalogue directory' component. 
+A draft of the EJP-RD - 'Central catalogue directory' component.
 The directory can be used to fetch, add and remove catalogue addresses via HTTP requests.
 
 ## Requirements
@@ -9,9 +9,10 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 
 ## Deployment
 
+- `cd directory`
 - `npm i` to install missing dependencies.
-- `node catalogueDirectory.js $PORT` to start the web service.
-- The directory will be listening on `http://localhost:$PORT`.
+- `node catalogueDirectory.js $HTTP_PORT $HTTPS_PORT` to start the web service.
+- The directory will be listening on `http://localhost:$HTTP_PORT` and `https://localhost:$HTTPS_PORT`.
 
 ## Used Libraries
 
