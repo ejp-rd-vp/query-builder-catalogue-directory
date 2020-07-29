@@ -1,6 +1,6 @@
 "use strict";
 
-// loading the express and nedb dependencies
+// load dependencies
 const express = require("express");
 const fs = require("fs");
 const http = require("http");
@@ -11,6 +11,11 @@ const morgan = require("morgan");
 const cors = require("cors");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
+
+// define file paths
+const DATABASE_PATH = "./database/catalogues.json";
+const PRIVATE_KEY_PATH = "./cert/private.key";
+const CERTIFICATE_PATH = "./cert/certificate.crt";
 
 // class that holds a NeDB database and its' functionality
 exports.Directory = class Directory {
@@ -265,6 +270,6 @@ exports.Server = class Server {
   }
 };
 
-let directory = new this.Directory("./catalogues.json");
+let directory = new this.Directory(DATABASE_PATH);
 let app = new this.Application(directory.getDirectory());
-let server = new this.Server("private.key", "certificate.crt", app.getApp());
+let server = new this.Server(PRIVATE_KEY_PATH, CERTIFICATE_PATH, app.getApp());
