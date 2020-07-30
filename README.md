@@ -28,4 +28,4 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP(
 
 ## API Specification
 
-The [specification](https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/specification.yaml "https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml") of the central catalogue directory API is based on the [OpenAPI specifictaion](http://spec.openapis.org/oas/v3.0.3 "http://spec.openapis.org/oas/v3.0.3").
+The [specification](https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml "https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml") of the central catalogue directory API is based on the [OpenAPI specifictaion](http://spec.openapis.org/oas/v3.0.3 "http://spec.openapis.org/oas/v3.0.3").
