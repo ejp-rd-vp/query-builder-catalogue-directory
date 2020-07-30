@@ -133,8 +133,8 @@ exports.Application = class Application {
                       } else if (records.length > 0 && nameExists) {
                         response.sendStatus(400);
                       } else {
-                        const timestamp = Date.now();
-                        data.timestamp = timestamp;
+                        const created = Date.now();
+                        data.created = created;
                         data._id = Math.random()
                           .toString(36)
                           .substr(2, 9)
@@ -150,8 +150,8 @@ exports.Application = class Application {
                     }
                   );
                 } else {
-                  const timestamp = Date.now();
-                  data.timestamp = timestamp;
+                  const created = Date.now();
+                  data.created = created;
                   data._id = Math.random()
                     .toString(36)
                     .substr(2, 9)
