@@ -1,0 +1,314 @@
+openapi: "3.0.0"
+servers:
+  - url: "https://ejp-rd/catalogueDirectory/" # to be added
+info:
+  version: "1.0"
+  title: "EJP-RD Central Catalogue Directory API"
+  description: >-
+    "The EJP-RD Central Catalogue Directory API is a web service providing
+     functionality to fetch, add and remove catalogue addresses to or from the
+     central catalogue directory."
+  contact:
+    name: "Magic Mike" # to be added
+    email: "someone@ejp.com" # to be added
+  #license: # to be determined
+  #name: "Apache 2.0"
+  #url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+externalDocs:
+  description: "EJP-RD Website"
+  url: https://www.ejprarediseases.org/"
+paths:
+  /:
+    get:
+      description: "Get information about the EJP-RD Central Catalogue Directory API."
+      operationId: "getInformation"
+      responses:
+        "200":
+          description: "successful operation"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfoResponse"
+        "404":
+          description: "not found"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        default:
+          description": "unexpected error"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /getCatalogues:
+    get:
+      description: "Get response to a query for catalogue adresses."
+      operationId: "getCatalogues"
+      parameters:
+        - name: resourceType
+          description: "The type of a recource e.g. biobank."
+          in: query
+          required: true
+          schema:
+            type:
+              type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/DataResponse"
+        "400":
+          description: Bad request (e.g. missing mandatory parameter)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: >-
+            Unauthorised (e.g. when an unauthenticated user tries to access a
+            protected resource.)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: >-
+            Forbidden (e.g. the resource is protected for all users or the user
+            is authenticated but s/he is not granted for this resource)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "not found"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        default:
+          description": "unexpected error"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /addCatalogue:
+    post:
+      description: "Add a new catalogue to the central catalogue directory."
+      operationId: "addCatalogue"
+      parameters:
+        - name: resourceType
+          description: "The type of the recource e.g. biobank."
+          in: query
+          required: true
+          schema:
+            type:
+              type: string
+        - name: resourceName
+          description: "The name of the resource."
+          in: query
+          required: true
+          schema:
+            name:
+              type: string
+        - name: resourceAddress
+          description: "The address of the recource."
+          in: query
+          required: true
+          schema:
+            address:
+              type: url
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/InfoResponse"
+        "400":
+          description: Bad request (e.g. missing mandatory parameter)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: >-
+            Unauthorised (e.g. when an unauthenticated user tries to access a
+            protected resource.)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: >-
+            Forbidden (e.g. the resource is protected for all users or the user
+            is authenticated but s/he is not granted for this resource)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        default:
+          description": "unexpected error"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /removeCatalogue:
+    post:
+      description: "Remove an existing catalogue from the central catalogue directory."
+      operationId: "removeCatalogue"
+      parameters:
+        - name: catalogueID
+          description: "The ID of the recource."
+          in: query
+          required: true
+          schema:
+            type:
+              type: string
+      responses:
+        "200":
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/InfoResponse"
+        "400":
+          description: Bad request (e.g. missing mandatory parameter)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "401":
+          description: >-
+            Unauthorised (e.g. when an unauthenticated user tries to access a
+            protected resource.)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "403":
+          description: >-
+            Forbidden (e.g. the resource is protected for all users or the user
+            is authenticated but s/he is not granted for this resource)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: "Not found (e.g. the resource to be removed is not in the directory)"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        default:
+          description": "unexpected error"
+          headers:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+components:
+  schemas:
+    InfoResponse:
+      type: object
+      required:
+        - id
+        - name
+        - apiVersion
+        - description
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the API. Use reverse domain name notation.
+          example: org.ga4gh.api
+        name:
+          type: string
+          description: Name of the API.
+        apiVersion:
+          type: string
+          description: Version of the API provided.
+          example: v0.3
+        description:
+          type: string
+          description: Description of the API.
+    SuccessResponse:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          example: The http status text.
+        data:
+          type: string
+          example: The id of a catalogue after it has been added.
+    ErrorResponse:
+      type: "object"
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+          example: The http status text.
+    DataResponse:
+      type: object
+      required:
+        - resources
+      properties:
+        items:
+          type: array
+          $ref: "#/components/schemas/Resource"
+    Resource:
+      type: object
+      required:
+        - id
+        - name
+        - description
+        - url
+        - createDateTime
+        - updateDateTime
+      properties:
+        id:
+          type: string
+          description: Unique identifier of the ressource.
+        name:
+          type: string
+          description: Name of the ressource.
+        description:
+          type: string
+          description: Description of the resource.
+        url:
+          type: string
+          description: >-
+            URL to the ressource.
+        createDateTime:
+          type: string
+          description: The time the resource was created (ISO 8601 format).
+          example: "2012-07-29 or 2017-01-17T20:33:40Z"
+        updateDateTime:
+          type: string
+          description: The time the resource was last updated (ISO 8601 format).
+          example: "2012-07-19 or 2017-01-17T20:33:40Z"
+        version:
+          type: string
+          description: Version of the ressource.
