@@ -97,10 +97,8 @@ exports.Application = class Application {
             this.catalogueDatabase.find({}, (err, data) => {
               if (err) {
                 response.end();
-                return -1;
               }
               response.json(data);
-              return 0;
             });
           } catch (exception) {
             console.error(
@@ -110,6 +108,8 @@ exports.Application = class Application {
           }
         }
       );
+
+      this.app.use(this.checkJwt);
 
       exports.addCatalogues = this.app.post(
         "/addCatalogue",

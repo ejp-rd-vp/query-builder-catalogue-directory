@@ -1,4 +1,3 @@
-{"catalogueName":"BBMRI","catalogueAddress":"https://dor.erdri.mig-frankfurt.de/rest/registries/search","created":1595939679348,"_id":"DGYLXT4YY","catalogueType":["biobank"]}
-{"catalogueName":"ERDRI.dor","catalogueAddress":"https://dor.erdri.mig-frankfurt.de/rest/registries/search","created":1595327865212,"_id":"E7AHIMRSW","catalogueType":["registry"]}
-{"catalogueName":"Orphanet","catalogueAddress":"https://dor.erdri.mig-frankfurt.de/rest/registries/search","created":1595426516438,"_id":"F504572NW","catalogueType":["registry","biobank"]}
-
+{"catalogueName":"ERDRI.dor","catalogueAddress":"https://dor.erdri.mig-frankfurt.de/rest/registries/search","catalogueType":["registry"],"created":1596188311086,"_id":"3JCE5BRC3"}
+{"catalogueName":"BBMRI","catalogueAddress":"https://dor.erdri.mig-frankfurt.de/rest/registries/search","catalogueType":["biobank"],"created":1596188302456,"_id":"OYHG6FCXY"}
+{"catalogueName":"Orphanet","catalogueAddress":"https://dor.erdri.mig-frankfurt.de/rest/registries/search","catalogueType":["registry","biobank"],"created":1596188657496,"_id":"RLDL66TEV"}
