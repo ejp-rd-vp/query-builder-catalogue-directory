@@ -11,6 +11,8 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP(
 
 - `cd directory`
 - `npm i` to install missing dependencies.
+- Create a file named `.env` for environenment variable specification.
+- Set the database file path inside the .env file as follows: `DATABASE_PATH=$PATH_TO_YOUR_DATABASE_FILE`
 - `node catalogueDirectory.js $HTTP_PORT $HTTPS_PORT` to start the web service.
 - The directory will be listening on `http://localhost:$HTTP_PORT` and `https://localhost:$HTTPS_PORT`.
 
