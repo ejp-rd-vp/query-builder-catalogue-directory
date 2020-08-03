@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="author"
+      content="Goethe University Frankfurt - Medical Informatics Group - David Reinert"
+    />
+    <meta name="description" content="The EJP-RD central catalogue directory" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="../media/favicon.ico" />
+    <title>EJP Central Catalogue Directory</title>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+  </head>
+
+  <body onload="getCatalogues(); clearInput(`add`); clearInput(`remove`);">
+    <div class="center font">
+      <img src="../media/ejp-rd-logo.jpg" alt="EJP-RD-Logo" />
+    </div>
+    <div class="center font">
+      <div class="statusText">
+        <span id="statusText" class="statusText"></span>
+      </div>
+      <div class="showCatalogues">
+        <input
+          id="showCataloguesButton"
+          class="button font"
+          type="button"
+          value="Hide Catalogues"
+          onclick="toggleCatalogueListVisibility();"
+        />
+        <div id="catalogueList" class="catalogueList"></div>
+      </div>
+      <div class="left">
+        <input
+          class="button font"
+          type="button"
+          value="Add Catalogue"
+          onclick="addCatalogue();"
+        />
+        <div class="addCatalogueFields">
+          Catalogue Name
+          <input type="text" id="catalogueName" value="" />
+          <p>
+            Catalogue Address
+            <input type="text" id="catalogueAddress" value="" />
+          </p>
+          <p>
+            Catalogue Type
+          </p>
+        </div>
+        <div class="addCatalogueCheckboxes">
+          <label>
+            <input type="checkbox" id="registryCheckbox" value="Registry" />
+            Registry
+          </label>
+          <label>
+            <input type="checkbox" id="biobankCheckbox" value="Biobank" />
+            Biobank
+          </label>
+        </div>
+      </div>
+      <div class="right">
+        <input
+          class="button font"
+          type="button"
+          value="Remove Catalogue"
+          onclick="removeCatalogue();"
+        />
+        <div class="addCatalogueFields">
+          Catalogue ID
+          <input type="text" id="catalogueID" value="" />
+        </div>
+      </div>
+    </div>
+    <script src="clientScripts.js"></script>
+  </body>
+</html>
