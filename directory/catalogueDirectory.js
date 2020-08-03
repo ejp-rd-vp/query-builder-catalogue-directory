@@ -12,6 +12,7 @@ const cors = require("cors");
 const jwt = require("express-jwt");
 const jwksRsa = require("jwks-rsa");
 const dotenv = require("dotenv").config();
+const fetch = require("node-fetch");
 
 // define file paths
 const DATABASE_PATH = process.env.DATABASE_PATH;
@@ -71,6 +72,7 @@ exports.Application = class Application {
       this.app.use(helmet());
       this.app.use(morgan("dev"));
       this.app.use(cors());
+      this.app.use(express.static("./public"));
       this.app.use(
         express.json({
           limit: "1mb",
@@ -81,7 +83,6 @@ exports.Application = class Application {
       exports.getRoot = this.app.get("/", (request, response, next) => {
         try {
           response.sendStatus(200);
-          return 0;
         } catch (exception) {
           console.error(
             "Error in catalogueDirectory:catalogueDirectory.js:app.get(/): ",
@@ -103,6 +104,34 @@ exports.Application = class Application {
           } catch (exception) {
             console.error(
               "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
+              exception
+            );
+          }
+        }
+      );
+
+      // add GET route that handles a ping request
+      exports.pingCatalogue = this.app.get(
+        "/pingCatalogue",
+        async (request, response, next) => {
+          console.log("yes");
+          try {
+            fetch(request.query.address)
+              .then(this.handleFetchErrors)
+              .then((fetchResponse) => {
+                if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+                  response.json(fetchResponse.status);
+                } else {
+                  response.sendStatus(404);
+                }
+              })
+              .catch((exception) => {
+                console.error(exception);
+                response.sendStatus(404);
+              });
+          } catch (exception) {
+            console.error(
+              "Error in portal:portal.js:app.get(/pingCatalogue): ",
               exception
             );
           }
@@ -231,6 +260,26 @@ exports.Application = class Application {
   checkJwt;
 
   // class functions
+  handleFetchErrors(fetchResponse) {
+    try {
+      if (!fetchResponse.ok) {
+        console.error(
+          "Fetch Error: " +
+            fetchResponse.status +
+            " " +
+            fetchResponse.statusText
+        );
+      }
+
+      return fetchResponse;
+    } catch (exception) {
+      console.error(
+        "Error in clientScripts.js:handleFetchErrors(): ",
+        exception
+      );
+    }
+  }
+
   getApp() {
     try {
       return this.app;
