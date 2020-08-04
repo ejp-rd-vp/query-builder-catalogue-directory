@@ -111,3 +111,6 @@ dist
 
 # Crypto Keys
 .key
+
+# Database files
+.database/
