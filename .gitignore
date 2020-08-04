@@ -107,8 +107,8 @@ dist
 .vscode/
 
 # Certificates and Keys
-.directory/cert/
+directory/cert/*
 
 # Database files
-.directory/database/
+directory/database/*
 
