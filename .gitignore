@@ -106,11 +106,9 @@ dist
 # VS Code directory
 .vscode/
 
-# Certificates
-.crt
-
-# Crypto Keys
-.key
+# Certificates and Keys
+.directory/cert/
 
 # Database files
-.database/
+.directory/database/
+
