@@ -8,8 +8,8 @@ const removeCatalogueEndpoint = catalogueDirectoryAddress + "/removeCatalogue";
 const pingEndpoint = catalogueDirectoryAddress + "/pingCatalogue";
 
 // define authentication token
-//const JSONWebToken =
-// "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NjQ0MTA1OCwiZXhwIjoxNTk2NTI3NDU4LCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.tQb6AaoDfYZ3UbGgCg60sSD1Ub40hYLwqGsHmkGsDjDmEjka9wjWAoARI1TWrnxgH3x1ZWzvbQZugLePcadRGe1lCFIXfP7CGziBgJmE_2vMm_KHypT8mzb94L4BmHAOQtaDmlo6QRvehVkWVvruWlAWV5PEbABj9QQD7g_L0ZPeAUd3joCbPIcRw6rXMEX6IOLfCXiXe390fdVn_8_KUM1wtu5mW62_Wk5zCODeftl10NhxM1WwTHhJnsB6kGawjT29XBiJU693IsIvtWgW7NOPPTnqFp72uKgNu5ppPCmLTRNI3SYocKUfHgdpyWN1pSQ1pH0hiBfpLPXj5vFWoA";
+const JSONWebToken =
+  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NjU0MDk4NCwiZXhwIjoxNTk2NjI3Mzg0LCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.fLEe2QROi5OOXn1wrno5YwwVixCoq7JWyAUYICqe2YvL0HLA3reqLTcV0BdECApGcril85N53y9jkuFLEmCT6-H6u__aSejBf_34Zcovr8hSFCj3JbJinYE7ujywZOlJ_XZvRBCpjiYT1Q26gRduwXZGsC71EweGbAmZeCHj8dHhDPeyk2oCFtx7MLQeezzxlrL1NBH3RkYI1TDkUWu3RJrAWwFFPZ-M7rr-sTVOHev6-iS07OCSL5UT_ETfmghVFXDps8vXRSYh_IHvHU0eQhWHlBQe_GA70UQHrseEKNE507IdqD0M4tczUK9v_7pvupNp8Kqc-_BN8-ZujNMDMQ";
 
 // global variables
 let catalogues;
@@ -19,6 +19,9 @@ const statusText = document.getElementById("statusText");
 const catalogueNameInput = document.getElementById("catalogueName");
 const catalogueAddressInput = document.getElementById("catalogueAddress");
 const registryCheckboxInput = document.getElementById("registryCheckbox");
+const catalogueDescriptionInput = document.getElementById(
+  "catalogueDescription"
+);
 const biobankCheckboxInput = document.getElementById("biobankCheckbox");
 const catalogueIDInput = document.getElementById("catalogueID");
 const catalogueList = document.getElementById("catalogueList");
@@ -82,6 +85,7 @@ function clearInput(useCase) {
       case "add": {
         catalogueNameInput.value = "";
         catalogueAddressInput.value = "";
+        catalogueDescriptionInput.value = "";
         registryCheckbox.checked = false;
         biobankCheckbox.checked = false;
         break;
@@ -113,18 +117,21 @@ function getUserInput(useCase) {
         let data = {
           catalogueName: "",
           catalogueAddress: "",
+          catalogueDescription: "",
           catalogueType: [],
         };
 
         if (
           catalogueNameInput.value.length > 0 &&
           catalogueAddressInput.value.length > 0 &&
-          (registryCheckboxInput.checked || biobankCheckboxInput.checked)
+          (registryCheckboxInput.checked || biobankCheckboxInput.checked) &&
+          catalogueDescriptionInput.value.length > 0
         ) {
           if (isValidUrl(catalogueAddressInput.value)) {
             // get user input
             data.catalogueName = catalogueNameInput.value;
             data.catalogueAddress = catalogueAddressInput.value;
+            data.catalogueDescription = catalogueDescriptionInput.value;
             if (registryCheckboxInput.checked) {
               data.catalogueType.push("registry");
             }
@@ -132,6 +139,7 @@ function getUserInput(useCase) {
               data.catalogueType.push("biobank");
             }
 
+            colorInputFields("catalogueDescription", "black");
             colorInputFields("catalogueAddress", "black");
             colorInputFields("catalogueName", "black");
             colorInputFields("catalogueID", "black");
@@ -140,6 +148,8 @@ function getUserInput(useCase) {
           } else {
             updateStatusText("error", "Catalogue address must be a valid URL.");
 
+            colorInputFields("catalogueDescription", "black");
+            colorInputFields("catalogueName", "black");
             colorInputFields("catalogueAddress", "red");
             colorInputFields("catalogueID", "black");
             clearInput("add");
@@ -149,9 +159,10 @@ function getUserInput(useCase) {
         } else {
           updateStatusText(
             "error",
-            "Catalogue name, address and type must not be empty."
+            "Catalogue name, address, type and description must not be empty."
           );
 
+          colorInputFields("catalogueDescription", "red");
           colorInputFields("catalogueName", "red");
           colorInputFields("catalogueAddress", "red");
           colorInputFields("catalogueID", "black");
@@ -251,6 +262,7 @@ function toggleCatalogueListVisibility() {
 function updateCatalogueListDOM(catalogue, fetchResponse) {
   try {
     let catalogueName = document.createElement("SPAN");
+    catalogueName.style.fontSize = "18px";
     catalogueName.textContent = catalogue.catalogueName;
     catalogueList.appendChild(catalogueName);
     if (catalogue.catalogueType.includes("registry")) {
@@ -281,11 +293,13 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
       catalogueList.appendChild(disconnectedIcon);
     }
     catalogueList.appendChild(document.createElement("br"));
-    let catalogueAddress = document.createElement("SPAN");
-    catalogueAddress.textContent = catalogue.catalogueAddress;
-    catalogueList.appendChild(catalogueAddress);
+    let catalogueDescription = document.createElement("SPAN");
+    catalogueDescription.style.fontSize = "15px";
+    catalogueDescription.textContent = catalogue.catalogueDescription;
+    catalogueList.appendChild(catalogueDescription);
     catalogueList.appendChild(document.createElement("br"));
     let catalogueID = document.createElement("SPAN");
+    catalogueID.style.fontSize = "15px";
     catalogueID.textContent = catalogue._id;
     catalogueList.appendChild(catalogueID);
     catalogueList.appendChild(document.createElement("br"));
