@@ -6,6 +6,11 @@ a:visited {
   color: blue;
 }
 
+h2 {
+  margin-top: 0px;
+  color: royalblue;
+}
+
 .center {
   text-align: center;
   margin: 0 auto;
@@ -62,11 +67,18 @@ a:visited {
   margin-bottom: 20px;
 }
 
+.descriptionTextarea {
+  padding: 2px;
+  border: 1px solid black;
+  resize: none;
+}
+
 .statusText {
+  clear: both;
   height: 2em;
   text-align: left;
   font-size: 14px;
-  margin-top: 30px;
+  margin-top: 380px;
 }
 
 .red {

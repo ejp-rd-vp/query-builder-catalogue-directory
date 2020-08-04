@@ -55,7 +55,7 @@ exports.Application = class Application {
     try {
       this.app = express();
       this.catalogueDatabase = database;
-      /*this.checkJwt = jwt({
+      this.checkJwt = jwt({
         secret: jwksRsa.expressJwtSecret({
           cache: true,
           rateLimit: true,
@@ -67,7 +67,7 @@ exports.Application = class Application {
         audience: "http://express.api",
         issuer: `https://dev-luoogqm3.eu.auth0.com/`,
         algorithms: ["RS256"],
-      });*/
+      });
 
       this.app.use(helmet());
       this.app.use(morgan("dev"));
@@ -79,18 +79,7 @@ exports.Application = class Application {
         })
       );
 
-      // express server routes
-      exports.getRoot = this.app.get("/", (request, response, next) => {
-        try {
-          response.sendStatus(200);
-        } catch (exception) {
-          console.error(
-            "Error in catalogueDirectory:catalogueDirectory.js:app.get(/): ",
-            exception
-          );
-        }
-      });
-
+      // express routes
       exports.getCatalogues = this.app.get(
         "/getCatalogues",
         (request, response, next) => {
@@ -110,11 +99,54 @@ exports.Application = class Application {
         }
       );
 
+      exports.getBiobanks = this.app.get(
+        "/getCatalogues/biobanks",
+        (request, response, next) => {
+          try {
+            this.catalogueDatabase.find(
+              { catalogueType: "biobank" },
+              (err, data) => {
+                if (err) {
+                  response.end();
+                }
+                response.json(data);
+              }
+            );
+          } catch (exception) {
+            console.error(
+              "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
+              exception
+            );
+          }
+        }
+      );
+
+      exports.getRegistries = this.app.get(
+        "/getCatalogues/registries",
+        (request, response, next) => {
+          try {
+            this.catalogueDatabase.find(
+              { catalogueType: "registry" },
+              (err, data) => {
+                if (err) {
+                  response.end();
+                }
+                response.json(data);
+              }
+            );
+          } catch (exception) {
+            console.error(
+              "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
+              exception
+            );
+          }
+        }
+      );
+
       // add GET route that handles a ping request
       exports.pingCatalogue = this.app.get(
         "/pingCatalogue",
         async (request, response, next) => {
-          console.log("yes");
           try {
             fetch(request.query.address)
               .then(this.handleFetchErrors)

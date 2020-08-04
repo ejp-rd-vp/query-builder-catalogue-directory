@@ -9,18 +9,16 @@
     <meta name="description" content="The EJP-RD central catalogue directory" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" href="../media/favicon.ico" />
-    <title>EJP Central Catalogue Directory</title>
+    <title>EJP-RD Central Catalogue Directory</title>
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
   </head>
 
   <body onload="getCatalogues(); clearInput(`add`); clearInput(`remove`);">
     <div class="center font">
       <img src="../media/ejp-rd-logo.jpg" alt="EJP-RD-Logo" />
+      <h2>EJP-RD Central Catalogue Directory</h2>
     </div>
     <div class="center font">
-      <div class="statusText">
-        <span id="statusText" class="statusText"></span>
-      </div>
       <div class="showCatalogues">
         <input
           id="showCataloguesButton"
@@ -40,10 +38,23 @@
         />
         <div class="addCatalogueFields">
           Catalogue Name
-          <input type="text" id="catalogueName" value="" />
+          <input
+            type="text"
+            id="catalogueName"
+            value=""
+            placeholder="Enter a catalogue name ..."
+            onfocus="this.placeholder = ''"
+            on
+          />
           <p>
             Catalogue Address
-            <input type="text" id="catalogueAddress" value="" />
+            <input
+              type="text"
+              id="catalogueAddress"
+              value=""
+              placeholder="Enter a catalogue address ..."
+              onfocus="this.placeholder = ''"
+            />
           </p>
           <p>
             Catalogue Type
@@ -59,6 +70,17 @@
             Biobank
           </label>
         </div>
+        <div class="addCatalogueFields">
+          Catalogue Description
+          <textarea
+            id="catalogueDescription"
+            cols="28"
+            rows="5"
+            class="descriptionTextarea"
+            placeholder="Enter a catalogue description ..."
+            onfocus="this.placeholder = ''"
+          ></textarea>
+        </div>
       </div>
       <div class="right">
         <input
@@ -69,8 +91,17 @@
         />
         <div class="addCatalogueFields">
           Catalogue ID
-          <input type="text" id="catalogueID" value="" />
+          <input
+            type="text"
+            id="catalogueID"
+            value=""
+            placeholder="Enter a catalogue ID ..."
+            onfocus="this.placeholder = ''"
+          />
         </div>
+      </div>
+      <div class="statusText">
+        <span id="statusText" class="statusText"></span>
       </div>
     </div>
     <script src="scripts/clientScripts.js"></script>
