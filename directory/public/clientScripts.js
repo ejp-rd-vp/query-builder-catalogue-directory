@@ -8,8 +8,8 @@ const removeCatalogueEndpoint = catalogueDirectoryAddress + "/removeCatalogue";
 const pingEndpoint = catalogueDirectoryAddress + "/pingCatalogue";
 
 // define authentication token
-const JSONWebToken =
-  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NjQ0MTA1OCwiZXhwIjoxNTk2NTI3NDU4LCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.tQb6AaoDfYZ3UbGgCg60sSD1Ub40hYLwqGsHmkGsDjDmEjka9wjWAoARI1TWrnxgH3x1ZWzvbQZugLePcadRGe1lCFIXfP7CGziBgJmE_2vMm_KHypT8mzb94L4BmHAOQtaDmlo6QRvehVkWVvruWlAWV5PEbABj9QQD7g_L0ZPeAUd3joCbPIcRw6rXMEX6IOLfCXiXe390fdVn_8_KUM1wtu5mW62_Wk5zCODeftl10NhxM1WwTHhJnsB6kGawjT29XBiJU693IsIvtWgW7NOPPTnqFp72uKgNu5ppPCmLTRNI3SYocKUfHgdpyWN1pSQ1pH0hiBfpLPXj5vFWoA";
+//const JSONWebToken =
+// "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NjQ0MTA1OCwiZXhwIjoxNTk2NTI3NDU4LCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.tQb6AaoDfYZ3UbGgCg60sSD1Ub40hYLwqGsHmkGsDjDmEjka9wjWAoARI1TWrnxgH3x1ZWzvbQZugLePcadRGe1lCFIXfP7CGziBgJmE_2vMm_KHypT8mzb94L4BmHAOQtaDmlo6QRvehVkWVvruWlAWV5PEbABj9QQD7g_L0ZPeAUd3joCbPIcRw6rXMEX6IOLfCXiXe390fdVn_8_KUM1wtu5mW62_Wk5zCODeftl10NhxM1WwTHhJnsB6kGawjT29XBiJU693IsIvtWgW7NOPPTnqFp72uKgNu5ppPCmLTRNI3SYocKUfHgdpyWN1pSQ1pH0hiBfpLPXj5vFWoA";
 
 // global variables
 let catalogues;
@@ -329,7 +329,7 @@ async function addCatalogue() {
     const postMessage = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${JSONWebToken}`,
+        //Authorization: `Bearer ${JSONWebToken}`,
         "Content-Type": "application/json",
       },
       body: "",
@@ -397,7 +397,7 @@ async function removeCatalogue() {
     const postMessage = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${JSONWebToken}`,
+        //Authorization: `Bearer ${JSONWebToken}`,
         "Content-Type": "application/json",
       },
       body: "",

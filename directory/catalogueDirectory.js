@@ -55,7 +55,7 @@ exports.Application = class Application {
     try {
       this.app = express();
       this.catalogueDatabase = database;
-      this.checkJwt = jwt({
+      /*this.checkJwt = jwt({
         secret: jwksRsa.expressJwtSecret({
           cache: true,
           rateLimit: true,
@@ -67,7 +67,7 @@ exports.Application = class Application {
         audience: "http://express.api",
         issuer: `https://dev-luoogqm3.eu.auth0.com/`,
         algorithms: ["RS256"],
-      });
+      });*/
 
       this.app.use(helmet());
       this.app.use(morgan("dev"));
@@ -138,7 +138,7 @@ exports.Application = class Application {
         }
       );
 
-      this.app.use(this.checkJwt);
+      //this.app.use(this.checkJwt);
 
       exports.addCatalogues = this.app.post(
         "/addCatalogue",
@@ -331,8 +331,8 @@ exports.Server = class Server {
         );
         return;
       } else {
-        this.httpServer = http.createServer(app);
-        this.httpsServer = https.createServer(this.credentials, app);
+        this.httpServer = http.createServer(app.getApp());
+        this.httpsServer = https.createServer(this.credentials, app.getApp());
         // run the server application
         this.httpServer.listen(commandLineArguments[0], () =>
           console.log(
@@ -347,7 +347,7 @@ exports.Server = class Server {
       }
     } catch (exception) {
       console.error(
-        "Error in catalogueDirectory:catalogueDirectory.js:setup(): ",
+        "Error in catalogueDirectory:catalogueDirectory.js:Server:run(): ",
         exception
       );
     }
@@ -359,4 +359,4 @@ const directory = new this.Directory(DATABASE_PATH);
 const app = new this.Application(directory.getDirectory());
 const server = new this.Server(PRIVATE_KEY_PATH, CERTIFICATE_PATH);
 
-server.run(app.getApp());
+server.run(app);
