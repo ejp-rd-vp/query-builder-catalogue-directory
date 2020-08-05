@@ -7,10 +7,6 @@ const addCatalogueEndpoint = catalogueDirectoryAddress + "/addCatalogue";
 const removeCatalogueEndpoint = catalogueDirectoryAddress + "/removeCatalogue";
 const pingEndpoint = catalogueDirectoryAddress + "/pingCatalogue";
 
-// define authentication token
-const JSONWebToken =
-  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkQxclRNYWVqMVR6SXZFczVBWDg0UCJ9.eyJpc3MiOiJodHRwczovL2Rldi1sdW9vZ3FtMy5ldS5hdXRoMC5jb20vIiwic3ViIjoiaVlwakU1N2J6T3F0eVVqRGpUQkVBRmZ4VWV4SzhQR2pAY2xpZW50cyIsImF1ZCI6Imh0dHA6Ly9leHByZXNzLmFwaSIsImlhdCI6MTU5NjU0MDk4NCwiZXhwIjoxNTk2NjI3Mzg0LCJhenAiOiJpWXBqRTU3YnpPcXR5VWpEalRCRUFGZnhVZXhLOFBHaiIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.fLEe2QROi5OOXn1wrno5YwwVixCoq7JWyAUYICqe2YvL0HLA3reqLTcV0BdECApGcril85N53y9jkuFLEmCT6-H6u__aSejBf_34Zcovr8hSFCj3JbJinYE7ujywZOlJ_XZvRBCpjiYT1Q26gRduwXZGsC71EweGbAmZeCHj8dHhDPeyk2oCFtx7MLQeezzxlrL1NBH3RkYI1TDkUWu3RJrAWwFFPZ-M7rr-sTVOHev6-iS07OCSL5UT_ETfmghVFXDps8vXRSYh_IHvHU0eQhWHlBQe_GA70UQHrseEKNE507IdqD0M4tczUK9v_7pvupNp8Kqc-_BN8-ZujNMDMQ";
-
 // global variables
 let catalogues;
 
@@ -348,7 +344,6 @@ async function addCatalogue() {
     const postMessage = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${JSONWebToken}`,
         "Content-Type": "application/json",
       },
       body: "",
@@ -416,7 +411,6 @@ async function removeCatalogue() {
     const postMessage = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${JSONWebToken}`,
         "Content-Type": "application/json",
       },
       body: "",

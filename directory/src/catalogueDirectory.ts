@@ -4,17 +4,14 @@ export {};
 
 // load dependencies
 const express = require("express");
-const http = require("http");
 const Datastore = require("nedb");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const cors = require("cors");
-const jwt = require("express-jwt");
-const jwksRsa = require("jwks-rsa");
 const dotenv = require("dotenv").config();
 const fetch = require("node-fetch");
 
-// define file paths
+// define database file path
 const DATABASE_PATH: string = process.env.DATABASE_PATH;
 
 // class that holds a NeDB database and its' functionality
@@ -25,7 +22,7 @@ class Directory {
       this.catalogueDatabase.loadDatabase();
     } catch (exception) {
       console.error(
-        "Error in catalogueDirectory:Directory:constructor(): ",
+        "Error in catalogueDirectory.ts:Directory:constructor(): ",
         exception
       );
     }
@@ -52,21 +49,6 @@ class Application {
   constructor(database) {
     try {
       this.app = express();
-      this.catalogueDatabase = database;
-      this.checkJwt = jwt({
-        secret: jwksRsa.expressJwtSecret({
-          cache: true,
-          rateLimit: true,
-          jwksRequestsPerMinute: 5,
-          jwksUri: `https://dev-luoogqm3.eu.auth0.com/.well-known/jwks.json`,
-        }),
-
-        // Validate the audience and the issuer.
-        audience: "http://express.api",
-        issuer: `https://dev-luoogqm3.eu.auth0.com/`,
-        algorithms: ["RS256"],
-      });
-
       this.app.use(helmet());
       this.app.use(morgan("dev"));
       this.app.use(cors());
@@ -76,6 +58,8 @@ class Application {
           limit: "1mb",
         })
       );
+
+      this.catalogueDatabase = database;
 
       // express routes
       this.app.get("/getCatalogues", (request, response, next) => {
@@ -88,7 +72,7 @@ class Application {
           });
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
             exception
           );
         }
@@ -107,7 +91,7 @@ class Application {
           );
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/biobanks): ",
             exception
           );
         }
@@ -126,13 +110,12 @@ class Application {
           );
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/registries): ",
             exception
           );
         }
       });
 
-      // add GET route that handles a ping request
       this.app.get("/pingCatalogue", async (request, response, next) => {
         try {
           fetch(request.query.address)
@@ -150,13 +133,11 @@ class Application {
             });
         } catch (exception) {
           console.error(
-            "Error in portal:portal.js:app.get(/pingCatalogue): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/pingCatalogue): ",
             exception
           );
         }
       });
-
-      this.app.use(this.checkJwt);
 
       this.app.post("/addCatalogue", (request, response, next) => {
         try {
@@ -213,7 +194,7 @@ class Application {
           );
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory:catalogueDirectory.js:app.post(/addCatalogue): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.post(/addCatalogue): ",
             exception
           );
         }
@@ -253,14 +234,14 @@ class Application {
           );
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory:catalogueDirectory.js:app.post(/removeCatalogue): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.post(/removeCatalogue): ",
             exception
           );
         }
       });
     } catch (exception) {
       console.error(
-        "Error in catalogueDirectory:Application:constructor(): ",
+        "Error in catalogueDirectory.ts:Application:constructor(): ",
         exception
       );
     }
@@ -269,7 +250,6 @@ class Application {
   // class attributes
   app;
   catalogueDatabase;
-  checkJwt;
 
   // class functions
   handleFetchErrors(fetchResponse) {
@@ -286,7 +266,7 @@ class Application {
       return fetchResponse;
     } catch (exception) {
       console.error(
-        "Error in clientScripts.js:handleFetchErrors(): ",
+        "Error in catalogueDirectory.ts:Application:handleFetchErrors(): ",
         exception
       );
     }
@@ -297,7 +277,7 @@ class Application {
       return this.app;
     } catch (exception) {
       console.error(
-        "Error in catalogueDirectory:Application:getApp(): ",
+        "Error in catalogueDirectory.ts:Application:getApp(): ",
         exception
       );
     }
@@ -306,16 +286,6 @@ class Application {
 
 // class that holds a http server application and its' configuration
 class Server {
-  constructor() {}
-
-  // class attributes
-  httpServer;
-
-  // class functions
-  getHttpServer() {
-    return this.httpServer;
-  }
-
   run(app) {
     try {
       // parse command line arguments
@@ -326,19 +296,17 @@ class Server {
         console.error("Usage: node catalogueDirectory.js $HTTP_PORT");
         return;
       } else {
-        this.httpServer = http.createServer(app.getApp());
         // run the server application
-        this.httpServer.listen(commandLineArguments[0], () =>
-          console.log(
-            `Catalogue Directory listening on http://localhost:${commandLineArguments[0]} ...`
-          )
-        );
+        app
+          .getApp()
+          .listen(commandLineArguments[0], () =>
+            console.log(
+              `Catalogue Directory listening on http://localhost:${commandLineArguments[0]} ...`
+            )
+          );
       }
     } catch (exception) {
-      console.error(
-        "Error in catalogueDirectory:catalogueDirectory.js:Server:run(): ",
-        exception
-      );
+      console.error("Error in catalogueDirectory.ts:Server:run(): ", exception);
     }
   }
 }
