@@ -38,16 +38,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 // load dependencies
 var express = require("express");
-var http = require("http");
 var Datastore = require("nedb");
 var helmet = require("helmet");
 var morgan = require("morgan");
 var cors = require("cors");
-var jwt = require("express-jwt");
-var jwksRsa = require("jwks-rsa");
 var dotenv = require("dotenv").config();
 var fetch = require("node-fetch");
-// define file paths
+// define database file path
 var DATABASE_PATH = process.env.DATABASE_PATH;
 // class that holds a NeDB database and its' functionality
 var Directory = /** @class */ (function () {
@@ -57,7 +54,7 @@ var Directory = /** @class */ (function () {
             this.catalogueDatabase.loadDatabase();
         }
         catch (exception) {
-            console.error("Error in catalogueDirectory:Directory:constructor(): ", exception);
+            console.error("Error in catalogueDirectory.ts:Directory:constructor(): ", exception);
         }
     }
     // class functions
@@ -77,19 +74,6 @@ var Application = /** @class */ (function () {
         var _this = this;
         try {
             this.app = express();
-            this.catalogueDatabase = database;
-            this.checkJwt = jwt({
-                secret: jwksRsa.expressJwtSecret({
-                    cache: true,
-                    rateLimit: true,
-                    jwksRequestsPerMinute: 5,
-                    jwksUri: "https://dev-luoogqm3.eu.auth0.com/.well-known/jwks.json"
-                }),
-                // Validate the audience and the issuer.
-                audience: "http://express.api",
-                issuer: "https://dev-luoogqm3.eu.auth0.com/",
-                algorithms: ["RS256"]
-            });
             this.app.use(helmet());
             this.app.use(morgan("dev"));
             this.app.use(cors());
@@ -97,6 +81,7 @@ var Application = /** @class */ (function () {
             this.app.use(express.json({
                 limit: "1mb"
             }));
+            this.catalogueDatabase = database;
             // express routes
             this.app.get("/getCatalogues", function (request, response, next) {
                 try {
@@ -108,7 +93,7 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
                 }
             });
             this.app.get("/getCatalogues/biobanks", function (request, response, next) {
@@ -121,7 +106,7 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/biobanks): ", exception);
                 }
             });
             this.app.get("/getCatalogues/registries", function (request, response, next) {
@@ -134,10 +119,9 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory:catalogueDirectory.js:app.get(/getCatalogues): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/registries): ", exception);
                 }
             });
-            // add GET route that handles a ping request
             this.app.get("/pingCatalogue", function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     try {
@@ -156,12 +140,11 @@ var Application = /** @class */ (function () {
                         });
                     }
                     catch (exception) {
-                        console.error("Error in portal:portal.js:app.get(/pingCatalogue): ", exception);
+                        console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/pingCatalogue): ", exception);
                     }
                     return [2 /*return*/];
                 });
             }); });
-            this.app.use(this.checkJwt);
             this.app.post("/addCatalogue", function (request, response, next) {
                 try {
                     var nameExists_1 = Boolean(false);
@@ -215,7 +198,7 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory:catalogueDirectory.js:app.post(/addCatalogue): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.post(/addCatalogue): ", exception);
                 }
             });
             this.app.post("/removeCatalogue", function (request, response, next) {
@@ -248,12 +231,12 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory:catalogueDirectory.js:app.post(/removeCatalogue): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.post(/removeCatalogue): ", exception);
                 }
             });
         }
         catch (exception) {
-            console.error("Error in catalogueDirectory:Application:constructor(): ", exception);
+            console.error("Error in catalogueDirectory.ts:Application:constructor(): ", exception);
         }
     }
     // class functions
@@ -268,7 +251,7 @@ var Application = /** @class */ (function () {
             return fetchResponse;
         }
         catch (exception) {
-            console.error("Error in clientScripts.js:handleFetchErrors(): ", exception);
+            console.error("Error in catalogueDirectory.ts:Application:handleFetchErrors(): ", exception);
         }
     };
     Application.prototype.getApp = function () {
@@ -276,7 +259,7 @@ var Application = /** @class */ (function () {
             return this.app;
         }
         catch (exception) {
-            console.error("Error in catalogueDirectory:Application:getApp(): ", exception);
+            console.error("Error in catalogueDirectory.ts:Application:getApp(): ", exception);
         }
     };
     return Application;
@@ -285,10 +268,6 @@ var Application = /** @class */ (function () {
 var Server = /** @class */ (function () {
     function Server() {
     }
-    // class functions
-    Server.prototype.getHttpServer = function () {
-        return this.httpServer;
-    };
     Server.prototype.run = function (app) {
         try {
             // parse command line arguments
@@ -299,15 +278,16 @@ var Server = /** @class */ (function () {
                 return;
             }
             else {
-                this.httpServer = http.createServer(app.getApp());
                 // run the server application
-                this.httpServer.listen(commandLineArguments_1[0], function () {
+                app
+                    .getApp()
+                    .listen(commandLineArguments_1[0], function () {
                     return console.log("Catalogue Directory listening on http://localhost:" + commandLineArguments_1[0] + " ...");
                 });
             }
         }
         catch (exception) {
-            console.error("Error in catalogueDirectory:catalogueDirectory.js:Server:run(): ", exception);
+            console.error("Error in catalogueDirectory.ts:Server:run(): ", exception);
         }
     };
     return Server;
