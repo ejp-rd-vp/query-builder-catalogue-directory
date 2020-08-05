@@ -112,3 +112,6 @@ directory/cert/*
 # Database files
 directory/database/*
 
+# Typescript config file
+directory/tsconfig.json
+

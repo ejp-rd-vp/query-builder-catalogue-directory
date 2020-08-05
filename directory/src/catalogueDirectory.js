@@ -35,8 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Server = exports.Application = exports.Directory = void 0;
+exports.__esModule = true;
 // load dependencies
 var express = require("express");
 var fs = require("fs");
@@ -76,7 +75,6 @@ var Directory = /** @class */ (function () {
     };
     return Directory;
 }());
-exports.Directory = Directory;
 // class that holds an express application and its' configuration
 var Application = /** @class */ (function () {
     function Application(database) {
@@ -89,19 +87,19 @@ var Application = /** @class */ (function () {
                     cache: true,
                     rateLimit: true,
                     jwksRequestsPerMinute: 5,
-                    jwksUri: "https://dev-luoogqm3.eu.auth0.com/.well-known/jwks.json",
+                    jwksUri: "https://dev-luoogqm3.eu.auth0.com/.well-known/jwks.json"
                 }),
                 // Validate the audience and the issuer.
                 audience: "http://express.api",
                 issuer: "https://dev-luoogqm3.eu.auth0.com/",
-                algorithms: ["RS256"],
+                algorithms: ["RS256"]
             });
             this.app.use(helmet());
             this.app.use(morgan("dev"));
             this.app.use(cors());
             this.app.use(express.static("./public"));
             this.app.use(express.json({
-                limit: "1mb",
+                limit: "1mb"
             }));
             // express routes
             this.app.get("/getCatalogues", function (request, response, next) {
@@ -156,8 +154,7 @@ var Application = /** @class */ (function () {
                             else {
                                 response.sendStatus(404);
                             }
-                        })
-                            .catch(function (exception) {
+                        })["catch"](function (exception) {
                             console.error(exception);
                             response.sendStatus(404);
                         });
@@ -198,7 +195,7 @@ var Application = /** @class */ (function () {
                                     _this.catalogueDatabase.persistence.compactDatafile();
                                     response.json({
                                         status: "success",
-                                        id: data_1._id,
+                                        id: data_1._id
                                     });
                                     return 0;
                                 }
@@ -215,7 +212,7 @@ var Application = /** @class */ (function () {
                             _this.catalogueDatabase.persistence.compactDatafile();
                             response.json({
                                 status: "success",
-                                id: data_1._id,
+                                id: data_1._id
                             });
                             return 0;
                         }
@@ -246,7 +243,7 @@ var Application = /** @class */ (function () {
                                 else {
                                     _this.catalogueDatabase.persistence.compactDatafile();
                                     response.json({
-                                        status: "success",
+                                        status: "success"
                                     });
                                     return 0;
                                 }
@@ -288,7 +285,6 @@ var Application = /** @class */ (function () {
     };
     return Application;
 }());
-exports.Application = Application;
 // class that holds a http(s) server application and its' configuration
 var Server = /** @class */ (function () {
     function Server(privateKeyFilename, certificateFilename) {
@@ -296,7 +292,7 @@ var Server = /** @class */ (function () {
         this.cert = fs.readFileSync(certificateFilename);
         this.credentials = {
             key: this.key,
-            cert: this.cert,
+            cert: this.cert
         };
     }
     // class functions
@@ -333,7 +329,6 @@ var Server = /** @class */ (function () {
     };
     return Server;
 }());
-exports.Server = Server;
 // create components
 var directory = new Directory(DATABASE_PATH);
 var app = new Application(directory.getDirectory());
