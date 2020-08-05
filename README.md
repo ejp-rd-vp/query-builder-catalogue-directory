@@ -9,7 +9,8 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 
 ## Deployment
 
-- `cd directory`.
+- Clone the repository.
+- `cd query-builder-catalogue-directory/directory`.
 - `npm i` to install missing dependencies.
 - Create a file named `.env` in the `directory` folder for environenment variable specification.
 - Set the database file path inside the `.env` file as follows: `DATABASE_PATH=$PATH_TO_YOUR_DATABASE_FILE`, e.g.: `DATABASE_PATH=database.json`. Note that this file needs to exist in order for the server to operate correctly.
