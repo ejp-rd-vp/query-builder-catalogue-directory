@@ -9,14 +9,14 @@
     <meta name="description" content="The EJP-RD central catalogue directory" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" href="../media/favicon.ico" />
-    <title>EJP-RD Central Catalogue Directory</title>
+    <title>EJP-RD - Central Catalogue Directory UI</title>
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
   </head>
 
   <body onload="getCatalogues(); clearInput(`add`); clearInput(`remove`);">
     <div class="center font">
       <img src="../media/ejp-rd-logo.jpg" alt="EJP-RD-Logo" />
-      <h2>EJP-RD Central Catalogue Directory</h2>
+      <h2>EJP-RD - Central Catalogue Directory UI</h2>
     </div>
     <div class="center font">
       <div class="showCatalogues">
@@ -74,9 +74,7 @@
           Catalogue Description
           <textarea
             id="catalogueDescription"
-            cols="28"
-            rows="5"
-            class="descriptionTextarea"
+            class="descriptionTextarea font"
             placeholder="Enter a catalogue description ..."
             onfocus="this.placeholder = ''"
           ></textarea>

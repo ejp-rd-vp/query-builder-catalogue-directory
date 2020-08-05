@@ -267,14 +267,14 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
     catalogueList.appendChild(catalogueName);
     if (catalogue.catalogueType.includes("registry")) {
       let registryIcon = document.createElement("IMG");
-      registryIcon.setAttribute("src", "media/registry-icon-small.png");
+      registryIcon.setAttribute("src", "media/registry-icon.png");
       registryIcon.setAttribute("alt", "registry-icon");
       registryIcon.style.paddingLeft = "10px";
       catalogueList.appendChild(registryIcon);
     }
     if (catalogue.catalogueType.includes("biobank")) {
       let biobankIcon = document.createElement("IMG");
-      biobankIcon.setAttribute("src", "media/biobank-icon-small.png");
+      biobankIcon.setAttribute("src", "media/biobank-icon.png");
       biobankIcon.setAttribute("alt", "biobank-icon");
       biobankIcon.style.paddingLeft = "10px";
       catalogueList.appendChild(biobankIcon);
@@ -297,6 +297,11 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
     catalogueDescription.style.fontSize = "15px";
     catalogueDescription.textContent = catalogue.catalogueDescription;
     catalogueList.appendChild(catalogueDescription);
+    catalogueList.appendChild(document.createElement("br"));
+    let catalogueAddress = document.createElement("SPAN");
+    catalogueAddress.style.fontSize = "15px";
+    catalogueAddress.textContent = catalogue.catalogueAddress;
+    catalogueList.appendChild(catalogueAddress);
     catalogueList.appendChild(document.createElement("br"));
     let catalogueID = document.createElement("SPAN");
     catalogueID.style.fontSize = "15px";
@@ -343,7 +348,7 @@ async function addCatalogue() {
     const postMessage = {
       method: "POST",
       headers: {
-        //Authorization: `Bearer ${JSONWebToken}`,
+        Authorization: `Bearer ${JSONWebToken}`,
         "Content-Type": "application/json",
       },
       body: "",
@@ -411,7 +416,7 @@ async function removeCatalogue() {
     const postMessage = {
       method: "POST",
       headers: {
-        //Authorization: `Bearer ${JSONWebToken}`,
+        Authorization: `Bearer ${JSONWebToken}`,
         "Content-Type": "application/json",
       },
       body: "",
