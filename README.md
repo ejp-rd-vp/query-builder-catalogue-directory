@@ -24,8 +24,6 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 - [Helmet](https://helmetjs.github.io/ "https://helmetjs.github.io/") to secure the servers' API.
 - [Morgan](https://www.npmjs.com/package/morgan "https://www.npmjs.com/package/morgan") to do logging.
 - [CORS](https://expressjs.com/en/resources/middleware/cors.html "https://expressjs.com/en/resources/middleware/cors.html") to allow access from different origins.
-- [Express-JWT](https://github.com/auth0/express-jwt "https://github.com/auth0/express-jwt") to validate JWTs (JSON Web Tokens).
-- [JWKS-RSA](https://github.com/auth0/node-jwks-rsa "https://github.com/auth0/node-jwks-rsa") to retrieve RSA public keys from a JWKS (JSON Web Key Set).
 - [Dotenv](https://github.com/motdotla/dotenv "https://github.com/motdotla/dotenv") to support environenment variables inside Node.js.
 - [Jest](https://www.npmjs.com/package/jest "https://www.npmjs.com/package/jest") for testing.
 
