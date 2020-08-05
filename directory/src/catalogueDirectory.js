@@ -38,9 +38,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 exports.__esModule = true;
 // load dependencies
 var express = require("express");
-var fs = require("fs");
 var http = require("http");
-var https = require("https");
 var Datastore = require("nedb");
 var helmet = require("helmet");
 var morgan = require("morgan");
@@ -51,8 +49,6 @@ var dotenv = require("dotenv").config();
 var fetch = require("node-fetch");
 // define file paths
 var DATABASE_PATH = process.env.DATABASE_PATH;
-var PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
-var CERTIFICATE_PATH = process.env.CERTIFICATE_PATH;
 // class that holds a NeDB database and its' functionality
 var Directory = /** @class */ (function () {
     function Directory(dataBaseFilename) {
@@ -285,41 +281,28 @@ var Application = /** @class */ (function () {
     };
     return Application;
 }());
-// class that holds a http(s) server application and its' configuration
+// class that holds a http server application and its' configuration
 var Server = /** @class */ (function () {
-    function Server(privateKeyFilename, certificateFilename) {
-        this.key = fs.readFileSync(privateKeyFilename);
-        this.cert = fs.readFileSync(certificateFilename);
-        this.credentials = {
-            key: this.key,
-            cert: this.cert
-        };
+    function Server() {
     }
     // class functions
     Server.prototype.getHttpServer = function () {
         return this.httpServer;
-    };
-    Server.prototype.getHttpsServer = function () {
-        return this.httpsServer;
     };
     Server.prototype.run = function (app) {
         try {
             // parse command line arguments
             var commandLineArguments_1 = process.argv.slice(2);
             // check for proper usage
-            if (commandLineArguments_1.length != 2) {
-                console.error("Usage: node catalogueDirectory.js $HTTP_PORT $HTTPS_PORT");
+            if (commandLineArguments_1.length != 1) {
+                console.error("Usage: node catalogueDirectory.js $HTTP_PORT");
                 return;
             }
             else {
                 this.httpServer = http.createServer(app.getApp());
-                this.httpsServer = https.createServer(this.credentials, app.getApp());
                 // run the server application
                 this.httpServer.listen(commandLineArguments_1[0], function () {
                     return console.log("Catalogue Directory listening on http://localhost:" + commandLineArguments_1[0] + " ...");
-                });
-                this.httpsServer.listen(commandLineArguments_1[1], function () {
-                    return console.log("Catalogue Directory listening on https://localhost:" + commandLineArguments_1[1] + " ...");
                 });
             }
         }
@@ -332,5 +315,5 @@ var Server = /** @class */ (function () {
 // create components
 var directory = new Directory(DATABASE_PATH);
 var app = new Application(directory.getDirectory());
-var server = new Server(PRIVATE_KEY_PATH, CERTIFICATE_PATH);
+var server = new Server();
 server.run(app);
