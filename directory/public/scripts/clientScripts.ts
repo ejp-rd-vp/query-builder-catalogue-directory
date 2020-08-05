@@ -1,14 +1,17 @@
 "use strict";
 
 // define API endpoint addresses
-const catalogueDirectoryAddress = window.location.origin;
-const getCataloguesEndpoint = catalogueDirectoryAddress + "/getCatalogues";
-const addCatalogueEndpoint = catalogueDirectoryAddress + "/addCatalogue";
-const removeCatalogueEndpoint = catalogueDirectoryAddress + "/removeCatalogue";
-const pingEndpoint = catalogueDirectoryAddress + "/pingCatalogue";
+const catalogueDirectoryAddress: string = window.location.origin;
+const getCataloguesEndpoint: string =
+  catalogueDirectoryAddress + "/getCatalogues";
+const addCatalogueEndpoint: string =
+  catalogueDirectoryAddress + "/addCatalogue";
+const removeCatalogueEndpoint: string =
+  catalogueDirectoryAddress + "/removeCatalogue";
+const pingEndpoint: string = catalogueDirectoryAddress + "/pingCatalogue";
 
 // global variables
-let catalogues;
+let catalogues: Array<any>;
 
 // html components
 const statusText = document.getElementById("statusText")! as HTMLSpanElement;
@@ -57,7 +60,6 @@ function isValidUrl(url: string) {
     console.error("Error in clientScripts.js:isValidUrl(): ", exception);
     return false;
   }
-
   return true;
 }
 
@@ -118,7 +120,7 @@ function getUserInput(useCase: string) {
   try {
     switch (useCase) {
       case "add": {
-        let data = {
+        let data: any = {
           catalogueName: "",
           catalogueAddress: "",
           catalogueDescription: "",
@@ -216,7 +218,7 @@ function updateStatusText(type: string, message: string) {
     switch (type) {
       case "success": {
         if (statusText.classList.contains("red")) {
-          statusText.remove("red");
+          statusText.classList.remove("red");
         }
         if (!statusText.classList.contains("green")) {
           statusText.className += " green";
@@ -249,10 +251,12 @@ function updateStatusText(type: string, message: string) {
 function toggleCatalogueListVisibility() {
   try {
     if (catalogueList.style.display === "none") {
-      document.getElementById("showCataloguesButton").value = "Hide Catalogues";
+      document.getElementById("showCataloguesButton").textContent =
+        "Hide Catalogues";
       catalogueList.style.display = "block";
     } else {
-      document.getElementById("showCataloguesButton").value = "Show Catalogues";
+      document.getElementById("showCataloguesButton").textContent =
+        "Show Catalogues";
       catalogueList.style.display = "none";
     }
   } catch (exception) {
@@ -263,56 +267,58 @@ function toggleCatalogueListVisibility() {
   }
 }
 
-function updateCatalogueListDOM(catalogue, fetchResponse) {
+function updateCatalogueListDOM(catalogue: any, fetchResponse) {
   try {
-    let catalogueName = document.createElement("SPAN");
+    let catalogueName = document.createElement("SPAN")! as HTMLSpanElement;
     catalogueName.style.fontSize = "18px";
     catalogueName.textContent = catalogue.catalogueName;
     catalogueList.appendChild(catalogueName);
     if (catalogue.catalogueType.includes("registry")) {
-      let registryIcon = document.createElement("IMG");
+      let registryIcon = document.createElement("IMG")! as HTMLImageElement;
       registryIcon.setAttribute("src", "media/registry-icon.png");
       registryIcon.setAttribute("alt", "registry-icon");
-      registryIcon.style.paddingLeft = "10px";
+      registryIcon.setAttribute("paddingLeft", "10px");
       catalogueList.appendChild(registryIcon);
     }
     if (catalogue.catalogueType.includes("biobank")) {
-      let biobankIcon = document.createElement("IMG");
+      let biobankIcon = document.createElement("IMG")! as HTMLImageElement;
       biobankIcon.setAttribute("src", "media/biobank-icon.png");
       biobankIcon.setAttribute("alt", "biobank-icon");
       biobankIcon.style.paddingLeft = "10px";
       catalogueList.appendChild(biobankIcon);
     }
     if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-      let connectedIcon = document.createElement("IMG");
+      let connectedIcon = document.createElement("IMG")! as HTMLImageElement;
       connectedIcon.setAttribute("src", "media/connected.png");
       connectedIcon.setAttribute("alt", "connected-icon");
       connectedIcon.style.float = "right";
       catalogueList.appendChild(connectedIcon);
     } else {
-      let disconnectedIcon = document.createElement("IMG");
+      let disconnectedIcon = document.createElement("IMG")! as HTMLImageElement;
       disconnectedIcon.setAttribute("src", "media/disconnected.png");
       disconnectedIcon.setAttribute("alt", "disconnected-icon");
       disconnectedIcon.style.float = "right";
       catalogueList.appendChild(disconnectedIcon);
     }
-    catalogueList.appendChild(document.createElement("br"));
-    let catalogueDescription = document.createElement("SPAN");
+    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
+    let catalogueDescription = document.createElement(
+      "SPAN"
+    )! as HTMLSpanElement;
     catalogueDescription.style.fontSize = "15px";
     catalogueDescription.textContent = catalogue.catalogueDescription;
     catalogueList.appendChild(catalogueDescription);
-    catalogueList.appendChild(document.createElement("br"));
-    let catalogueAddress = document.createElement("SPAN");
+    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
+    let catalogueAddress = document.createElement("SPAN")! as HTMLSpanElement;
     catalogueAddress.style.fontSize = "15px";
     catalogueAddress.textContent = catalogue.catalogueAddress;
     catalogueList.appendChild(catalogueAddress);
-    catalogueList.appendChild(document.createElement("br"));
-    let catalogueID = document.createElement("SPAN");
+    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
+    let catalogueID = document.createElement("SPAN")! as HTMLSpanElement;
     catalogueID.style.fontSize = "15px";
     catalogueID.textContent = catalogue._id;
     catalogueList.appendChild(catalogueID);
-    catalogueList.appendChild(document.createElement("br"));
-    catalogueList.appendChild(document.createElement("br"));
+    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
+    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
   } catch (exception) {
     console.error(
       "Error in clientScripts.js:updateCatalogueListDOM(): ",

@@ -81,7 +81,7 @@ var Application = /** @class */ (function () {
             this.app.use(express.json({
                 limit: "1mb"
             }));
-            this.catalogueDatabase = database;
+            this.catalogueDatabase = database.getDirectory();
             // express routes
             this.app.get("/getCatalogues", function (request, response, next) {
                 try {
@@ -268,6 +268,7 @@ var Application = /** @class */ (function () {
 var Server = /** @class */ (function () {
     function Server() {
     }
+    // class functions
     Server.prototype.run = function (app) {
         try {
             // parse command line arguments
@@ -294,6 +295,6 @@ var Server = /** @class */ (function () {
 }());
 // create components
 var directory = new Directory(DATABASE_PATH);
-var app = new Application(directory.getDirectory());
+var app = new Application(directory);
 var server = new Server();
 server.run(app);

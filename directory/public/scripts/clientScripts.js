@@ -209,7 +209,7 @@ function updateStatusText(type, message) {
         switch (type) {
             case "success": {
                 if (statusText.classList.contains("red")) {
-                    statusText.remove("red");
+                    statusText.classList.remove("red");
                 }
                 if (!statusText.classList.contains("green")) {
                     statusText.className += " green";
@@ -240,11 +240,13 @@ function updateStatusText(type, message) {
 function toggleCatalogueListVisibility() {
     try {
         if (catalogueList.style.display === "none") {
-            document.getElementById("showCataloguesButton").value = "Hide Catalogues";
+            document.getElementById("showCataloguesButton").textContent =
+                "Hide Catalogues";
             catalogueList.style.display = "block";
         }
         else {
-            document.getElementById("showCataloguesButton").value = "Show Catalogues";
+            document.getElementById("showCataloguesButton").textContent =
+                "Show Catalogues";
             catalogueList.style.display = "none";
         }
     }
@@ -262,7 +264,7 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
             var registryIcon = document.createElement("IMG");
             registryIcon.setAttribute("src", "media/registry-icon.png");
             registryIcon.setAttribute("alt", "registry-icon");
-            registryIcon.style.paddingLeft = "10px";
+            registryIcon.setAttribute("paddingLeft", "10px");
             catalogueList.appendChild(registryIcon);
         }
         if (catalogue.catalogueType.includes("biobank")) {

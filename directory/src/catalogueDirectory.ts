@@ -59,7 +59,7 @@ class Application {
         })
       );
 
-      this.catalogueDatabase = database;
+      this.catalogueDatabase = database.getDirectory();
 
       // express routes
       this.app.get("/getCatalogues", (request, response, next) => {
@@ -286,6 +286,7 @@ class Application {
 
 // class that holds a http server application and its' configuration
 class Server {
+  // class functions
   run(app: Application) {
     try {
       // parse command line arguments
@@ -313,7 +314,7 @@ class Server {
 
 // create components
 const directory = new Directory(DATABASE_PATH);
-const app = new Application(directory.getDirectory());
+const app = new Application(directory);
 const server = new Server();
 
 server.run(app);
