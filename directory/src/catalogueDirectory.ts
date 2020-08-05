@@ -22,7 +22,7 @@ const PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
 const CERTIFICATE_PATH = process.env.CERTIFICATE_PATH;
 
 // class that holds a NeDB database and its' functionality
-export class Directory {
+class Directory {
   constructor(dataBaseFilename: string) {
     try {
       this.catalogueDatabase = new Datastore(dataBaseFilename);
@@ -52,7 +52,7 @@ export class Directory {
 }
 
 // class that holds an express application and its' configuration
-export class Application {
+class Application {
   constructor(database) {
     try {
       this.app = express();
@@ -309,7 +309,7 @@ export class Application {
 }
 
 // class that holds a http(s) server application and its' configuration
-export class Server {
+class Server {
   constructor(privateKeyFilename, certificateFilename) {
     this.key = fs.readFileSync(privateKeyFilename);
     this.cert = fs.readFileSync(certificateFilename);
