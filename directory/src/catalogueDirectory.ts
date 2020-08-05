@@ -4,9 +4,7 @@ export {};
 
 // load dependencies
 const express = require("express");
-const fs = require("fs");
 const http = require("http");
-const https = require("https");
 const Datastore = require("nedb");
 const helmet = require("helmet");
 const morgan = require("morgan");
@@ -17,9 +15,7 @@ const dotenv = require("dotenv").config();
 const fetch = require("node-fetch");
 
 // define file paths
-const DATABASE_PATH = process.env.DATABASE_PATH;
-const PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
-const CERTIFICATE_PATH = process.env.CERTIFICATE_PATH;
+const DATABASE_PATH: string = process.env.DATABASE_PATH;
 
 // class that holds a NeDB database and its' functionality
 class Directory {
@@ -308,31 +304,16 @@ class Application {
   }
 }
 
-// class that holds a http(s) server application and its' configuration
+// class that holds a http server application and its' configuration
 class Server {
-  constructor(privateKeyFilename, certificateFilename) {
-    this.key = fs.readFileSync(privateKeyFilename);
-    this.cert = fs.readFileSync(certificateFilename);
-    this.credentials = {
-      key: this.key,
-      cert: this.cert,
-    };
-  }
+  constructor() {}
 
   // class attributes
-  key;
-  cert;
-  credentials;
   httpServer;
-  httpsServer;
 
   // class functions
   getHttpServer() {
     return this.httpServer;
-  }
-
-  getHttpsServer() {
-    return this.httpsServer;
   }
 
   run(app) {
@@ -341,23 +322,15 @@ class Server {
       let commandLineArguments = process.argv.slice(2);
 
       // check for proper usage
-      if (commandLineArguments.length != 2) {
-        console.error(
-          "Usage: node catalogueDirectory.js $HTTP_PORT $HTTPS_PORT"
-        );
+      if (commandLineArguments.length != 1) {
+        console.error("Usage: node catalogueDirectory.js $HTTP_PORT");
         return;
       } else {
         this.httpServer = http.createServer(app.getApp());
-        this.httpsServer = https.createServer(this.credentials, app.getApp());
         // run the server application
         this.httpServer.listen(commandLineArguments[0], () =>
           console.log(
             `Catalogue Directory listening on http://localhost:${commandLineArguments[0]} ...`
-          )
-        );
-        this.httpsServer.listen(commandLineArguments[1], () =>
-          console.log(
-            `Catalogue Directory listening on https://localhost:${commandLineArguments[1]} ...`
           )
         );
       }
@@ -373,6 +346,6 @@ class Server {
 // create components
 const directory = new Directory(DATABASE_PATH);
 const app = new Application(directory.getDirectory());
-const server = new Server(PRIVATE_KEY_PATH, CERTIFICATE_PATH);
+const server = new Server();
 
 server.run(app);
