@@ -46,7 +46,7 @@ class Directory {
 
 // class that holds an express application and its' configuration
 class Application {
-  constructor(database) {
+  constructor(database: Directory) {
     try {
       this.app = express();
       this.app.use(helmet());
@@ -286,7 +286,7 @@ class Application {
 
 // class that holds a http server application and its' configuration
 class Server {
-  run(app) {
+  run(app: Application) {
     try {
       // parse command line arguments
       let commandLineArguments = process.argv.slice(2);
