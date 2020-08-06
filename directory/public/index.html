@@ -11,6 +11,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="../media/favicon.ico" />
     <title>EJP-RD - Central Catalogue Directory UI</title>
     <link rel="stylesheet" type="text/css" href="styles/styles.css" />
+    <script src="scripts/clientScripts.js" defer></script>
   </head>
 
   <body onload="getCatalogues(); clearInput(`add`); clearInput(`remove`);">
@@ -56,19 +57,21 @@
               onfocus="this.placeholder = ''"
             />
           </p>
-          <p>
-            Catalogue Type
-          </p>
         </div>
-        <div class="addCatalogueCheckboxes">
-          <label>
-            <input type="checkbox" id="registryCheckbox" value="Registry" />
-            Registry
-          </label>
-          <label>
-            <input type="checkbox" id="biobankCheckbox" value="Biobank" />
-            Biobank
-          </label>
+        <div class="addCatalogueType">
+          <span>
+            Catalogue Type
+          </span>
+          <p class="addCatalogueCheckboxes">
+            <label>
+              <input type="checkbox" id="registryCheckbox" value="Registry" />
+              Registry
+            </label>
+            <label>
+              <input type="checkbox" id="biobankCheckbox" value="Biobank" />
+              Biobank
+            </label>
+          </p>
         </div>
         <div class="addCatalogueFields">
           Catalogue Description
@@ -102,6 +105,5 @@
         <span id="statusText" class="statusText"></span>
       </div>
     </div>
-    <script src="scripts/clientScripts.js"></script>
   </body>
 </html>

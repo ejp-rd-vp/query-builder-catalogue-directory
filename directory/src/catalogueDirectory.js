@@ -81,8 +81,9 @@ var Application = /** @class */ (function () {
             this.app.use(express.json({
                 limit: "1mb"
             }));
-            this.catalogueDatabase = database;
-            // express routes
+            this.catalogueDatabase = database.getDirectory();
+            /*** Express Routes ***/
+            // get a list of all catalogues
             this.app.get("/getCatalogues", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({}, function (err, data) {
@@ -96,6 +97,7 @@ var Application = /** @class */ (function () {
                     console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
                 }
             });
+            // get a list of all biobanks
             this.app.get("/getCatalogues/biobanks", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({ catalogueType: "biobank" }, function (err, data) {
@@ -109,6 +111,7 @@ var Application = /** @class */ (function () {
                     console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/biobanks): ", exception);
                 }
             });
+            // get a list of all registries
             this.app.get("/getCatalogues/registries", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({ catalogueType: "registry" }, function (err, data) {
@@ -122,6 +125,63 @@ var Application = /** @class */ (function () {
                     console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/registries): ", exception);
                 }
             });
+            // get a certain catalogue by ID (query string)
+            this.app.get("/getCatalogueID", function (request, response, next) {
+                try {
+                    _this.catalogueDatabase.find({ _id: request.query.id }, function (err, data) {
+                        if (err) {
+                            response.end();
+                        }
+                        response.json(data);
+                    });
+                }
+                catch (exception) {
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                }
+            });
+            // get a certain catalogue by ID (path)
+            this.app.get("/getCatalogueID/:id", function (request, response, next) {
+                try {
+                    _this.catalogueDatabase.find({ _id: request.params.id }, function (err, data) {
+                        if (err) {
+                            response.end();
+                        }
+                        response.json(data);
+                    });
+                }
+                catch (exception) {
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                }
+            });
+            // get a certain catalogue by name (query string)
+            this.app.get("/getCatalogueName", function (request, response, next) {
+                try {
+                    _this.catalogueDatabase.find({ catalogueName: request.query.name }, function (err, data) {
+                        if (err) {
+                            response.end();
+                        }
+                        response.json(data);
+                    });
+                }
+                catch (exception) {
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                }
+            });
+            // get a certain catalogue by name (path)
+            this.app.get("/getCatalogueName/:name", function (request, response, next) {
+                try {
+                    _this.catalogueDatabase.find({ catalogueName: request.params.name }, function (err, data) {
+                        if (err) {
+                            response.end();
+                        }
+                        response.json(data);
+                    });
+                }
+                catch (exception) {
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                }
+            });
+            // ping the address of a certain catalogue
             this.app.get("/pingCatalogue", function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     try {
@@ -145,6 +205,7 @@ var Application = /** @class */ (function () {
                     return [2 /*return*/];
                 });
             }); });
+            // add a new catalogue
             this.app.post("/addCatalogue", function (request, response, next) {
                 try {
                     var nameExists_1 = Boolean(false);
@@ -201,6 +262,7 @@ var Application = /** @class */ (function () {
                     console.error("Error in catalogueDirectory.ts:Application:constructor():app.post(/addCatalogue): ", exception);
                 }
             });
+            // remove a certain catalogue using its' id
             this.app.post("/removeCatalogue", function (request, response, next) {
                 try {
                     var data_2 = request.body;
@@ -268,6 +330,7 @@ var Application = /** @class */ (function () {
 var Server = /** @class */ (function () {
     function Server() {
     }
+    // class functions
     Server.prototype.run = function (app) {
         try {
             // parse command line arguments
@@ -294,6 +357,6 @@ var Server = /** @class */ (function () {
 }());
 // create components
 var directory = new Directory(DATABASE_PATH);
-var app = new Application(directory.getDirectory());
+var app = new Application(directory);
 var server = new Server();
 server.run(app);
