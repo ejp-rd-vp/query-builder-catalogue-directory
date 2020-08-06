@@ -10,11 +10,12 @@ The directory can be used to fetch, add and remove catalogue addresses via HTTP 
 ## Deployment
 
 - `git clone https://github.com/ejp-rd-vp/query-builder-catalogue-directory.git` to clone this repository.
-- `cd query-builder-catalogue-directory/directory` to navigate to the diretoy root path.
+- `cd query-builder-catalogue-directory/directory` to navigate to the directory root path.
 - `npm i` to install missing dependencies.
 - Create a file named `.env` in the `directory` folder for environenment variable specification.
 - Set the database file path inside the `.env` file as follows: `DATABASE_PATH=$PATH_TO_YOUR_DATABASE_FILE`, e.g.: `DATABASE_PATH=database.json`. Note that this file needs to exist in order for the server to operate correctly.
 - `node src/catalogueDirectory.js $HTTP_PORT` to start the web service.
+
 The directory will be listening on `http://localhost:$HTTP_PORT`.
 
 ## Used Libraries
