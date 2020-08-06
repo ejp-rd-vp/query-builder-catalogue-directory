@@ -61,7 +61,8 @@ class Application {
 
       this.catalogueDatabase = database.getDirectory();
 
-      // express routes
+      /*** Express Routes ***/
+      // get a list of all catalogues
       this.app.get("/getCatalogues", (request, response, next) => {
         try {
           this.catalogueDatabase.find({}, (err, data) => {
@@ -78,6 +79,7 @@ class Application {
         }
       });
 
+      // get a list of all biobanks
       this.app.get("/getCatalogues/biobanks", (request, response, next) => {
         try {
           this.catalogueDatabase.find(
@@ -97,6 +99,7 @@ class Application {
         }
       });
 
+      // get a list of all registries
       this.app.get("/getCatalogues/registries", (request, response, next) => {
         try {
           this.catalogueDatabase.find(
@@ -116,6 +119,87 @@ class Application {
         }
       });
 
+      // get a certain catalogue by ID (query string)
+      this.app.get("/getCatalogueID", (request, response, next) => {
+        try {
+          this.catalogueDatabase.find(
+            { _id: request.query.id },
+            (err, data) => {
+              if (err) {
+                response.end();
+              }
+              response.json(data);
+            }
+          );
+        } catch (exception) {
+          console.error(
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
+            exception
+          );
+        }
+      });
+
+      // get a certain catalogue by ID (path)
+      this.app.get("/getCatalogueID/:id", (request, response, next) => {
+        try {
+          this.catalogueDatabase.find(
+            { _id: request.params.id },
+            (err, data) => {
+              if (err) {
+                response.end();
+              }
+              response.json(data);
+            }
+          );
+        } catch (exception) {
+          console.error(
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
+            exception
+          );
+        }
+      });
+
+      // get a certain catalogue by name (query string)
+      this.app.get("/getCatalogueName", (request, response, next) => {
+        try {
+          this.catalogueDatabase.find(
+            { catalogueName: request.query.name },
+            (err, data) => {
+              if (err) {
+                response.end();
+              }
+              response.json(data);
+            }
+          );
+        } catch (exception) {
+          console.error(
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
+            exception
+          );
+        }
+      });
+
+      // get a certain catalogue by name (path)
+      this.app.get("/getCatalogueName/:name", (request, response, next) => {
+        try {
+          this.catalogueDatabase.find(
+            { catalogueName: request.params.name },
+            (err, data) => {
+              if (err) {
+                response.end();
+              }
+              response.json(data);
+            }
+          );
+        } catch (exception) {
+          console.error(
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
+            exception
+          );
+        }
+      });
+
+      // ping the address of a certain catalogue
       this.app.get("/pingCatalogue", async (request, response, next) => {
         try {
           fetch(request.query.address)
@@ -139,6 +223,7 @@ class Application {
         }
       });
 
+      // add a new catalogue
       this.app.post("/addCatalogue", (request, response, next) => {
         try {
           let nameExists = Boolean(false);
@@ -200,6 +285,7 @@ class Application {
         }
       });
 
+      // remove a certain catalogue using its' id
       this.app.post("/removeCatalogue", (request, response, next) => {
         try {
           const data = request.body;

@@ -178,9 +178,7 @@ function getUserInput(useCase: string) {
         }
       }
       case "remove": {
-        let data = {
-          catalogueID: "",
-        };
+        let data: any = { catalogueID: "" };
 
         if (catalogueIDInput.value.length > 0) {
           data.catalogueID = catalogueIDInput.value;
@@ -277,7 +275,7 @@ function updateCatalogueListDOM(catalogue: any, fetchResponse) {
       let registryIcon = document.createElement("IMG")! as HTMLImageElement;
       registryIcon.setAttribute("src", "media/registry-icon.png");
       registryIcon.setAttribute("alt", "registry-icon");
-      registryIcon.setAttribute("paddingLeft", "10px");
+      registryIcon.style.paddingLeft = "10px";
       catalogueList.appendChild(registryIcon);
     }
     if (catalogue.catalogueType.includes("biobank")) {

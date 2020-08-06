@@ -175,9 +175,7 @@ function getUserInput(useCase) {
                 }
             }
             case "remove": {
-                var data = {
-                    catalogueID: ""
-                };
+                var data = { catalogueID: "" };
                 if (catalogueIDInput.value.length > 0) {
                     data.catalogueID = catalogueIDInput.value;
                     colorInputFields("catalogueID", "black");
@@ -264,7 +262,7 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
             var registryIcon = document.createElement("IMG");
             registryIcon.setAttribute("src", "media/registry-icon.png");
             registryIcon.setAttribute("alt", "registry-icon");
-            registryIcon.setAttribute("paddingLeft", "10px");
+            registryIcon.style.paddingLeft = "10px";
             catalogueList.appendChild(registryIcon);
         }
         if (catalogue.catalogueType.includes("biobank")) {
