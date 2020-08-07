@@ -125,52 +125,10 @@ var Application = /** @class */ (function () {
                     console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/registries): ", exception);
                 }
             });
-            // get a certain catalogue by ID (query string)
-            this.app.get("/getCatalogueID", function (request, response, next) {
-                try {
-                    _this.catalogueDatabase.find({ _id: request.query.id }, function (err, data) {
-                        if (err) {
-                            response.end();
-                        }
-                        response.json(data);
-                    });
-                }
-                catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
-                }
-            });
             // get a certain catalogue by ID (path)
-            this.app.get("/getCatalogueID/:id", function (request, response, next) {
+            this.app.get("/getCatalogues/:id", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({ _id: request.params.id }, function (err, data) {
-                        if (err) {
-                            response.end();
-                        }
-                        response.json(data);
-                    });
-                }
-                catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
-                }
-            });
-            // get a certain catalogue by name (query string)
-            this.app.get("/getCatalogueName", function (request, response, next) {
-                try {
-                    _this.catalogueDatabase.find({ catalogueName: request.query.name }, function (err, data) {
-                        if (err) {
-                            response.end();
-                        }
-                        response.json(data);
-                    });
-                }
-                catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
-                }
-            });
-            // get a certain catalogue by name (path)
-            this.app.get("/getCatalogueName/:name", function (request, response, next) {
-                try {
-                    _this.catalogueDatabase.find({ catalogueName: request.params.name }, function (err, data) {
                         if (err) {
                             response.end();
                         }

@@ -237,14 +237,13 @@ function updateStatusText(type, message) {
 // function that handles the catalogue list visibility
 function toggleCatalogueListVisibility() {
     try {
+        var button = document.getElementById("showCataloguesButton");
         if (catalogueList.style.display === "none") {
-            document.getElementById("showCataloguesButton").textContent =
-                "Hide Catalogues";
+            button.value = "Hide Catalogues";
             catalogueList.style.display = "block";
         }
         else {
-            document.getElementById("showCataloguesButton").textContent =
-                "Show Catalogues";
+            button.value = "Show Catalogues";
             catalogueList.style.display = "none";
         }
     }

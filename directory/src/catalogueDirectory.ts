@@ -119,71 +119,11 @@ class Application {
         }
       });
 
-      // get a certain catalogue by ID (query string)
-      this.app.get("/getCatalogueID", (request, response, next) => {
-        try {
-          this.catalogueDatabase.find(
-            { _id: request.query.id },
-            (err, data) => {
-              if (err) {
-                response.end();
-              }
-              response.json(data);
-            }
-          );
-        } catch (exception) {
-          console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
-            exception
-          );
-        }
-      });
-
       // get a certain catalogue by ID (path)
-      this.app.get("/getCatalogueID/:id", (request, response, next) => {
+      this.app.get("/getCatalogues/:id", (request, response, next) => {
         try {
           this.catalogueDatabase.find(
             { _id: request.params.id },
-            (err, data) => {
-              if (err) {
-                response.end();
-              }
-              response.json(data);
-            }
-          );
-        } catch (exception) {
-          console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
-            exception
-          );
-        }
-      });
-
-      // get a certain catalogue by name (query string)
-      this.app.get("/getCatalogueName", (request, response, next) => {
-        try {
-          this.catalogueDatabase.find(
-            { catalogueName: request.query.name },
-            (err, data) => {
-              if (err) {
-                response.end();
-              }
-              response.json(data);
-            }
-          );
-        } catch (exception) {
-          console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
-            exception
-          );
-        }
-      });
-
-      // get a certain catalogue by name (path)
-      this.app.get("/getCatalogueName/:name", (request, response, next) => {
-        try {
-          this.catalogueDatabase.find(
-            { catalogueName: request.params.name },
             (err, data) => {
               if (err) {
                 response.end();
