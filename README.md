@@ -1,7 +1,6 @@
 # EJP-RD - Central catalogue directory
 
-A draft of the EJP-RD - 'Central catalogue directory' component.
-The directory can be used to fetch, add and remove catalogue addresses via HTTP requests.
+A draft of the EJP-RD - 'Central catalogue directory' component. It implements a REST API that can be used to fetch, add and remove catalogue addresses via HTTP requests.
 
 ## Requirements
 
@@ -31,3 +30,12 @@ The directory will be listening on `http://localhost:$HTTP_PORT`.
 ## API Specification
 
 The [specification](https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml "https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml") of the central catalogue directory API is based on the [OpenAPI specifictaion](http://spec.openapis.org/oas/v3.0.3 "http://spec.openapis.org/oas/v3.0.3").
+
+## Usage
+
+Append the following API endpoints to the directories' address:
+
+`/getCatalogues` returns a list of all stored catalogues as JSON string.
+`/getCatalogues/biobanks` returns a list of all stored biobank catalogues as JSON string.
+`/getCatalogues/registries` returns a list of all stored registry catalogues as JSON string.
+`/getCatalogues/$ID` returns the catalogue with \$ID as JSON string.
