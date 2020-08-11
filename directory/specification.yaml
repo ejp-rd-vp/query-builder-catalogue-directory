@@ -425,7 +425,7 @@ components:
       required:
         - resources
       properties:
-        items:
+        resources:
           type: array
           $ref: "#/components/schemas/Resource"
     Resource:
