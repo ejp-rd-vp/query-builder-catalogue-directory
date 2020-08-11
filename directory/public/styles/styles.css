@@ -55,44 +55,44 @@ h2 {
   text-align: left;
 }
 
-.addCatalogueType {
-  text-align: left;
-}
-
 .addCatalogueFields input {
   font-size: 14px;
   border: 1px solid black;
-  padding: 2px;
+  padding: 5px;
   margin-top: 2px;
   width: 98%;
 }
 
-.addCatalogueCheckboxes {
+.addCatalogueType {
+  text-align: left;
+}
+
+.addCatalogueCheckboxes label {
+  font-size: 15px;
+}
+
+.addCatalogueCheckboxes input {
   margin-top: 10px;
   margin-bottom: 20px;
+  scale: 1.2;
 }
 
 .descriptionTextarea {
   height: 5em;
   width: 98%;
   font-size: 14px;
-  padding: 2px;
+  padding: 5px;
   border: 1px solid black;
   resize: none;
 }
 
 .statusText {
+  display: inline-block;
+  position: relative;
   clear: both;
-  height: 2em;
+  width: 100%;
+  margin-top: 15px;
+  padding: 5px;
   text-align: left;
   font-size: 14px;
-  margin-top: 380px;
-}
-
-.red {
-  color: firebrick;
-}
-
-.green {
-  color: forestgreen;
 }

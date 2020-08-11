@@ -179,6 +179,7 @@ function getUserInput(useCase) {
                 if (catalogueIDInput.value.length > 0) {
                     data.catalogueID = catalogueIDInput.value;
                     colorInputFields("catalogueID", "black");
+                    colorInputFields("catalogueDescription", "black");
                     colorInputFields("catalogueName", "black");
                     colorInputFields("catalogueAddress", "black");
                     return data;
@@ -187,6 +188,7 @@ function getUserInput(useCase) {
                     updateStatusText("error", "Catalogue ID must not be empty.");
                     colorInputFields("catalogueID", "red");
                     colorInputFields("catalogueName", "black");
+                    colorInputFields("catalogueDescription", "black");
                     colorInputFields("catalogueAddress", "black");
                     clearInput("remove");
                     return undefined;
@@ -206,22 +208,12 @@ function updateStatusText(type, message) {
     try {
         switch (type) {
             case "success": {
-                if (statusText.classList.contains("red")) {
-                    statusText.classList.remove("red");
-                }
-                if (!statusText.classList.contains("green")) {
-                    statusText.className += " green";
-                }
+                statusText.style.border = "1px solid forestgreen";
                 statusText.textContent = message;
                 break;
             }
             case "error": {
-                if (statusText.classList.contains("green")) {
-                    statusText.classList.remove("green");
-                }
-                if (!statusText.classList.contains("red")) {
-                    statusText.className += " red";
-                }
+                statusText.style.border = "1px solid firebrick";
                 statusText.textContent = message;
                 break;
             }
@@ -237,14 +229,13 @@ function updateStatusText(type, message) {
 // function that handles the catalogue list visibility
 function toggleCatalogueListVisibility() {
     try {
+        var button = document.getElementById("showCataloguesButton");
         if (catalogueList.style.display === "none") {
-            document.getElementById("showCataloguesButton").textContent =
-                "Hide Catalogues";
+            button.value = "Hide Catalogues";
             catalogueList.style.display = "block";
         }
         else {
-            document.getElementById("showCataloguesButton").textContent =
-                "Show Catalogues";
+            button.value = "Show Catalogues";
             catalogueList.style.display = "none";
         }
     }
