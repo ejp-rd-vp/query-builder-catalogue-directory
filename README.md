@@ -35,7 +35,7 @@ The [specification](https://github.com/ejp-rd-vp/query-builder-catalogue-directo
 
 Append the following API endpoints to the directories' address:
 
-`/getCatalogues` returns a list of all stored catalogues as JSON string.
-`/getCatalogues/biobanks` returns a list of all stored biobank catalogues as JSON string.
-`/getCatalogues/registries` returns a list of all stored registry catalogues as JSON string.
-`/getCatalogues/$ID` returns the catalogue with \$ID as JSON string.
+- `/getCatalogues` returns a list of all stored catalogues as JSON string.
+- `/getCatalogues/biobanks` returns a list of all stored biobank catalogues as JSON string.
+- `/getCatalogues/registries` returns a list of all stored registry catalogues as JSON string.
+- `/getCatalogues/$ID` returns the catalogue with \$ID as JSON string.
