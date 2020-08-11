@@ -89,13 +89,27 @@ var Application = /** @class */ (function () {
             this.app.use(helmet());
             this.app.use(morgan("dev"));
             this.app.use(cors());
-            this.app.use("/", express.static("./public"));
+            this.app.use("/ui", express.static("./public"));
             this.app.use(express.json({
                 limit: "100kb"
             }));
             this.catalogueDatabase = database.getDirectory();
             this.catalogueDatabase.ensureIndex({ fieldName: "_id", unique: true });
             /*** Express Routes ***/
+            // get information about the API
+            this.app.get("/", function (request, response, next) {
+                try {
+                    response.json({
+                        name: "EJP-RD Central Catalogue REST API.",
+                        description: "The EJP-RD Central Catalogue REST API can be used to fetch, add and remove catalogue addresses via HTTP requests.",
+                        usage: "Please refer to https://github.com/ejp-rd-vp/query-builder-catalogue-directory for more information on usage.",
+                        apiVersion: "v0.1"
+                    });
+                }
+                catch (exception) {
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                }
+            });
             // get a list of all catalogues
             this.app.get("/getCatalogues", function (request, response, next) {
                 try {
