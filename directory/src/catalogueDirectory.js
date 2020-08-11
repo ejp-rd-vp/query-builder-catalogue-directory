@@ -46,6 +46,18 @@ var dotenv = require("dotenv").config();
 var fetch = require("node-fetch");
 // define database file path
 var DATABASE_PATH = process.env.DATABASE_PATH;
+// class that holds data of a catalogue
+var Catalogue = /** @class */ (function () {
+    function Catalogue(name, address, description, type, id) {
+        this.catalogueName = name;
+        this.catalogueAddress = address;
+        this.catalogueDescription = description;
+        this.catalogueType = type;
+        this._id = id;
+        this.created = Date.now();
+    }
+    return Catalogue;
+}());
 // class that holds a NeDB database and its' functionality
 var Directory = /** @class */ (function () {
     function Directory(dataBaseFilename) {
@@ -77,11 +89,12 @@ var Application = /** @class */ (function () {
             this.app.use(helmet());
             this.app.use(morgan("dev"));
             this.app.use(cors());
-            this.app.use(express.static("./public"));
+            this.app.use("/", express.static("./public"));
             this.app.use(express.json({
-                limit: "1mb"
+                limit: "100kb"
             }));
             this.catalogueDatabase = database.getDirectory();
+            this.catalogueDatabase.ensureIndex({ fieldName: "_id", unique: true });
             /*** Express Routes ***/
             // get a list of all catalogues
             this.app.get("/getCatalogues", function (request, response, next) {
@@ -183,34 +196,26 @@ var Application = /** @class */ (function () {
                                     response.sendStatus(400);
                                 }
                                 else {
-                                    var created = Date.now();
-                                    data_1.created = created;
-                                    data_1._id = Math.random()
-                                        .toString(36)
-                                        .substr(2, 9)
-                                        .toUpperCase();
-                                    _this.catalogueDatabase.insert(data_1);
+                                    var id = Math.random().toString().substr(2, 9);
+                                    var catalogue = new Catalogue(data_1.catalogueName, data_1.catalogueAddress, data_1.catalogueDescription, data_1.catalogueType, id);
+                                    _this.catalogueDatabase.insert(catalogue);
                                     _this.catalogueDatabase.persistence.compactDatafile();
                                     response.json({
                                         status: "success",
-                                        id: data_1._id
+                                        id: catalogue._id
                                     });
                                     return 0;
                                 }
                             });
                         }
                         else {
-                            var created = Date.now();
-                            data_1.created = created;
-                            data_1._id = Math.random()
-                                .toString(36)
-                                .substr(2, 9)
-                                .toUpperCase();
-                            _this.catalogueDatabase.insert(data_1);
+                            var id = Math.random().toString().substr(2, 9);
+                            var catalogue = new Catalogue(data_1.catalogueName, data_1.catalogueAddress, data_1.catalogueDescription, data_1.catalogueType, id);
+                            _this.catalogueDatabase.insert(catalogue);
                             _this.catalogueDatabase.persistence.compactDatafile();
                             response.json({
                                 status: "success",
-                                id: data_1._id
+                                id: catalogue._id
                             });
                             return 0;
                         }

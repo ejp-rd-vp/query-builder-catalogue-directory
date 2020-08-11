@@ -46,7 +46,7 @@
             type="text"
             id="catalogueName"
             value=""
-            placeholder="Enter a catalogue name ..."
+            placeholder="Enter catalogue name ..."
             onfocus="this.placeholder = ''"
             on
           />
@@ -56,7 +56,7 @@
               type="text"
               id="catalogueAddress"
               value=""
-              placeholder="Enter a catalogue address ..."
+              placeholder="Enter catalogue address ..."
               onfocus="this.placeholder = ''"
             />
           </p>
@@ -65,23 +65,23 @@
           <span>
             Catalogue Type
           </span>
-          <p class="addCatalogueCheckboxes">
-            <label>
+          <div class="addCatalogueCheckboxes">
+            <label class="checkBoxLabel">
               <input type="checkbox" id="registryCheckbox" value="Registry" />
               Registry
             </label>
-            <label>
+            <label class="checkBoxLabel">
               <input type="checkbox" id="biobankCheckbox" value="Biobank" />
               Biobank
             </label>
-          </p>
+          </div>
         </div>
         <div class="addCatalogueFields">
           Catalogue Description
           <textarea
             id="catalogueDescription"
             class="descriptionTextarea font"
-            placeholder="Enter a catalogue description ..."
+            placeholder="Enter catalogue description ..."
             onfocus="this.placeholder = ''"
           ></textarea>
         </div>
@@ -99,14 +99,12 @@
             type="text"
             id="catalogueID"
             value=""
-            placeholder="Enter a catalogue ID ..."
+            placeholder="Enter catalogue ID ..."
             onfocus="this.placeholder = ''"
           />
         </div>
       </div>
-      <div class="statusText">
-        <span id="statusText" class="statusText"></span>
-      </div>
+      <div id="statusText" class="statusText"></div>
     </div>
   </body>
 </html>

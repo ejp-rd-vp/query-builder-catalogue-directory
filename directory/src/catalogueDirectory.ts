@@ -14,6 +14,31 @@ const fetch = require("node-fetch");
 // define database file path
 const DATABASE_PATH: string = process.env.DATABASE_PATH;
 
+// class that holds data of a catalogue
+class Catalogue {
+  constructor(
+    name: string,
+    address: string,
+    description: string,
+    type: Array<string>,
+    id: string
+  ) {
+    this.catalogueName = name;
+    this.catalogueAddress = address;
+    this.catalogueDescription = description;
+    this.catalogueType = type;
+    this._id = id;
+    this.created = Date.now();
+  }
+
+  catalogueName: string;
+  catalogueAddress: string;
+  catalogueDescription: string;
+  catalogueType: Array<string>;
+  _id: string;
+  created;
+}
+
 // class that holds a NeDB database and its' functionality
 class Directory {
   constructor(dataBaseFilename: string) {
@@ -52,14 +77,15 @@ class Application {
       this.app.use(helmet());
       this.app.use(morgan("dev"));
       this.app.use(cors());
-      this.app.use(express.static("./public"));
+      this.app.use("/", express.static("./public"));
       this.app.use(
         express.json({
-          limit: "1mb",
+          limit: "100kb",
         })
       );
 
       this.catalogueDatabase = database.getDirectory();
+      this.catalogueDatabase.ensureIndex({ fieldName: "_id", unique: true });
 
       /*** Express Routes ***/
       // get a list of all catalogues
@@ -168,6 +194,7 @@ class Application {
         try {
           let nameExists = Boolean(false);
           const data = request.body;
+
           this.catalogueDatabase.find(
             { catalogueName: { $in: [data.catalogueName] } },
             (error, records) => {
@@ -184,34 +211,38 @@ class Application {
                     } else if (records.length > 0 && nameExists) {
                       response.sendStatus(400);
                     } else {
-                      const created = Date.now();
-                      data.created = created;
-                      data._id = Math.random()
-                        .toString(36)
-                        .substr(2, 9)
-                        .toUpperCase();
-                      this.catalogueDatabase.insert(data);
+                      let id = Math.random().toString().substr(2, 9);
+                      let catalogue = new Catalogue(
+                        data.catalogueName,
+                        data.catalogueAddress,
+                        data.catalogueDescription,
+                        data.catalogueType,
+                        id
+                      );
+                      this.catalogueDatabase.insert(catalogue);
                       this.catalogueDatabase.persistence.compactDatafile();
                       response.json({
                         status: "success",
-                        id: data._id,
+                        id: catalogue._id,
                       });
                       return 0;
                     }
                   }
                 );
               } else {
-                const created = Date.now();
-                data.created = created;
-                data._id = Math.random()
-                  .toString(36)
-                  .substr(2, 9)
-                  .toUpperCase();
-                this.catalogueDatabase.insert(data);
+                let id = Math.random().toString().substr(2, 9);
+                let catalogue = new Catalogue(
+                  data.catalogueName,
+                  data.catalogueAddress,
+                  data.catalogueDescription,
+                  data.catalogueType,
+                  id
+                );
+                this.catalogueDatabase.insert(catalogue);
                 this.catalogueDatabase.persistence.compactDatafile();
                 response.json({
                   status: "success",
-                  id: data._id,
+                  id: catalogue._id,
                 });
                 return 0;
               }
