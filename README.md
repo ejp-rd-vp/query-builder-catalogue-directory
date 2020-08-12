@@ -16,7 +16,6 @@ A draft of the EJP-RD - 'Central catalogue directory' component. It implements a
 - `node src/catalogueDirectory.js $HTTP_PORT` to start the web service.
 
 The directory will be listening on `http://$YOUR_IP_ADDRESS:$HTTP_PORT`.
-
 The UI will be available at `http://$YOUR_IP_ADDRESS:$HTTP_PORT/ui`.
 
 ## Used Libraries
