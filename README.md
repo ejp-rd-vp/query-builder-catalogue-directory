@@ -17,6 +17,8 @@ A draft of the EJP-RD - 'Central catalogue directory' component. It implements a
 
 The directory will be listening on `http://$YOUR_IP_ADDRESS:$HTTP_PORT`.
 
+The UI will be available at `http://$YOUR_IP_ADDRESS:$HTTP_PORT/ui`.
+
 ## Used Libraries
 
 - [Express](https://expressjs.com/ "https://expressjs.com/") to host the HTTP server.
@@ -31,7 +33,7 @@ The directory will be listening on `http://$YOUR_IP_ADDRESS:$HTTP_PORT`.
 
 The [specification](https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml "https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml") of the central catalogue directory API is based on the [OpenAPI specifictaion](http://spec.openapis.org/oas/v3.0.3 "http://spec.openapis.org/oas/v3.0.3").
 
-## Usage
+## API Usage
 
 Append the following API endpoints to the directories' address:
 
