@@ -19,16 +19,6 @@ A draft of the EJP-RD - 'Central catalogue directory' component. It implements a
 The directory will be listening on `http://$YOUR_IP_ADDRESS:$HTTP_PORT`.  
 The UI will be available at `http://$YOUR_IP_ADDRESS:$HTTP_PORT/ui`.
 
-## Used Libraries
-
-- [Express](https://expressjs.com/ "https://expressjs.com/") to host the HTTP server.
-- [NeDB](https://dbdb.io/db/nedb "https://dbdb.io/db/nedb") to create a database.
-- [Helmet](https://helmetjs.github.io/ "https://helmetjs.github.io/") to secure the servers' API.
-- [Morgan](https://www.npmjs.com/package/morgan "https://www.npmjs.com/package/morgan") to do logging.
-- [CORS](https://expressjs.com/en/resources/middleware/cors.html "https://expressjs.com/en/resources/middleware/cors.html") to allow access from different origins.
-- [Dotenv](https://github.com/motdotla/dotenv "https://github.com/motdotla/dotenv") to support environenment variables inside Node.js.
-- [Jest](https://www.npmjs.com/package/jest "https://www.npmjs.com/package/jest") for testing.
-
 ## API Specification
 
 The [specification](https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml "https://github.com/ejp-rd-vp/query-builder-catalogue-directory/blob/master/directory/specification.yaml") of the central catalogue directory API is based on the [OpenAPI specifictaion](http://spec.openapis.org/oas/v3.0.3 "http://spec.openapis.org/oas/v3.0.3").
