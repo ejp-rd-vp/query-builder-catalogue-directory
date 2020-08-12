@@ -15,7 +15,7 @@ A draft of the EJP-RD - 'Central catalogue directory' component. It implements a
 - Set the database file path inside the `.env` file as follows: `DATABASE_PATH=$PATH_TO_YOUR_DATABASE_FILE`, e.g.: `DATABASE_PATH=database.json`. Note that this file needs to exist in order for the server to operate correctly.
 - `node src/catalogueDirectory.js $HTTP_PORT` to start the web service.
 
-The directory will be listening on `http://localhost:$HTTP_PORT`.
+The directory will be listening on `http://$YOUR_IP_ADDRESS:$HTTP_PORT`.
 
 ## Used Libraries
 
