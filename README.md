@@ -5,6 +5,7 @@ A draft of the EJP-RD - 'Central catalogue directory' component. It implements a
 ## Requirements
 
 - [Node.js](https://nodejs.org/ "https://nodejs.org/")
+- [Git](https://git-scm.com/ "https://git-scm.com/")
 
 ## Deployment
 
