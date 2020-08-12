@@ -89,26 +89,18 @@ function colorInputFields(inputField: string, color: string) {
 }
 
 // function that clears the users' input
-function clearInput(useCase: string) {
+function clearInput(inputField: string) {
   try {
-    switch (useCase) {
-      case "add": {
-        catalogueNameInput.value = "";
-        catalogueAddressInput.value = "";
-        catalogueDescriptionInput.value = "";
-        registryCheckboxInput.checked = false;
-        biobankCheckboxInput.checked = false;
-        break;
-      }
-      case "remove": {
-        catalogueIDInput.value = "";
-        break;
-      }
-      default: {
-        console.log(
-          "Entering default switch of clientScripts.js:clearInput()."
-        );
-      }
+    if (inputField == "all") {
+      catalogueNameInput.value = "";
+      catalogueAddressInput.value = "";
+      catalogueDescriptionInput.value = "";
+      registryCheckboxInput.checked = false;
+      biobankCheckboxInput.checked = false;
+      catalogueIDInput.value = "";
+    } else {
+      const input = document.getElementById(inputField)! as HTMLInputElement;
+      input.value = "";
     }
   } catch (exception) {
     console.error("Error in clientScripts.js:clearInput(): ", exception);
@@ -158,7 +150,7 @@ function getUserInput(useCase: string) {
             colorInputFields("catalogueName", "black");
             colorInputFields("catalogueAddress", "red");
             colorInputFields("catalogueID", "black");
-            clearInput("add");
+            clearInput("catalogueAddress");
 
             return undefined;
           }
@@ -172,7 +164,6 @@ function getUserInput(useCase: string) {
           colorInputFields("catalogueName", "red");
           colorInputFields("catalogueAddress", "red");
           colorInputFields("catalogueID", "black");
-          clearInput("add");
 
           return undefined;
         }
@@ -196,7 +187,6 @@ function getUserInput(useCase: string) {
           colorInputFields("catalogueName", "black");
           colorInputFields("catalogueDescription", "black");
           colorInputFields("catalogueAddress", "black");
-          clearInput("remove");
 
           return undefined;
         }
@@ -357,7 +347,7 @@ async function addCatalogue() {
     if (getUserInput("add") != undefined) {
       // get inserted data
       const newCatalogueData = await getUserInput("add");
-      clearInput("add");
+      clearInput("all");
 
       // parse inserted data into POST body
       postMessage.body = JSON.stringify(newCatalogueData);
@@ -392,6 +382,7 @@ async function addCatalogue() {
               );
           } else {
             updateStatusText("error", "The entered URL is not accessible.");
+            clearInput("catalogueAddress");
           }
         })
         .catch((exception) =>
@@ -424,7 +415,7 @@ async function removeCatalogue() {
     if (getUserInput("remove") != undefined) {
       // get inserted data
       const catalogueID = await getUserInput("remove");
-      clearInput("remove");
+      clearInput("all");
 
       // parse inserted data into POST body
       postMessage.body = JSON.stringify(catalogueID);
