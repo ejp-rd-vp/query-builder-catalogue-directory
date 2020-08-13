@@ -15,6 +15,7 @@ info:
   #name: "Apache 2.0"
   #url: "http://www.apache.org/licenses/LICENSE-2.0.html"
 externalDocs:
+  
   description: "EJP-RD Website"
   url: https://www.ejprarediseases.org/"
 paths:
@@ -383,16 +384,16 @@ components:
         name:
           type: string
           description: Name of the API.
-        apiVersion:
-          type: string
-          description: Version of the API provided.
-          example: v0.3
         description:
           type: string
           description: Description of the API.
-        description:
+        usage:
           type: string
           description: Description on how to use the API.
+        apiVersion:
+          type: string
+          description: Version of the API.
+          example: v0.3
     SuccessResponse:
       type: object
       required:
