@@ -36,6 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 exports.__esModule = true;
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 // load dependencies
 var express = require("express");
 var Datastore = require("nedb");

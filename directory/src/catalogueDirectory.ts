@@ -2,6 +2,8 @@
 
 export {};
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 // load dependencies
 const express = require("express");
 const Datastore = require("nedb");
