@@ -45,7 +45,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /getCatalogues:
+  /catalogues:
     get:
       description: "Get all stored catalogues."
       operationId: "getCatalogues"
@@ -93,7 +93,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /getCatalogues/biobanks:
+  /catalogues/biobanks:
     get:
       description: "Get all stored biobank catalogues."
       operationId: "getBiobanks"
@@ -141,7 +141,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /getCatalogues/registries:
+  /catalogues/registries:
     get:
       description: "Get all stored registry catalogues."
       operationId: "getRegistries"
@@ -189,7 +189,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-  /getCatalogues/$ID:
+  /catalogues/$ID:
     get:
       description: "Get catalogue with $ID."
       operationId: "getCatalogueByID"
