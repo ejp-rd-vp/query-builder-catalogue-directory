@@ -112,7 +112,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a list of all catalogues
-            this.app.get("/getCatalogues", function (request, response, next) {
+            this.app.get("/catalogues", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({}, function (err, data) {
                         if (err) {
@@ -126,7 +126,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a list of all biobanks
-            this.app.get("/getCatalogues/biobanks", function (request, response, next) {
+            this.app.get("/catalogues/biobanks", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({ catalogueType: "biobank" }, function (err, data) {
                         if (err) {
@@ -140,7 +140,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a list of all registries
-            this.app.get("/getCatalogues/registries", function (request, response, next) {
+            this.app.get("/catalogues/registries", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({ catalogueType: "registry" }, function (err, data) {
                         if (err) {
@@ -154,7 +154,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a certain catalogue by ID (path)
-            this.app.get("/getCatalogues/:id", function (request, response, next) {
+            this.app.get("/catalogues/:id", function (request, response, next) {
                 try {
                     _this.catalogueDatabase.find({ _id: request.params.id }, function (err, data) {
                         if (err) {
