@@ -30,4 +30,4 @@ Append the following API endpoints to the directorys' address:
 - `/catalogues` returns a list of all stored catalogues as JSON string.
 - `/catalogues/biobanks` returns a list of all stored biobank catalogues as JSON string.
 - `/catalogues/registries` returns a list of all stored registry catalogues as JSON string.
-- `/catalogues/<ID>` returns the catalogue with \$ID as JSON string.
+- `/catalogues/<ID>` returns the catalogue with <ID> as JSON string.
