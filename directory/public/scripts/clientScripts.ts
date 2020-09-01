@@ -2,8 +2,7 @@
 
 // define API endpoint addresses
 const catalogueDirectoryAddress: string = window.location.origin;
-const getCataloguesEndpoint: string =
-  catalogueDirectoryAddress + "/getCatalogues";
+const getCataloguesEndpoint: string = catalogueDirectoryAddress + "/catalogues";
 const addCatalogueEndpoint: string =
   catalogueDirectoryAddress + "/addCatalogue";
 const removeCatalogueEndpoint: string =

@@ -30,7 +30,7 @@ class Catalogue {
     this.catalogueDescription = description;
     this.catalogueType = type;
     this._id = id;
-    this.created = Date.now();
+    this.created = Date.now().toString();
   }
 
   catalogueName: string;
@@ -94,16 +94,16 @@ class Application {
       this.app.get("/", (request, response, next) => {
         try {
           response.json({
-            name: "EJP-RD Central Catalogue REST API.",
+            name: "EJP-RD Catalogue Directory REST API.",
             description:
-              "The EJP-RD Central Catalogue REST API can be used to fetch, add and remove catalogue addresses via HTTP requests.",
+              "The EJP-RD Catalogue Directory REST API can be used to fetch, add and remove catalogue addresses via HTTP requests.",
             usage:
-              "Please refer to https://github.com/ejp-rd-vp/query-builder-catalogue-directory for more information on usage.",
+              "/catalogues will return a list of all listed catalogues, /catalogues/biobanks will return a list of all listed biobank catalogues, /catalogues/registries will return a list of all listed registry catalogues, /catalogues/{id} will return the catalogue with the specified {id}.",
             apiVersion: "v0.1",
           });
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/): ",
             exception
           );
         }
@@ -120,7 +120,7 @@ class Application {
           });
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues): ",
             exception
           );
         }
@@ -140,7 +140,7 @@ class Application {
           );
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/biobanks): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues/biobanks): ",
             exception
           );
         }
@@ -160,7 +160,7 @@ class Application {
           );
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/registries): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues/registries): ",
             exception
           );
         }
@@ -180,7 +180,7 @@ class Application {
           );
         } catch (exception) {
           console.error(
-            "Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ",
+            "Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues/:id): ",
             exception
           );
         }

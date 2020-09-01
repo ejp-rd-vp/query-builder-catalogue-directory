@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 // define API endpoint addresses
 var catalogueDirectoryAddress = window.location.origin;
-var getCataloguesEndpoint = catalogueDirectoryAddress + "/getCatalogues";
+var getCataloguesEndpoint = catalogueDirectoryAddress + "/catalogues";
 var addCatalogueEndpoint = catalogueDirectoryAddress + "/addCatalogue";
 var removeCatalogueEndpoint = catalogueDirectoryAddress + "/removeCatalogue";
 var pingEndpoint = catalogueDirectoryAddress + "/pingCatalogue";

@@ -55,7 +55,7 @@ var Catalogue = /** @class */ (function () {
         this.catalogueDescription = description;
         this.catalogueType = type;
         this._id = id;
-        this.created = Date.now();
+        this.created = Date.now().toString();
     }
     return Catalogue;
 }());
@@ -101,14 +101,14 @@ var Application = /** @class */ (function () {
             this.app.get("/", function (request, response, next) {
                 try {
                     response.json({
-                        name: "EJP-RD Central Catalogue REST API.",
-                        description: "The EJP-RD Central Catalogue REST API can be used to fetch, add and remove catalogue addresses via HTTP requests.",
-                        usage: "Please refer to https://github.com/ejp-rd-vp/query-builder-catalogue-directory for more information on usage.",
+                        name: "EJP-RD Catalogue Directory REST API.",
+                        description: "The EJP-RD Catalogue Directory REST API can be used to fetch, add and remove catalogue addresses via HTTP requests.",
+                        usage: "/catalogues will return a list of all listed catalogues, /catalogues/biobanks will return a list of all listed biobank catalogues, /catalogues/registries will return a list of all listed registry catalogues, /catalogues/{id} will return the catalogue with the specified {id}.",
                         apiVersion: "v0.1"
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/): ", exception);
                 }
             });
             // get a list of all catalogues
@@ -122,7 +122,7 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues): ", exception);
                 }
             });
             // get a list of all biobanks
@@ -136,7 +136,7 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/biobanks): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues/biobanks): ", exception);
                 }
             });
             // get a list of all registries
@@ -150,7 +150,7 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues/registries): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues/registries): ", exception);
                 }
             });
             // get a certain catalogue by ID (path)
@@ -164,7 +164,7 @@ var Application = /** @class */ (function () {
                     });
                 }
                 catch (exception) {
-                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/getCatalogues): ", exception);
+                    console.error("Error in catalogueDirectory.ts:Application:constructor():app.get(/catalogues/:id): ", exception);
                 }
             });
             // ping the address of a certain catalogue
