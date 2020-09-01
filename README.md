@@ -25,7 +25,7 @@ The [specification](https://github.com/ejp-rd-vp/query-builder-catalogue-directo
 
 ## API Usage
 
-Append the following API endpoints to the directories' address:
+Append the following API endpoints to the directorys' address:
 
 - `/catalogues` returns a list of all stored catalogues as JSON string.
 - `/catalogues/biobanks` returns a list of all stored biobank catalogues as JSON string.
