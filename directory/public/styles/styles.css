@@ -51,8 +51,21 @@ h2 {
     0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
-.addCatalogueFields {
+.addCatalogueButton {
+  background-color: white;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  background-image: url("../media/plus.png");
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+}
+
+.addCatalogueInput {
+  display: none;
   text-align: left;
+  margin-top: 10px;
 }
 
 .addCatalogueFields input {

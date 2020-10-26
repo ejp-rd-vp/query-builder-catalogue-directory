@@ -35,6 +35,12 @@ const catalogueIDInput = document.getElementById(
 const catalogueList = document.getElementById(
   "catalogueList"
 )! as HTMLDivElement;
+const addCatalogueInput = document.getElementById(
+  "addCatalogueInput"
+)! as HTMLDivElement;
+const addCatalogueButton = document.getElementById(
+  "addCatalogueButton"
+)! as HTMLInputElement;
 
 // function that handles fetch errors
 function handleFetchErrors(fetchResponse) {
@@ -228,6 +234,23 @@ function toggleCatalogueListVisibility() {
   }
 }
 
+function toggleAddCatalogueVisibility() {
+  try {
+    if (addCatalogueInput.style.display == "none") {
+      addCatalogueInput.style.display = "block";
+      addCatalogueButton.style.display = "none";
+    } else {
+      addCatalogueButton.style.display = "block";
+      addCatalogueInput.style.display = "none";
+    }
+  } catch (exception) {
+    console.error(
+      "Error in clientScripts.js:toggleAddCatalogueVisibility(): ",
+      exception
+    );
+  }
+}
+
 function updateCatalogueListDOM(
   catalogue: any,
   fetchResponse: { status: number }
@@ -258,6 +281,7 @@ function updateCatalogueListDOM(
 
     let catalogueName = document.createElement("SPAN")! as HTMLSpanElement;
     catalogueName.style.fontSize = "18px";
+    catalogueName.style.width = "70%";
     catalogueName.style.position = "absolute";
     catalogueName.style.marginLeft = "20px";
     catalogueName.textContent = catalogue.catalogueName;

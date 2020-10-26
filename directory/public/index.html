@@ -32,16 +32,16 @@
         />
         <div id="catalogueList" class="catalogueList"></div>
       </div>
-      <div class="left">
+      <input
+        class="addCatalogueButton"
+        type="button"
+        id="addCatalogueButton"
+        onclick="toggleAddCatalogueVisibility();"
+      />
+      <div class="addCatalogueInput" id="addCatalogueInput">
+      <div class="addCatalogueFields">
+        Catalogue Name
         <input
-          class="button font"
-          type="button"
-          value="Add Catalogue"
-          onclick="addCatalogue();"
-        />
-        <div class="addCatalogueFields">
-          Catalogue Name
-          <input
             type="text"
             id="catalogueName"
             value=""
@@ -82,6 +82,13 @@
             onfocus="this.placeholder = ''"
           ></textarea>
         </div>
+        <input
+        class="button font"
+        type="button"
+        value="Add Catalogue"
+        onclick="addCatalogue();"
+      />
+      </div>
       </div>
     </div>
   </body>
