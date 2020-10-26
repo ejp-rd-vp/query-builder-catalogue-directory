@@ -246,6 +246,7 @@ var Application = /** @class */ (function () {
             this.app.post("/removeCatalogue", function (request, response) {
                 try {
                     var data_2 = request.body;
+                    console.log(data_2);
                     _this.catalogueDatabase.find({ _id: { $in: [data_2.catalogueID] } }, function (error, results) {
                         if (error) {
                             console.error(error);

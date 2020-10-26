@@ -399,7 +399,7 @@ function removeCatalogue(id) {
                     body: ""
                 };
                 data = { catalogueID: "" };
-                data.catalogueID = id;
+                data.catalogueID = JSON.stringify(id);
                 postMessage_2.body = JSON.stringify(data);
                 // send post request
                 fetch(removeCatalogueEndpoint, postMessage_2)

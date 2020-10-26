@@ -400,9 +400,7 @@ async function removeCatalogue(id: string) {
     };
 
     let data: any = { catalogueID: "" };
-
-    data.catalogueID = id;
-
+    data.catalogueID = JSON.stringify(id);
     postMessage.body = JSON.stringify(data);
 
     // send post request

@@ -282,6 +282,7 @@ class Application {
       this.app.post("/removeCatalogue", (request, response) => {
         try {
           const data = request.body;
+          console.log(data);
           this.catalogueDatabase.find(
             { _id: { $in: [data.catalogueID] } },
             (error, results) => {
