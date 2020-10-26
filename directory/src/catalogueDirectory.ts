@@ -30,7 +30,6 @@ class Catalogue {
     this.catalogueDescription = description;
     this.catalogueType = type;
     this._id = id;
-    this.created = Date.now().toString();
   }
 
   catalogueName: string;
@@ -38,15 +37,18 @@ class Catalogue {
   catalogueDescription: string;
   catalogueType: Array<string>;
   _id: string;
-  created;
 }
 
 // class that holds a NeDB database and its' functionality
 class Directory {
   constructor(dataBaseFilename: string) {
     try {
-      this.catalogueDatabase = new Datastore(dataBaseFilename);
-      this.catalogueDatabase.loadDatabase();
+      this.catalogueDatabase = new Datastore({
+        filename: dataBaseFilename,
+        autoload: true,
+        timestampData: true,
+        corruptAlertThreshold: 1,
+      });
     } catch (exception) {
       console.error(
         "Error in catalogueDirectory.ts:Directory:constructor(): ",
@@ -87,11 +89,10 @@ class Application {
       );
 
       this.catalogueDatabase = database.getDirectory();
-      this.catalogueDatabase.ensureIndex({ fieldName: "_id", unique: true });
 
       /*** Express Routes ***/
       // get information about the API
-      this.app.get("/", (request, response, next) => {
+      this.app.get("/", (request, response) => {
         try {
           response.json({
             name: "EJP-RD Catalogue Directory REST API.",
@@ -110,7 +111,7 @@ class Application {
       });
 
       // get a list of all catalogues
-      this.app.get("/catalogues", (request, response, next) => {
+      this.app.get("/catalogues", (request, response) => {
         try {
           this.catalogueDatabase.find({}, (err, data) => {
             if (err) {
@@ -127,7 +128,7 @@ class Application {
       });
 
       // get a list of all biobanks
-      this.app.get("/catalogues/biobanks", (request, response, next) => {
+      this.app.get("/catalogues/biobanks", (request, response) => {
         try {
           this.catalogueDatabase.find(
             { catalogueType: "biobank" },
@@ -147,7 +148,7 @@ class Application {
       });
 
       // get a list of all registries
-      this.app.get("/catalogues/registries", (request, response, next) => {
+      this.app.get("/catalogues/registries", (request, response) => {
         try {
           this.catalogueDatabase.find(
             { catalogueType: "registry" },
@@ -167,7 +168,7 @@ class Application {
       });
 
       // get a certain catalogue by ID (path)
-      this.app.get("/catalogues/:id", (request, response, next) => {
+      this.app.get("/catalogues/:id", (request, response) => {
         try {
           this.catalogueDatabase.find(
             { _id: request.params.id },
@@ -187,7 +188,7 @@ class Application {
       });
 
       // ping the address of a certain catalogue
-      this.app.get("/pingCatalogue", async (request, response, next) => {
+      this.app.get("/pingCatalogue", async (request, response) => {
         try {
           fetch(request.query.address)
             .then(this.handleFetchErrors)
@@ -211,7 +212,7 @@ class Application {
       });
 
       // add a new catalogue
-      this.app.post("/addCatalogue", (request, response, next) => {
+      this.app.post("/addCatalogue", (request, response) => {
         try {
           let nameExists = Boolean(false);
           const data = request.body;
@@ -278,18 +279,19 @@ class Application {
       });
 
       // remove a certain catalogue using its' id
-      this.app.post("/removeCatalogue", (request, response, next) => {
+      this.app.post("/removeCatalogue", (request, response) => {
         try {
           const data = request.body;
+          console.log(data);
           this.catalogueDatabase.find(
             { _id: { $in: [data.catalogueID] } },
-            (error, docs) => {
+            (error, results) => {
               if (error) {
                 console.error(error);
                 return -1;
-              } else if (!docs.length) {
+              } else if (!results.length) {
                 response.sendStatus(404);
-                return 404;
+                return -1;
               } else {
                 this.catalogueDatabase.remove(
                   { _id: data.catalogueID },

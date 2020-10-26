@@ -55,7 +55,6 @@ var Catalogue = /** @class */ (function () {
         this.catalogueDescription = description;
         this.catalogueType = type;
         this._id = id;
-        this.created = Date.now().toString();
     }
     return Catalogue;
 }());
@@ -63,8 +62,12 @@ var Catalogue = /** @class */ (function () {
 var Directory = /** @class */ (function () {
     function Directory(dataBaseFilename) {
         try {
-            this.catalogueDatabase = new Datastore(dataBaseFilename);
-            this.catalogueDatabase.loadDatabase();
+            this.catalogueDatabase = new Datastore({
+                filename: dataBaseFilename,
+                autoload: true,
+                timestampData: true,
+                corruptAlertThreshold: 1
+            });
         }
         catch (exception) {
             console.error("Error in catalogueDirectory.ts:Directory:constructor(): ", exception);
@@ -95,10 +98,9 @@ var Application = /** @class */ (function () {
                 limit: "100kb"
             }));
             this.catalogueDatabase = database.getDirectory();
-            this.catalogueDatabase.ensureIndex({ fieldName: "_id", unique: true });
             /*** Express Routes ***/
             // get information about the API
-            this.app.get("/", function (request, response, next) {
+            this.app.get("/", function (request, response) {
                 try {
                     response.json({
                         name: "EJP-RD Catalogue Directory REST API.",
@@ -112,7 +114,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a list of all catalogues
-            this.app.get("/catalogues", function (request, response, next) {
+            this.app.get("/catalogues", function (request, response) {
                 try {
                     _this.catalogueDatabase.find({}, function (err, data) {
                         if (err) {
@@ -126,7 +128,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a list of all biobanks
-            this.app.get("/catalogues/biobanks", function (request, response, next) {
+            this.app.get("/catalogues/biobanks", function (request, response) {
                 try {
                     _this.catalogueDatabase.find({ catalogueType: "biobank" }, function (err, data) {
                         if (err) {
@@ -140,7 +142,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a list of all registries
-            this.app.get("/catalogues/registries", function (request, response, next) {
+            this.app.get("/catalogues/registries", function (request, response) {
                 try {
                     _this.catalogueDatabase.find({ catalogueType: "registry" }, function (err, data) {
                         if (err) {
@@ -154,7 +156,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // get a certain catalogue by ID (path)
-            this.app.get("/catalogues/:id", function (request, response, next) {
+            this.app.get("/catalogues/:id", function (request, response) {
                 try {
                     _this.catalogueDatabase.find({ _id: request.params.id }, function (err, data) {
                         if (err) {
@@ -168,7 +170,7 @@ var Application = /** @class */ (function () {
                 }
             });
             // ping the address of a certain catalogue
-            this.app.get("/pingCatalogue", function (request, response, next) { return __awaiter(_this, void 0, void 0, function () {
+            this.app.get("/pingCatalogue", function (request, response) { return __awaiter(_this, void 0, void 0, function () {
                 return __generator(this, function (_a) {
                     try {
                         fetch(request.query.address)
@@ -192,7 +194,7 @@ var Application = /** @class */ (function () {
                 });
             }); });
             // add a new catalogue
-            this.app.post("/addCatalogue", function (request, response, next) {
+            this.app.post("/addCatalogue", function (request, response) {
                 try {
                     var nameExists_1 = Boolean(false);
                     var data_1 = request.body;
@@ -241,17 +243,18 @@ var Application = /** @class */ (function () {
                 }
             });
             // remove a certain catalogue using its' id
-            this.app.post("/removeCatalogue", function (request, response, next) {
+            this.app.post("/removeCatalogue", function (request, response) {
                 try {
                     var data_2 = request.body;
-                    _this.catalogueDatabase.find({ _id: { $in: [data_2.catalogueID] } }, function (error, docs) {
+                    console.log(data_2);
+                    _this.catalogueDatabase.find({ _id: { $in: [data_2.catalogueID] } }, function (error, results) {
                         if (error) {
                             console.error(error);
                             return -1;
                         }
-                        else if (!docs.length) {
+                        else if (!results.length) {
                             response.sendStatus(404);
-                            return 404;
+                            return -1;
                         }
                         else {
                             _this.catalogueDatabase.remove({ _id: data_2.catalogueID }, {}, function (error) {

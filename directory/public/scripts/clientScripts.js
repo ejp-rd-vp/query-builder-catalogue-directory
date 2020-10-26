@@ -106,7 +106,6 @@ function clearInput(inputField) {
             catalogueDescriptionInput.value = "";
             registryCheckboxInput.checked = false;
             biobankCheckboxInput.checked = false;
-            catalogueIDInput.value = "";
         }
         else {
             var input = document.getElementById(inputField);
@@ -135,7 +134,12 @@ function getUserInput(useCase) {
                     if (isValidUrl(catalogueAddressInput.value)) {
                         // get user input
                         data.catalogueName = catalogueNameInput.value;
-                        data.catalogueAddress = catalogueAddressInput.value;
+                        if (catalogueAddressInput.value[catalogueAddressInput.value.length - 1] == "/") {
+                            data.catalogueAddress = catalogueAddressInput.value.slice(0, -1);
+                        }
+                        else {
+                            data.catalogueAddress = catalogueAddressInput.value;
+                        }
                         data.catalogueDescription = catalogueDescriptionInput.value;
                         if (registryCheckboxInput.checked) {
                             data.catalogueType.push("registry");
@@ -146,7 +150,6 @@ function getUserInput(useCase) {
                         colorInputFields("catalogueDescription", "black");
                         colorInputFields("catalogueAddress", "black");
                         colorInputFields("catalogueName", "black");
-                        colorInputFields("catalogueID", "black");
                         return data;
                     }
                     else {
@@ -154,7 +157,6 @@ function getUserInput(useCase) {
                         colorInputFields("catalogueDescription", "black");
                         colorInputFields("catalogueName", "black");
                         colorInputFields("catalogueAddress", "red");
-                        colorInputFields("catalogueID", "black");
                         clearInput("catalogueAddress");
                         return undefined;
                     }
@@ -164,26 +166,6 @@ function getUserInput(useCase) {
                     colorInputFields("catalogueDescription", "red");
                     colorInputFields("catalogueName", "red");
                     colorInputFields("catalogueAddress", "red");
-                    colorInputFields("catalogueID", "black");
-                    return undefined;
-                }
-            }
-            case "remove": {
-                var data = { catalogueID: "" };
-                if (catalogueIDInput.value.length > 0) {
-                    data.catalogueID = catalogueIDInput.value;
-                    colorInputFields("catalogueID", "black");
-                    colorInputFields("catalogueDescription", "black");
-                    colorInputFields("catalogueName", "black");
-                    colorInputFields("catalogueAddress", "black");
-                    return data;
-                }
-                else {
-                    updateStatusText("error", "Catalogue ID must not be empty.");
-                    colorInputFields("catalogueID", "red");
-                    colorInputFields("catalogueName", "black");
-                    colorInputFields("catalogueDescription", "black");
-                    colorInputFields("catalogueAddress", "black");
                     return undefined;
                 }
             }
@@ -238,55 +220,55 @@ function toggleCatalogueListVisibility() {
 }
 function updateCatalogueListDOM(catalogue, fetchResponse) {
     try {
-        var catalogueName = document.createElement("SPAN");
-        catalogueName.style.fontSize = "18px";
-        catalogueName.textContent = catalogue.catalogueName;
-        catalogueList.appendChild(catalogueName);
-        if (catalogue.catalogueType.includes("registry")) {
-            var registryIcon = document.createElement("IMG");
-            registryIcon.setAttribute("src", "media/registry-icon.png");
-            registryIcon.setAttribute("alt", "registry-icon");
-            registryIcon.style.paddingLeft = "10px";
-            catalogueList.appendChild(registryIcon);
-        }
-        if (catalogue.catalogueType.includes("biobank")) {
-            var biobankIcon = document.createElement("IMG");
-            biobankIcon.setAttribute("src", "media/biobank-icon.png");
-            biobankIcon.setAttribute("alt", "biobank-icon");
-            biobankIcon.style.paddingLeft = "10px";
-            catalogueList.appendChild(biobankIcon);
-        }
+        var catalogueID = catalogue._id;
+        var entry = document.createElement("DIV");
+        entry.style.marginBottom = "15px";
+        var trashIcon = document.createElement("IMG");
+        trashIcon.setAttribute("src", "media/trash.png");
+        trashIcon.setAttribute("alt", "trash-icon");
+        trashIcon.setAttribute("onclick", "removeCatalogue(" + catalogueID + ")");
+        trashIcon.style.float = "right";
+        trashIcon.style.cursor = "pointer";
+        entry.appendChild(trashIcon);
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
             var connectedIcon = document.createElement("IMG");
             connectedIcon.setAttribute("src", "media/connected.png");
             connectedIcon.setAttribute("alt", "connected-icon");
-            connectedIcon.style.float = "right";
-            catalogueList.appendChild(connectedIcon);
+            entry.appendChild(connectedIcon);
         }
         else {
             var disconnectedIcon = document.createElement("IMG");
             disconnectedIcon.setAttribute("src", "media/disconnected.png");
             disconnectedIcon.setAttribute("alt", "disconnected-icon");
-            disconnectedIcon.style.float = "right";
-            catalogueList.appendChild(disconnectedIcon);
+            entry.appendChild(disconnectedIcon);
         }
-        catalogueList.appendChild(document.createElement("br"));
+        var catalogueName = document.createElement("SPAN");
+        catalogueName.style.fontSize = "18px";
+        catalogueName.style.position = "absolute";
+        catalogueName.style.marginLeft = "20px";
+        catalogueName.textContent = catalogue.catalogueName;
+        if (catalogue.catalogueType.includes("registry")) {
+            var registryIcon = document.createElement("IMG");
+            registryIcon.setAttribute("src", "media/registry-icon.png");
+            registryIcon.setAttribute("alt", "registry-icon");
+            registryIcon.style.marginLeft = "10px";
+            catalogueName.appendChild(registryIcon);
+        }
+        if (catalogue.catalogueType.includes("biobank")) {
+            var biobankIcon = document.createElement("IMG");
+            biobankIcon.setAttribute("src", "media/biobank-icon.png");
+            biobankIcon.setAttribute("alt", "biobank-icon");
+            biobankIcon.style.marginLeft = "10px";
+            catalogueName.appendChild(biobankIcon);
+        }
+        catalogueName.appendChild(document.createElement("br"));
         var catalogueDescription = document.createElement("SPAN");
         catalogueDescription.style.fontSize = "15px";
+        catalogueDescription.style.position = "absolute";
         catalogueDescription.textContent = catalogue.catalogueDescription;
-        catalogueList.appendChild(catalogueDescription);
-        catalogueList.appendChild(document.createElement("br"));
-        var catalogueAddress = document.createElement("SPAN");
-        catalogueAddress.style.fontSize = "15px";
-        catalogueAddress.textContent = catalogue.catalogueAddress;
-        catalogueList.appendChild(catalogueAddress);
-        catalogueList.appendChild(document.createElement("br"));
-        var catalogueID = document.createElement("SPAN");
-        catalogueID.style.fontSize = "15px";
-        catalogueID.textContent = catalogue._id;
-        catalogueList.appendChild(catalogueID);
-        catalogueList.appendChild(document.createElement("br"));
-        catalogueList.appendChild(document.createElement("br"));
+        catalogueName.appendChild(catalogueDescription);
+        entry.appendChild(catalogueName);
+        catalogueList.appendChild(entry);
     }
     catch (exception) {
         console.error("Error in clientScripts.js:updateCatalogueListDOM(): ", exception);
@@ -404,58 +386,46 @@ function addCatalogue() {
     });
 }
 // function that removes a new catalogue from the catalogue directory
-function removeCatalogue() {
+function removeCatalogue(id) {
     return __awaiter(this, void 0, void 0, function () {
-        var postMessage_2, catalogueID_1, exception_2;
+        var postMessage_2, data;
         return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 4, , 5]);
-                    postMessage_2 = {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: ""
-                    };
-                    if (!(getUserInput("remove") != undefined)) return [3 /*break*/, 2];
-                    return [4 /*yield*/, getUserInput("remove")];
-                case 1:
-                    catalogueID_1 = _a.sent();
-                    clearInput("all");
-                    // parse inserted data into POST body
-                    postMessage_2.body = JSON.stringify(catalogueID_1);
-                    // send post request
-                    fetch(removeCatalogueEndpoint, postMessage_2)
-                        .then(handleFetchErrors)
-                        .then(function (fetchResponse) {
-                        if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-                            updateStatusText("success", "Successfully removed catalogue using ID " + catalogueID_1.catalogueID + ".");
-                            getCatalogues();
-                        }
-                        else if (fetchResponse.status == 404) {
-                            updateStatusText("error", "Could not find a catalogue using ID " + catalogueID_1.catalogueID + ".");
-                        }
-                        else if (fetchResponse.status == 401) {
-                            updateStatusText("error", "You are not authorized to remove this catalogue.");
-                        }
-                        else {
-                            updateStatusText("error", "Could not remove this catalogue.");
-                        }
-                    })["catch"](function (exception) {
-                        return console.error("Error in clientScripts.js:removeCatalogue():fetch():", exception);
-                    });
-                    return [3 /*break*/, 3];
-                case 2:
-                    console.error("Error in clientScripts.js:removeCatalogue(): User input is invalid.");
-                    _a.label = 3;
-                case 3: return [3 /*break*/, 5];
-                case 4:
-                    exception_2 = _a.sent();
-                    console.error("Error in clientScripts.js:removeCatalogue(): ", exception_2);
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
+            try {
+                postMessage_2 = {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: ""
+                };
+                data = { catalogueID: "" };
+                data.catalogueID = JSON.stringify(id);
+                postMessage_2.body = JSON.stringify(data);
+                // send post request
+                fetch(removeCatalogueEndpoint, postMessage_2)
+                    .then(handleFetchErrors)
+                    .then(function (fetchResponse) {
+                    if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+                        updateStatusText("success", "Successfully removed catalogue using ID " + id + ".");
+                        getCatalogues();
+                    }
+                    else if (fetchResponse.status == 404) {
+                        updateStatusText("error", "Could not find a catalogue using ID " + id + ".");
+                    }
+                    else if (fetchResponse.status == 401) {
+                        updateStatusText("error", "You are not authorized to remove this catalogue.");
+                    }
+                    else {
+                        updateStatusText("error", "Could not remove this catalogue.");
+                    }
+                })["catch"](function (exception) {
+                    return console.error("Error in clientScripts.js:removeCatalogue():fetch():", exception);
+                });
             }
+            catch (exception) {
+                console.error("Error in clientScripts.js:removeCatalogue(): ", exception);
+            }
+            return [2 /*return*/];
         });
     });
 }

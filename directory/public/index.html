@@ -21,8 +21,7 @@
     <div class="center font">
       <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo" />
       <h2>EJP-RD - Central Catalogue Directory UI</h2>
-    </div>
-    <div class="center font">
+      <div id="statusText" class="statusText"></div>
       <div class="showCatalogues">
         <input
           id="showCataloguesButton"
@@ -62,9 +61,7 @@
           </p>
         </div>
         <div class="addCatalogueType">
-          <span>
-            Catalogue Type
-          </span>
+          <span> Catalogue Type </span>
           <div class="addCatalogueCheckboxes">
             <label class="checkBoxLabel">
               <input type="checkbox" id="registryCheckbox" value="Registry" />
@@ -86,25 +83,6 @@
           ></textarea>
         </div>
       </div>
-      <div class="right">
-        <input
-          class="button font"
-          type="button"
-          value="Remove Catalogue"
-          onclick="removeCatalogue();"
-        />
-        <div class="addCatalogueFields">
-          Catalogue ID
-          <input
-            type="text"
-            id="catalogueID"
-            value=""
-            placeholder="Enter catalogue ID ..."
-            onfocus="this.placeholder = ''"
-          />
-        </div>
-      </div>
-      <div id="statusText" class="statusText"></div>
     </div>
   </body>
 </html>

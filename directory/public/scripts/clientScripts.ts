@@ -96,7 +96,6 @@ function clearInput(inputField: string) {
       catalogueDescriptionInput.value = "";
       registryCheckboxInput.checked = false;
       biobankCheckboxInput.checked = false;
-      catalogueIDInput.value = "";
     } else {
       const input = document.getElementById(inputField)! as HTMLInputElement;
       input.value = "";
@@ -127,7 +126,15 @@ function getUserInput(useCase: string) {
           if (isValidUrl(catalogueAddressInput.value)) {
             // get user input
             data.catalogueName = catalogueNameInput.value;
-            data.catalogueAddress = catalogueAddressInput.value;
+            if (
+              catalogueAddressInput.value[
+                catalogueAddressInput.value.length - 1
+              ] == "/"
+            ) {
+              data.catalogueAddress = catalogueAddressInput.value.slice(0, -1);
+            } else {
+              data.catalogueAddress = catalogueAddressInput.value;
+            }
             data.catalogueDescription = catalogueDescriptionInput.value;
             if (registryCheckboxInput.checked) {
               data.catalogueType.push("registry");
@@ -139,7 +146,6 @@ function getUserInput(useCase: string) {
             colorInputFields("catalogueDescription", "black");
             colorInputFields("catalogueAddress", "black");
             colorInputFields("catalogueName", "black");
-            colorInputFields("catalogueID", "black");
 
             return data;
           } else {
@@ -148,7 +154,6 @@ function getUserInput(useCase: string) {
             colorInputFields("catalogueDescription", "black");
             colorInputFields("catalogueName", "black");
             colorInputFields("catalogueAddress", "red");
-            colorInputFields("catalogueID", "black");
             clearInput("catalogueAddress");
 
             return undefined;
@@ -162,30 +167,6 @@ function getUserInput(useCase: string) {
           colorInputFields("catalogueDescription", "red");
           colorInputFields("catalogueName", "red");
           colorInputFields("catalogueAddress", "red");
-          colorInputFields("catalogueID", "black");
-
-          return undefined;
-        }
-      }
-      case "remove": {
-        let data: any = { catalogueID: "" };
-
-        if (catalogueIDInput.value.length > 0) {
-          data.catalogueID = catalogueIDInput.value;
-
-          colorInputFields("catalogueID", "black");
-          colorInputFields("catalogueDescription", "black");
-          colorInputFields("catalogueName", "black");
-          colorInputFields("catalogueAddress", "black");
-
-          return data;
-        } else {
-          updateStatusText("error", "Catalogue ID must not be empty.");
-
-          colorInputFields("catalogueID", "red");
-          colorInputFields("catalogueName", "black");
-          colorInputFields("catalogueDescription", "black");
-          colorInputFields("catalogueAddress", "black");
 
           return undefined;
         }
@@ -247,58 +228,65 @@ function toggleCatalogueListVisibility() {
   }
 }
 
-function updateCatalogueListDOM(catalogue: any, fetchResponse) {
+function updateCatalogueListDOM(
+  catalogue: any,
+  fetchResponse: { status: number }
+) {
   try {
+    let catalogueID: string = catalogue._id;
+    let entry = document.createElement("DIV")! as HTMLElement;
+    entry.style.marginBottom = "15px";
+    let trashIcon = document.createElement("IMG")! as HTMLImageElement;
+    trashIcon.setAttribute("src", "media/trash.png");
+    trashIcon.setAttribute("alt", "trash-icon");
+    trashIcon.setAttribute("onclick", `removeCatalogue(${catalogueID})`);
+    trashIcon.style.float = "right";
+    trashIcon.style.cursor = "pointer";
+    entry.appendChild(trashIcon);
+
+    if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+      let connectedIcon = document.createElement("IMG")! as HTMLImageElement;
+      connectedIcon.setAttribute("src", "media/connected.png");
+      connectedIcon.setAttribute("alt", "connected-icon");
+      entry.appendChild(connectedIcon);
+    } else {
+      let disconnectedIcon = document.createElement("IMG")! as HTMLImageElement;
+      disconnectedIcon.setAttribute("src", "media/disconnected.png");
+      disconnectedIcon.setAttribute("alt", "disconnected-icon");
+      entry.appendChild(disconnectedIcon);
+    }
+
     let catalogueName = document.createElement("SPAN")! as HTMLSpanElement;
     catalogueName.style.fontSize = "18px";
+    catalogueName.style.position = "absolute";
+    catalogueName.style.marginLeft = "20px";
     catalogueName.textContent = catalogue.catalogueName;
-    catalogueList.appendChild(catalogueName);
     if (catalogue.catalogueType.includes("registry")) {
       let registryIcon = document.createElement("IMG")! as HTMLImageElement;
       registryIcon.setAttribute("src", "media/registry-icon.png");
       registryIcon.setAttribute("alt", "registry-icon");
-      registryIcon.style.paddingLeft = "10px";
-      catalogueList.appendChild(registryIcon);
+      registryIcon.style.marginLeft = "10px";
+      catalogueName.appendChild(registryIcon);
     }
     if (catalogue.catalogueType.includes("biobank")) {
       let biobankIcon = document.createElement("IMG")! as HTMLImageElement;
       biobankIcon.setAttribute("src", "media/biobank-icon.png");
       biobankIcon.setAttribute("alt", "biobank-icon");
-      biobankIcon.style.paddingLeft = "10px";
-      catalogueList.appendChild(biobankIcon);
+      biobankIcon.style.marginLeft = "10px";
+      catalogueName.appendChild(biobankIcon);
     }
-    if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-      let connectedIcon = document.createElement("IMG")! as HTMLImageElement;
-      connectedIcon.setAttribute("src", "media/connected.png");
-      connectedIcon.setAttribute("alt", "connected-icon");
-      connectedIcon.style.float = "right";
-      catalogueList.appendChild(connectedIcon);
-    } else {
-      let disconnectedIcon = document.createElement("IMG")! as HTMLImageElement;
-      disconnectedIcon.setAttribute("src", "media/disconnected.png");
-      disconnectedIcon.setAttribute("alt", "disconnected-icon");
-      disconnectedIcon.style.float = "right";
-      catalogueList.appendChild(disconnectedIcon);
-    }
-    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
+    catalogueName.appendChild(document.createElement("br")! as HTMLBRElement);
+
     let catalogueDescription = document.createElement(
       "SPAN"
     )! as HTMLSpanElement;
     catalogueDescription.style.fontSize = "15px";
+    catalogueDescription.style.position = "absolute";
     catalogueDescription.textContent = catalogue.catalogueDescription;
-    catalogueList.appendChild(catalogueDescription);
-    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
-    let catalogueAddress = document.createElement("SPAN")! as HTMLSpanElement;
-    catalogueAddress.style.fontSize = "15px";
-    catalogueAddress.textContent = catalogue.catalogueAddress;
-    catalogueList.appendChild(catalogueAddress);
-    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
-    let catalogueID = document.createElement("SPAN")! as HTMLSpanElement;
-    catalogueID.style.fontSize = "15px";
-    catalogueID.textContent = catalogue._id;
-    catalogueList.appendChild(catalogueID);
-    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
-    catalogueList.appendChild(document.createElement("br")! as HTMLBRElement);
+    catalogueName.appendChild(catalogueDescription);
+
+    entry.appendChild(catalogueName);
+    catalogueList.appendChild(entry);
   } catch (exception) {
     console.error(
       "Error in clientScripts.js:updateCatalogueListDOM(): ",
@@ -401,7 +389,7 @@ async function addCatalogue() {
 }
 
 // function that removes a new catalogue from the catalogue directory
-async function removeCatalogue() {
+async function removeCatalogue(id: string) {
   try {
     const postMessage = {
       method: "POST",
@@ -411,49 +399,40 @@ async function removeCatalogue() {
       body: "",
     };
 
-    if (getUserInput("remove") != undefined) {
-      // get inserted data
-      const catalogueID = await getUserInput("remove");
-      clearInput("all");
+    let data: any = { catalogueID: "" };
+    data.catalogueID = JSON.stringify(id);
+    postMessage.body = JSON.stringify(data);
 
-      // parse inserted data into POST body
-      postMessage.body = JSON.stringify(catalogueID);
-
-      // send post request
-      fetch(removeCatalogueEndpoint, postMessage)
-        .then(handleFetchErrors)
-        .then((fetchResponse) => {
-          if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
-            updateStatusText(
-              "success",
-              `Successfully removed catalogue using ID ${catalogueID.catalogueID}.`
-            );
-            getCatalogues();
-          } else if (fetchResponse.status == 404) {
-            updateStatusText(
-              "error",
-              `Could not find a catalogue using ID ${catalogueID.catalogueID}.`
-            );
-          } else if (fetchResponse.status == 401) {
-            updateStatusText(
-              "error",
-              "You are not authorized to remove this catalogue."
-            );
-          } else {
-            updateStatusText("error", "Could not remove this catalogue.");
-          }
-        })
-        .catch((exception) =>
-          console.error(
-            "Error in clientScripts.js:removeCatalogue():fetch():",
-            exception
-          )
-        );
-    } else {
-      console.error(
-        "Error in clientScripts.js:removeCatalogue(): User input is invalid."
+    // send post request
+    fetch(removeCatalogueEndpoint, postMessage)
+      .then(handleFetchErrors)
+      .then((fetchResponse) => {
+        if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
+          updateStatusText(
+            "success",
+            `Successfully removed catalogue using ID ${id}.`
+          );
+          getCatalogues();
+        } else if (fetchResponse.status == 404) {
+          updateStatusText(
+            "error",
+            `Could not find a catalogue using ID ${id}.`
+          );
+        } else if (fetchResponse.status == 401) {
+          updateStatusText(
+            "error",
+            "You are not authorized to remove this catalogue."
+          );
+        } else {
+          updateStatusText("error", "Could not remove this catalogue.");
+        }
+      })
+      .catch((exception) =>
+        console.error(
+          "Error in clientScripts.js:removeCatalogue():fetch():",
+          exception
+        )
       );
-    }
   } catch (exception) {
     console.error("Error in clientScripts.js:removeCatalogue(): ", exception);
   }
