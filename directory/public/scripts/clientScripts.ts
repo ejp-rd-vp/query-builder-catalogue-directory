@@ -236,11 +236,11 @@ function toggleCatalogueListVisibility() {
 
 function toggleAddCatalogueVisibility() {
   try {
-    if (addCatalogueInput.style.display == "none") {
+    if (addCatalogueInput.style.display === "none") {
       addCatalogueInput.style.display = "block";
       addCatalogueButton.style.display = "none";
     } else {
-      addCatalogueButton.style.display = "block";
+      addCatalogueButton.style.display = "inline-block";
       addCatalogueInput.style.display = "none";
     }
   } catch (exception) {
@@ -264,6 +264,8 @@ function updateCatalogueListDOM(
     trashIcon.setAttribute("alt", "trash-icon");
     trashIcon.setAttribute("onclick", `removeCatalogue(${catalogueID})`);
     trashIcon.style.float = "right";
+    trashIcon.style.width = "32px";
+    trashIcon.style.height = "32px";
     trashIcon.style.cursor = "pointer";
     entry.appendChild(trashIcon);
 
@@ -379,6 +381,7 @@ async function addCatalogue() {
                     `Catalogue ${newCatalogueData.catalogueName} successfully added using ID ${fetchResponseData.id}.`
                   );
                   getCatalogues();
+                  toggleAddCatalogueVisibility();
                 } else if (fetchResponse.status == 400) {
                   updateStatusText("error", "Catalogue already exists.");
                 } else {

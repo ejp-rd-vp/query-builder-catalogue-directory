@@ -44,6 +44,7 @@ h2 {
   display: inline-block;
   font-size: 16px;
   margin-bottom: 15px;
+  margin-top: 10px;
 }
 
 .button:hover {
@@ -52,6 +53,7 @@ h2 {
 }
 
 .addCatalogueButton {
+  display: inline-block;
   background-color: white;
   border: none;
   cursor: pointer;
@@ -65,7 +67,7 @@ h2 {
 .addCatalogueInput {
   display: none;
   text-align: left;
-  margin-top: 10px;
+  margin-top: 30px;
 }
 
 .addCatalogueFields input {
@@ -100,8 +102,8 @@ h2 {
 }
 
 .statusText {
-  margin-bottom: 15px;
   margin-top: 10px;
+  margin-bottom: 10px;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
