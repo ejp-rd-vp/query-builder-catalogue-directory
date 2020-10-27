@@ -35,6 +35,12 @@ const catalogueIDInput = document.getElementById(
 const catalogueList = document.getElementById(
   "catalogueList"
 )! as HTMLDivElement;
+const addCatalogueInput = document.getElementById(
+  "addCatalogueInput"
+)! as HTMLDivElement;
+const addCatalogueButton = document.getElementById(
+  "addCatalogueButton"
+)! as HTMLInputElement;
 
 // function that handles fetch errors
 function handleFetchErrors(fetchResponse) {
@@ -228,6 +234,23 @@ function toggleCatalogueListVisibility() {
   }
 }
 
+function toggleAddCatalogueVisibility() {
+  try {
+    if (addCatalogueInput.style.display === "none") {
+      addCatalogueInput.style.display = "block";
+      addCatalogueButton.style.display = "none";
+    } else {
+      addCatalogueButton.style.display = "inline-block";
+      addCatalogueInput.style.display = "none";
+    }
+  } catch (exception) {
+    console.error(
+      "Error in clientScripts.js:toggleAddCatalogueVisibility(): ",
+      exception
+    );
+  }
+}
+
 function updateCatalogueListDOM(
   catalogue: any,
   fetchResponse: { status: number }
@@ -241,6 +264,8 @@ function updateCatalogueListDOM(
     trashIcon.setAttribute("alt", "trash-icon");
     trashIcon.setAttribute("onclick", `removeCatalogue(${catalogueID})`);
     trashIcon.style.float = "right";
+    trashIcon.style.width = "32px";
+    trashIcon.style.height = "32px";
     trashIcon.style.cursor = "pointer";
     entry.appendChild(trashIcon);
 
@@ -258,6 +283,7 @@ function updateCatalogueListDOM(
 
     let catalogueName = document.createElement("SPAN")! as HTMLSpanElement;
     catalogueName.style.fontSize = "18px";
+    catalogueName.style.width = "70%";
     catalogueName.style.position = "absolute";
     catalogueName.style.marginLeft = "20px";
     catalogueName.textContent = catalogue.catalogueName;
@@ -355,6 +381,7 @@ async function addCatalogue() {
                     `Catalogue ${newCatalogueData.catalogueName} successfully added using ID ${fetchResponseData.id}.`
                   );
                   getCatalogues();
+                  toggleAddCatalogueVisibility();
                 } else if (fetchResponse.status == 400) {
                   updateStatusText("error", "Catalogue already exists.");
                 } else {

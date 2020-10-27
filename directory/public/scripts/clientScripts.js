@@ -52,6 +52,8 @@ var catalogueDescriptionInput = document.getElementById("catalogueDescription");
 var biobankCheckboxInput = document.getElementById("biobankCheckbox");
 var catalogueIDInput = document.getElementById("catalogueID");
 var catalogueList = document.getElementById("catalogueList");
+var addCatalogueInput = document.getElementById("addCatalogueInput");
+var addCatalogueButton = document.getElementById("addCatalogueButton");
 // function that handles fetch errors
 function handleFetchErrors(fetchResponse) {
     try {
@@ -218,6 +220,21 @@ function toggleCatalogueListVisibility() {
         console.error("Error in clientScripts.js:toggleCatalogueListVisibility(): ", exception);
     }
 }
+function toggleAddCatalogueVisibility() {
+    try {
+        if (addCatalogueInput.style.display === "none") {
+            addCatalogueInput.style.display = "block";
+            addCatalogueButton.style.display = "none";
+        }
+        else {
+            addCatalogueButton.style.display = "inline-block";
+            addCatalogueInput.style.display = "none";
+        }
+    }
+    catch (exception) {
+        console.error("Error in clientScripts.js:toggleAddCatalogueVisibility(): ", exception);
+    }
+}
 function updateCatalogueListDOM(catalogue, fetchResponse) {
     try {
         var catalogueID = catalogue._id;
@@ -228,6 +245,8 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
         trashIcon.setAttribute("alt", "trash-icon");
         trashIcon.setAttribute("onclick", "removeCatalogue(" + catalogueID + ")");
         trashIcon.style.float = "right";
+        trashIcon.style.width = "32px";
+        trashIcon.style.height = "32px";
         trashIcon.style.cursor = "pointer";
         entry.appendChild(trashIcon);
         if (fetchResponse.status >= 200 && fetchResponse.status < 400) {
@@ -244,6 +263,7 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
         }
         var catalogueName = document.createElement("SPAN");
         catalogueName.style.fontSize = "18px";
+        catalogueName.style.width = "70%";
         catalogueName.style.position = "absolute";
         catalogueName.style.marginLeft = "20px";
         catalogueName.textContent = catalogue.catalogueName;
@@ -346,6 +366,7 @@ function addCatalogue() {
                                                 fetchResponseData = _a.sent();
                                                 updateStatusText("success", "Catalogue " + newCatalogueData_1.catalogueName + " successfully added using ID " + fetchResponseData.id + ".");
                                                 getCatalogues();
+                                                toggleAddCatalogueVisibility();
                                                 return [3 /*break*/, 3];
                                             case 2:
                                                 if (fetchResponse.status == 400) {

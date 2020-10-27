@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" type="image/x-icon" href="media/favicon.ico" />
     <title>EJP-RD - Central Catalogue Directory UI</title>
-    <link rel="stylesheet" type="text/css" href="styles/styles.css" />
+    <link rel="stylesheet" type="text/css" href="styles/styles.css"/>
     <script src="scripts/clientScripts.js" defer></script>
   </head>
 
@@ -32,16 +32,17 @@
         />
         <div id="catalogueList" class="catalogueList"></div>
       </div>
-      <div class="left">
+      <input
+        class="addCatalogueButton"
+        type="button"
+        id="addCatalogueButton"
+        onclick="toggleAddCatalogueVisibility();"
+        style="display: inline-block;"
+      />
+      <div class="addCatalogueInput" id="addCatalogueInput" style="display: none;">
+      <div class="addCatalogueFields">
+        Catalogue Name
         <input
-          class="button font"
-          type="button"
-          value="Add Catalogue"
-          onclick="addCatalogue();"
-        />
-        <div class="addCatalogueFields">
-          Catalogue Name
-          <input
             type="text"
             id="catalogueName"
             value=""
@@ -82,6 +83,13 @@
             onfocus="this.placeholder = ''"
           ></textarea>
         </div>
+        <input
+        class="button font"
+        type="button"
+        value="Add Catalogue"
+        onclick="addCatalogue();"
+      />
+      </div>
       </div>
     </div>
   </body>
