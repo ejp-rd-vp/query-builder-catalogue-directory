@@ -138,12 +138,7 @@ function getUserInput(useCase) {
                     if (isValidUrl(catalogueAddressInput.value)) {
                         // get user input
                         data.catalogueName = catalogueNameInput.value;
-                        if (catalogueAddressInput.value[catalogueAddressInput.value.length - 1] == "/") {
-                            data.catalogueAddress = catalogueAddressInput.value.slice(0, -1);
-                        }
-                        else {
-                            data.catalogueAddress = catalogueAddressInput.value;
-                        }
+                        data.catalogueAddress = catalogueAddressInput.value;
                         data.catalogueDescription = catalogueDescriptionInput.value;
                         if (registryCheckboxInput.checked) {
                             data.catalogueType.push("registry");
