@@ -54,6 +54,8 @@ var catalogueIDInput = document.getElementById("catalogueID");
 var catalogueList = document.getElementById("catalogueList");
 var addCatalogueInput = document.getElementById("addCatalogueInput");
 var addCatalogueButton = document.getElementById("addCatalogueButton");
+var catalogueListCollapsible = document.getElementById("catalogueListCollapsible");
+var catalogueListContent = document.getElementById("catalogueListContent");
 // function that handles fetch errors
 function handleFetchErrors(fetchResponse) {
     try {
@@ -136,12 +138,7 @@ function getUserInput(useCase) {
                     if (isValidUrl(catalogueAddressInput.value)) {
                         // get user input
                         data.catalogueName = catalogueNameInput.value;
-                        if (catalogueAddressInput.value[catalogueAddressInput.value.length - 1] == "/") {
-                            data.catalogueAddress = catalogueAddressInput.value.slice(0, -1);
-                        }
-                        else {
-                            data.catalogueAddress = catalogueAddressInput.value;
-                        }
+                        data.catalogueAddress = catalogueAddressInput.value;
                         data.catalogueDescription = catalogueDescriptionInput.value;
                         if (registryCheckboxInput.checked) {
                             data.catalogueType.push("registry");
@@ -203,23 +200,6 @@ function updateStatusText(type, message) {
         console.error("Error in clientScripts.js:updateStatusText(): ", exception);
     }
 }
-// function that handles the catalogue list visibility
-function toggleCatalogueListVisibility() {
-    try {
-        var button = document.getElementById("showCataloguesButton");
-        if (catalogueList.style.display === "none") {
-            button.value = "Hide Catalogues";
-            catalogueList.style.display = "block";
-        }
-        else {
-            button.value = "Show Catalogues";
-            catalogueList.style.display = "none";
-        }
-    }
-    catch (exception) {
-        console.error("Error in clientScripts.js:toggleCatalogueListVisibility(): ", exception);
-    }
-}
 function toggleAddCatalogueVisibility() {
     try {
         if (addCatalogueInput.style.display === "none") {
@@ -263,8 +243,8 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
         }
         var catalogueName = document.createElement("SPAN");
         catalogueName.style.fontSize = "18px";
-        catalogueName.style.width = "70%";
-        catalogueName.style.position = "absolute";
+        catalogueName.style.width = "85%";
+        catalogueName.style.float = "right";
         catalogueName.style.marginLeft = "20px";
         catalogueName.textContent = catalogue.catalogueName;
         if (catalogue.catalogueType.includes("registry")) {
@@ -284,7 +264,6 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
         catalogueName.appendChild(document.createElement("br"));
         var catalogueDescription = document.createElement("SPAN");
         catalogueDescription.style.fontSize = "15px";
-        catalogueDescription.style.position = "absolute";
         catalogueDescription.textContent = catalogue.catalogueDescription;
         catalogueName.appendChild(catalogueDescription);
         entry.appendChild(catalogueName);
@@ -297,35 +276,68 @@ function updateCatalogueListDOM(catalogue, fetchResponse) {
 // function that updates the catalogue list DOM element
 function updateCatalogueList() {
     return __awaiter(this, void 0, void 0, function () {
-        var _loop_1, _i, catalogues_1, catalogue;
+        var _loop_1, _i, catalogues_1, catalogue, exception_1;
         return __generator(this, function (_a) {
-            try {
-                catalogueList.textContent = "";
-                _loop_1 = function (catalogue) {
-                    fetch(pingEndpoint + "?address=" + catalogue.catalogueAddress)
-                        .then(handleFetchErrors)
-                        .then(function (fetchResponse) {
-                        updateCatalogueListDOM(catalogue, fetchResponse);
-                    })["catch"](function (exception) {
-                        return console.error("Error in clientScripts.js:updateCatalogueList():fetch(): ", exception);
-                    });
-                };
-                for (_i = 0, catalogues_1 = catalogues; _i < catalogues_1.length; _i++) {
+            switch (_a.label) {
+                case 0:
+                    _a.trys.push([0, 5, , 6]);
+                    catalogueList.textContent = "";
+                    catalogueListContent.style.backgroundImage =
+                        "url('./media/loading-animation.gif')";
+                    catalogueListContent.style.backgroundRepeat = "no-repeat";
+                    catalogueListContent.style.backgroundPositionX = "center";
+                    catalogueListContent.style.backgroundPositionY = "10%";
+                    _loop_1 = function (catalogue) {
+                        return __generator(this, function (_a) {
+                            switch (_a.label) {
+                                case 0: return [4 /*yield*/, fetch(pingEndpoint + "?address=" + catalogue.catalogueAddress)
+                                        .then(handleFetchErrors)
+                                        .then(function (fetchResponse) {
+                                        updateCatalogueListDOM(catalogue, fetchResponse);
+                                    })
+                                        .then(function () {
+                                        if (!catalogueListCollapsible.classList.contains("active")) {
+                                            toggleCatalogueList();
+                                        }
+                                        catalogueListContent.style.maxHeight =
+                                            catalogueListContent.scrollHeight + "px";
+                                    })["catch"](function (exception) {
+                                        return console.error("Error in clientScripts.js:updateCatalogueList():fetch(): ", exception);
+                                    })];
+                                case 1:
+                                    _a.sent();
+                                    return [2 /*return*/];
+                            }
+                        });
+                    };
+                    _i = 0, catalogues_1 = catalogues;
+                    _a.label = 1;
+                case 1:
+                    if (!(_i < catalogues_1.length)) return [3 /*break*/, 4];
                     catalogue = catalogues_1[_i];
-                    _loop_1(catalogue);
-                }
+                    return [5 /*yield**/, _loop_1(catalogue)];
+                case 2:
+                    _a.sent();
+                    _a.label = 3;
+                case 3:
+                    _i++;
+                    return [3 /*break*/, 1];
+                case 4:
+                    catalogueListContent.style.backgroundImage = "none";
+                    return [3 /*break*/, 6];
+                case 5:
+                    exception_1 = _a.sent();
+                    console.error("Error in clientScripts.js:updateCatalogueList(): ", exception_1);
+                    return [3 /*break*/, 6];
+                case 6: return [2 /*return*/];
             }
-            catch (exception) {
-                console.error("Error in clientScripts.js:updateCatalogueList(): ", exception);
-            }
-            return [2 /*return*/];
         });
     });
 }
 // function that adds a new catalogue to the catalogue directory
 function addCatalogue() {
     return __awaiter(this, void 0, void 0, function () {
-        var postMessage_1, newCatalogueData_1, exception_1;
+        var postMessage_1, newCatalogueData_1, exception_2;
         var _this = this;
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -398,8 +410,8 @@ function addCatalogue() {
                     _a.label = 3;
                 case 3: return [3 /*break*/, 5];
                 case 4:
-                    exception_1 = _a.sent();
-                    console.error("Error in clientScripts.js:addCatalogue(): ", exception_1);
+                    exception_2 = _a.sent();
+                    console.error("Error in clientScripts.js:addCatalogue(): ", exception_2);
                     return [3 /*break*/, 5];
                 case 5: return [2 /*return*/];
             }
@@ -483,4 +495,20 @@ function getCatalogues() {
             return [2 /*return*/];
         });
     });
+}
+// function that toggles the catalogue list dom elements
+function toggleCatalogueList() {
+    try {
+        catalogueListCollapsible.classList.toggle("active");
+        if (catalogueListContent.style.maxHeight) {
+            catalogueListContent.style.maxHeight = null;
+        }
+        else {
+            catalogueListContent.style.maxHeight =
+                catalogueListContent.scrollHeight + "px";
+        }
+    }
+    catch (exception) {
+        console.error("Error in clientScripts.js:toggleCatalogueList() ", exception);
+    }
 }

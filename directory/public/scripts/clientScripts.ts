@@ -41,6 +41,10 @@ const addCatalogueInput = document.getElementById(
 const addCatalogueButton = document.getElementById(
   "addCatalogueButton"
 )! as HTMLInputElement;
+const catalogueListCollapsible = document.getElementById(
+  "catalogueListCollapsible"
+);
+const catalogueListContent = document.getElementById("catalogueListContent");
 
 // function that handles fetch errors
 function handleFetchErrors(fetchResponse) {
@@ -132,15 +136,7 @@ function getUserInput(useCase: string) {
           if (isValidUrl(catalogueAddressInput.value)) {
             // get user input
             data.catalogueName = catalogueNameInput.value;
-            if (
-              catalogueAddressInput.value[
-                catalogueAddressInput.value.length - 1
-              ] == "/"
-            ) {
-              data.catalogueAddress = catalogueAddressInput.value.slice(0, -1);
-            } else {
-              data.catalogueAddress = catalogueAddressInput.value;
-            }
+            data.catalogueAddress = catalogueAddressInput.value;
             data.catalogueDescription = catalogueDescriptionInput.value;
             if (registryCheckboxInput.checked) {
               data.catalogueType.push("registry");
@@ -213,27 +209,6 @@ function updateStatusText(type: string, message: string) {
   }
 }
 
-// function that handles the catalogue list visibility
-function toggleCatalogueListVisibility() {
-  try {
-    let button = document.getElementById(
-      "showCataloguesButton"
-    )! as HTMLInputElement;
-    if (catalogueList.style.display === "none") {
-      button.value = "Hide Catalogues";
-      catalogueList.style.display = "block";
-    } else {
-      button.value = "Show Catalogues";
-      catalogueList.style.display = "none";
-    }
-  } catch (exception) {
-    console.error(
-      "Error in clientScripts.js:toggleCatalogueListVisibility(): ",
-      exception
-    );
-  }
-}
-
 function toggleAddCatalogueVisibility() {
   try {
     if (addCatalogueInput.style.display === "none") {
@@ -283,8 +258,8 @@ function updateCatalogueListDOM(
 
     let catalogueName = document.createElement("SPAN")! as HTMLSpanElement;
     catalogueName.style.fontSize = "18px";
-    catalogueName.style.width = "70%";
-    catalogueName.style.position = "absolute";
+    catalogueName.style.width = "85%";
+    catalogueName.style.float = "right";
     catalogueName.style.marginLeft = "20px";
     catalogueName.textContent = catalogue.catalogueName;
     if (catalogue.catalogueType.includes("registry")) {
@@ -307,7 +282,6 @@ function updateCatalogueListDOM(
       "SPAN"
     )! as HTMLSpanElement;
     catalogueDescription.style.fontSize = "15px";
-    catalogueDescription.style.position = "absolute";
     catalogueDescription.textContent = catalogue.catalogueDescription;
     catalogueName.appendChild(catalogueDescription);
 
@@ -325,11 +299,23 @@ function updateCatalogueListDOM(
 async function updateCatalogueList() {
   try {
     catalogueList.textContent = "";
+    catalogueListContent.style.backgroundImage =
+      "url('./media/loading-animation.gif')";
+    catalogueListContent.style.backgroundRepeat = "no-repeat";
+    catalogueListContent.style.backgroundPositionX = "center";
+    catalogueListContent.style.backgroundPositionY = "10%";
     for (let catalogue of catalogues) {
-      fetch(`${pingEndpoint}?address=${catalogue.catalogueAddress}`)
+      await fetch(`${pingEndpoint}?address=${catalogue.catalogueAddress}`)
         .then(handleFetchErrors)
         .then((fetchResponse) => {
           updateCatalogueListDOM(catalogue, fetchResponse);
+        })
+        .then(() => {
+          if (!catalogueListCollapsible.classList.contains("active")) {
+            toggleCatalogueList();
+          }
+          catalogueListContent.style.maxHeight =
+            catalogueListContent.scrollHeight + "px";
         })
         .catch((exception) =>
           console.error(
@@ -338,6 +324,7 @@ async function updateCatalogueList() {
           )
         );
     }
+    catalogueListContent.style.backgroundImage = "none";
   } catch (exception) {
     console.error(
       "Error in clientScripts.js:updateCatalogueList(): ",
@@ -482,5 +469,23 @@ async function getCatalogues() {
       });
   } catch (exception) {
     console.error("Error in clientScripts.js:getCatalogues() ", exception);
+  }
+}
+
+// function that toggles the catalogue list dom elements
+function toggleCatalogueList() {
+  try {
+    catalogueListCollapsible.classList.toggle("active");
+    if (catalogueListContent.style.maxHeight) {
+      catalogueListContent.style.maxHeight = null;
+    } else {
+      catalogueListContent.style.maxHeight =
+        catalogueListContent.scrollHeight + "px";
+    }
+  } catch (exception) {
+    console.error(
+      "Error in clientScripts.js:toggleCatalogueList() ",
+      exception
+    );
   }
 }

@@ -22,23 +22,20 @@
       <img src="media/ejp-rd-logo.jpg" alt="EJP-RD-Logo" />
       <h2>EJP-RD - Central Catalogue Directory UI</h2>
       <div id="statusText" class="statusText"></div>
-      <div class="showCatalogues">
-        <input
-          id="showCataloguesButton"
-          class="button font"
-          type="button"
-          value="Hide Catalogues"
-          onclick="toggleCatalogueListVisibility();"
-        />
+      <button
+        id="catalogueListCollapsible"
+        class="catalogueListCollapsible"
+          onclick="toggleCatalogueList();"
+        >Catalogues</button>
+      <div id="catalogueListContent" class="catalogueListContent">
         <div id="catalogueList" class="catalogueList"></div>
-      </div>
-      <input
+    </div>
+      <button
         class="addCatalogueButton"
-        type="button"
         id="addCatalogueButton"
         onclick="toggleAddCatalogueVisibility();"
         style="display: inline-block;"
-      />
+      ></button>
       <div class="addCatalogueInput" id="addCatalogueInput" style="display: none;">
       <div class="addCatalogueFields">
         Catalogue Name
@@ -83,12 +80,12 @@
             onfocus="this.placeholder = ''"
           ></textarea>
         </div>
-        <input
-        class="button font"
-        type="button"
-        value="Add Catalogue"
-        onclick="addCatalogue();"
-      />
+        <button
+        class="button font addButton"
+        onclick="addCatalogue();">Add Catalogue</button>
+      <button
+        class="button font cancelButton"
+        onclick="toggleAddCatalogueVisibility();">Cancel</button>
       </div>
       </div>
     </div>

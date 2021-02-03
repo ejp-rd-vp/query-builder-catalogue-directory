@@ -7,6 +7,7 @@ a:visited {
 }
 
 h2 {
+  cursor: default;
   margin-top: 0px;
   color: royalblue;
 }
@@ -28,14 +29,14 @@ h2 {
 }
 
 .catalogueList {
+  margin-top: 20px;
   text-align: left;
 }
 
 .button {
   width: 100%;
-  transition-duration: 0.3s;
   background-color: royalblue;
-  border: none;
+  border: 2px solid white;
   border-radius: 2px;
   color: white;
   padding: 10px 32px;
@@ -47,9 +48,31 @@ h2 {
   margin-top: 10px;
 }
 
-.button:hover {
-  box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24),
-    0 17px 50px 0 rgba(0, 0, 0, 0.19);
+.addButton {
+  background-color: forestgreen;
+  width: 49.5%;
+  cursor: pointer;
+}
+
+.addButton:hover {
+  color: forestgreen;
+  background-color: white;
+  border: 2px solid forestgreen;
+  width: 49.5%;
+}
+
+.cancelButton {
+  background-color: lightgray;
+  color: black;
+  width: 49.5%;
+  cursor: pointer;
+}
+
+.cancelButton:hover {
+  color: black;
+  background-color: white;
+  border: 2px solid grey;
+  width: 49.5%;
 }
 
 .addCatalogueButton {
@@ -68,6 +91,7 @@ h2 {
   display: none;
   text-align: left;
   margin-top: 30px;
+  cursor: default;
 }
 
 .addCatalogueFields input {
@@ -84,12 +108,14 @@ h2 {
 
 .addCatalogueCheckboxes label {
   font-size: 15px;
+  cursor: pointer;
 }
 
 .addCatalogueCheckboxes input {
   margin-top: 10px;
   margin-bottom: 20px;
   scale: 1.2;
+  cursor: pointer;
 }
 
 .descriptionTextarea {
@@ -102,11 +128,42 @@ h2 {
 }
 
 .statusText {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 50px;
+  margin-bottom: 5px;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-left: 5px;
   text-align: left;
   font-size: 14px;
+}
+
+.catalogueListContent {
+  cursor: default;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-out;
+}
+
+.catalogueListCollapsible {
+  background-color: royalblue;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 18px;
+}
+
+.catalogueListCollapsible:after {
+  content: "\002B";
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
 }
