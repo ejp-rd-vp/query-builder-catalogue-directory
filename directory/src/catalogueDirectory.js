@@ -92,7 +92,7 @@ var Application = /** @class */ (function () {
             this.app = express();
             this.app.use(helmet());
             this.app.use(morgan("dev"));
-            this.app.use(cors({ origin: 'http://localhost:3001' }));
+            this.app.use(cors());
             this.app.use("/ui", express.static("./public"));
             this.app.use(express.json({
                 limit: "100kb"
